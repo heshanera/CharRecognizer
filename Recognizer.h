@@ -27,6 +27,8 @@ private:
     int *inputVector;
     int width, height;
     double range;
+    
+    float** weightMatrix;
 
 };
 
