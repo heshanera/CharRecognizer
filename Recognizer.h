@@ -24,6 +24,7 @@ private:
     std::string imgPath;
     Magick::Image img;
     float **imageMatrix, **thresholdMatrix;
+    int *inputVector;
     int width, height;
     double range;
 

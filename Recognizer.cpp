@@ -45,6 +45,12 @@ int Recognizer::initializeImage(std::string path)
         this->range = range;
         float pixVal;
         
+        // creating the inputmatrix
+        int size = ( this->width*this->height ) + 1;
+        this->inputVector = new int[size];
+        inputVector[0] = 2; // adding the bias
+        int inVecIndx = 1;
+        
         for(row = 0; row < h; row++)
         {
             for(column = 0; column < w; column++)
@@ -55,6 +61,9 @@ int Recognizer::initializeImage(std::string path)
                 
                 if ( pixVal > 0.5 ) this->thresholdMatrix[row][column] = 0;
                 else this->thresholdMatrix[row][column] = 1;
+                
+                inputVector[inVecIndx] = thresholdMatrix[row][column];
+                inVecIndx++;
                 
                 //std::cout<< (color.redQuantum()/range)/256 << " ";
             }   
