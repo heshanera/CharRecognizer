@@ -14,12 +14,18 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "Recognizer.h"
+
 /*
  * 
  */
 int main(int argc, char** argv) {
 
-    Recognizer("imgs/A.jpg");
+    Recognizer rc;
+    rc.recognize("imgs/A.jpg");
+    rc.recognize("imgs/B.jpg");
+    rc.recognize("imgs/C.jpg");
+    rc.recognize("imgs/D.jpg");
     
     return 0;
 }

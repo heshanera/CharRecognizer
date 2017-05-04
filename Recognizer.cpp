@@ -8,17 +8,17 @@
 #include <Magick++.h>
 #include "Recognizer.h"
 
-Recognizer::Recognizer(std::string path) {
+Recognizer::Recognizer() { }
+
+Recognizer::Recognizer(const Recognizer& orig) { }
+
+Recognizer::~Recognizer() { }
+
+int Recognizer::recognize(std::string path) {
     
     initializeImage(path);
     printThresholdMatrixMatrix();
     
-}
-
-Recognizer::Recognizer(const Recognizer& orig) {
-}
-
-Recognizer::~Recognizer() {
 }
 
 int Recognizer::initializeImage(std::string path)
@@ -53,7 +53,7 @@ int Recognizer::initializeImage(std::string path)
                 pixVal = (color.redQuantum()/range)/256;
                 this->imageMatrix[row][column] = pixVal;
                 
-                if ( pixVal > 0 ) this->thresholdMatrix[row][column] = 0;
+                if ( pixVal > 0.5 ) this->thresholdMatrix[row][column] = 0;
                 else this->thresholdMatrix[row][column] = 1;
                 
                 //std::cout<< (color.redQuantum()/range)/256 << " ";

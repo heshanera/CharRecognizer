@@ -12,10 +12,11 @@
 
 class Recognizer {
 public:
-    Recognizer(std::string path);
+    Recognizer();
     Recognizer(const Recognizer& orig);
     virtual ~Recognizer();
     
+    int recognize(std::string path);
     int initializeImage(std::string imgPath);
     int printThresholdMatrixMatrix();
     
