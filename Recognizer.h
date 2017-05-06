@@ -9,6 +9,7 @@
 #define RECOGNIZER_H
 
 #include <Magick++.h>
+#include "Matrix.h"
 
 class Recognizer {
 public:
@@ -18,7 +19,12 @@ public:
     
     int recognize(std::string path);
     int initializeImage(std::string imgPath);
-    int printThresholdMatrixMatrix();
+    int createCropedMatrix();
+    int forwardPropagation();
+    
+    int printThresholdMatrix();
+    int printCropedMatrix();
+    
     
 private:
     std::string imgPath;
@@ -28,7 +34,13 @@ private:
     int width, height;
     double range;
     
-    float** weightMatrix;
+    Matrix  InputMatrix, weightMatrix1, weightMatrix2, 
+            weightMatrix3, targerMatrix;
+    
+    // boundaries
+    int top,bottom,left,right;
+    int **croppedMatrix;
+    
 
 };
 

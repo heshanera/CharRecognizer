@@ -7,6 +7,7 @@
 #include <iostream>
 #include <Magick++.h>
 #include "Recognizer.h"
+#include "Matrix.h"
 
 Recognizer::Recognizer() { }
 
@@ -17,8 +18,9 @@ Recognizer::~Recognizer() { }
 int Recognizer::recognize(std::string path) {
     
     initializeImage(path);
-    printThresholdMatrixMatrix();
-    
+    //printThresholdMatrix();
+    createCropedMatrix();
+    printCropedMatrix();
 }
 
 int Recognizer::initializeImage(std::string path)
@@ -51,19 +53,43 @@ int Recognizer::initializeImage(std::string path)
         inputVector[0] = 2; // adding the bias
         int inVecIndx = 1;
         
+        this->top = -1;
+        this->bottom = -1;
+        this->left = -1;
+        this->right = -1;
+        
         for(row = 0; row < h; row++)
         {
             for(column = 0; column < w; column++)
             {
+                // filling the image matrix
                 Magick::Color color = pixels[w * row + column];
                 pixVal = (color.redQuantum()/range)/256;
                 this->imageMatrix[row][column] = pixVal;
                 
+                // filling the threshhold matrix
                 if ( pixVal > 0.5 ) this->thresholdMatrix[row][column] = 0;
                 else this->thresholdMatrix[row][column] = 1;
                 
+                // filling the input matrix
                 inputVector[inVecIndx] = thresholdMatrix[row][column];
                 inVecIndx++;
+                
+                // finding the boundaries
+                if ( thresholdMatrix[row][column] == 1 ){
+                    
+                    // top postion
+                    if ( top == -1 ) { top = row; bottom = row; }
+                    
+                    // bottom position
+                    if ( bottom != -1) bottom = row;
+                    
+                    // left position
+                    if (left == -1 ) { left = column; right = column; }
+                    
+                    // right position
+                    if (right != -1 ) right = column;    
+                }
                 
                 //std::cout<< (color.redQuantum()/range)/256 << " ";
             }   
@@ -78,7 +104,54 @@ int Recognizer::initializeImage(std::string path)
     
 }
 
-int Recognizer::printThresholdMatrixMatrix(){
+int Recognizer::createCropedMatrix(){
+    
+    // boundaries 
+    int w = right-left;
+    int h = bottom-top;
+    
+    std::cout<<top<<" "<<bottom;
+    
+    // croped Matrix
+    this->croppedMatrix = new int*[h];for(int i = 0; i < h; ++i) this->croppedMatrix[i] = new int[w];
+    
+    for(int rows = 0; rows < h; rows++)
+    {
+        for(int columns = 0; columns < w; columns++)    
+        {
+            this->croppedMatrix[rows][columns] = this->thresholdMatrix[rows+left][columns+top];
+        }
+    }
+    return 0;
+}
+
+int Recognizer::forwardPropagation(){
+    
+    // [ 1 x rows ] X [ rows x columns]
+    // [ rows x 1 ] - size of the input matrix
+    // [ [ rows x columns] ] - weight matrix | columns - no of hidden layers
+    
+     
+    return 0;
+}
+
+
+
+int Recognizer::printThresholdMatrix(){
+    
+    for(int rows = 0; rows < this->height; rows++)
+    {
+        for(int columns = 0; columns < this->width; columns++)    
+        {
+            std::cout<<thresholdMatrix[rows][columns]<<" ";
+        }
+        std::cout<<"\n";
+    }
+    return 0;
+}
+
+
+int Recognizer::printCropedMatrix(){
     
     for(int rows = 0; rows < this->height; rows++)
     {
