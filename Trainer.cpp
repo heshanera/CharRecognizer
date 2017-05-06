@@ -31,7 +31,7 @@ int Trainer::initializeWeightMatrices() {
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
                                     "imgs/training/G.jpg","imgs/training/H.jpg"};
     ImageProcessor imgPrc;
-    int inputMatrixData[(w*h+1)*chars];
+    float inputMatrixData[(w*h+1)*chars];
     int* tmpData;
     
     for (int i = 0; i < chars; i++) {
@@ -40,7 +40,7 @@ int Trainer::initializeWeightMatrices() {
         imgPrc.createCropedMatrix();
         tmpData = imgPrc.resizeImage();
         
-        inputMatrixData[(1600*i)] = 2; // bias
+        inputMatrixData[(1600+1)*i] = 2; // bias
         for (int j = 1; j < (1601); j++) {
             inputMatrixData[j + (1600*i)] = tmpData[j];
             //std::cout<<inputMatrixData[j+ (1600*i)]<<" ";
@@ -49,6 +49,8 @@ int Trainer::initializeWeightMatrices() {
         //std::cout<<"\n\n";
     }    
     inputMatrix.allocateSize(chars,1601 /* = width x height + bias = 40*40+1 */);
+    inputMatrix.fillMatrix(inputMatrixData);
+    inputMatrix.printMatrix();
     
     // Initializing the weight Matrix1 **************************************************************/
     int hiddenLayer1Nodes = 500;
@@ -113,9 +115,11 @@ int Trainer::initializeWeightMatrices() {
 int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
-    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    //hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+    //hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    //hiddenLayer1Matrix.printMatrix();
 
+    /*
     // hidden layer 1 --> hidden layer 2    
     hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
     hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
@@ -125,6 +129,6 @@ int Trainer::forwardPropagation(){
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
     
     outputLayerMatrix.printMatrix();
-    
+    */
     return 0;
 }
