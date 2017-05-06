@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/_ext/5c78531a/Activation.o \
 	${OBJECTDIR}/_ext/5c78531a/Matrix.o \
 	${OBJECTDIR}/_ext/5c78531a/Recognizer.o \
+	${OBJECTDIR}/_ext/5c78531a/Trainer.o \
 	${OBJECTDIR}/main.o
 
 
@@ -79,6 +80,11 @@ ${OBJECTDIR}/_ext/5c78531a/Recognizer.o: /home/heshan/NetBeansProjects/CharRecog
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Recognizer.o /home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp
+
+${OBJECTDIR}/_ext/5c78531a/Trainer.o: /home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Trainer.o /home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

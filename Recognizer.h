@@ -22,6 +22,7 @@ public:
     int createCropedMatrix();
     int forwardPropagation();
     int resizeImage();
+    int train();
     
     int printThresholdMatrix();
     int printCropedMatrix();

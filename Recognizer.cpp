@@ -177,6 +177,8 @@ int Recognizer::resizeImage(){
 
 int Recognizer::forwardPropagation(){
     
+    
+    
     // [ rows x 1 ] X [ 1 x columns]
     // [ rows x 1 ] - size of the input matrix
     // [ [ rows x columns] ] - weight matrix | columns - no of hidden layers
@@ -185,6 +187,11 @@ int Recognizer::forwardPropagation(){
     return 0;
 }
 
+int Recognizer::train(){
+
+    Trainer trainer = new Trainer();
+    
+}
 
 
 int Recognizer::printThresholdMatrix(){
