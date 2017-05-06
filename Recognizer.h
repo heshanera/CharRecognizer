@@ -20,8 +20,8 @@ public:
     int recognize(std::string path);
     int initializeImage(std::string imgPath);
     int createCropedMatrix();
-    int forwardPropagation();
     int resizeImage();
+    int forwardPropagation();
     int train();
     
     int printThresholdMatrix();

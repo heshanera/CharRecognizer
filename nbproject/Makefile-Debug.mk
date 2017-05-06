@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/_ext/5c78531a/Activation.o \
+	${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o \
 	${OBJECTDIR}/_ext/5c78531a/Matrix.o \
 	${OBJECTDIR}/_ext/5c78531a/Recognizer.o \
 	${OBJECTDIR}/_ext/5c78531a/Trainer.o \
@@ -70,6 +71,11 @@ ${OBJECTDIR}/_ext/5c78531a/Activation.o: /home/heshan/NetBeansProjects/CharRecog
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
 	${RM} "$@.d"
 	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Activation.o /home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp
+
+${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o: /home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+	${RM} "$@.d"
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o /home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
 
 ${OBJECTDIR}/_ext/5c78531a/Matrix.o: /home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a

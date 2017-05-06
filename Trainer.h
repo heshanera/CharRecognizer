@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   Trainer.h
  * Author: heshan
@@ -14,12 +8,19 @@
 #ifndef TRAINER_H
 #define TRAINER_H
 
+#include "Matrix.h"
+
 class Trainer {
 public:
     Trainer();
     Trainer(const Trainer& orig);
     virtual ~Trainer();
 private:
+    Matrix  inputMatrix,
+            weightMatrix1,
+            weightMatrix2,
+            weightMatrix3,
+            targetMatrix;
 
 };
 
