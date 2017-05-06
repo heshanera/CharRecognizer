@@ -40,9 +40,12 @@ int Trainer::initializeWeightMatrices() {
         imgPrc.createCropedMatrix();
         tmpData = imgPrc.resizeImage();
         
-        inputMatrixData[(1600+1)*i] = 2; // bias
-        for (int j = 1; j < (1601); j++) {
-            inputMatrixData[j + (1600*i)] = tmpData[j];
+        for (int j = 0; j < (1601); j++) {
+            
+            if ( j == 0 ) inputMatrixData[(1601*i)] = 2; // bias
+            else inputMatrixData[j + (1601*i)] = tmpData[j-1]; 
+            
+            
             //std::cout<<inputMatrixData[j+ (1600*i)]<<" ";
             //if (j%40 == 0) std::cout<<"\n";
         }
