@@ -20,7 +20,9 @@ int Recognizer::recognize(std::string path) {
     initializeImage(path);
     //printThresholdMatrix();
     createCropedMatrix();
-    printCropedMatrix();
+    //printCropedMatrix();
+    resizeImage();
+    printResizedMatrix();
 }
 
 int Recognizer::initializeImage(std::string path)
@@ -42,6 +44,8 @@ int Recognizer::initializeImage(std::string path)
         // creating the pixel matrix
         this->imageMatrix = new float*[h];for(int i = 0; i < h; ++i) this->imageMatrix[i] = new float[w];
         this->thresholdMatrix = new float*[h];for(int i = 0; i < h; ++i) this->thresholdMatrix[i] = new float[w];
+        this->resizedMatrix = new int*[40];for(int i = 0; i < 40; ++i) this->resizedMatrix[i] = new int[40];
+        
         // storing meta data
         this->width = w; this->height = h;
         this->range = range;
@@ -131,15 +135,44 @@ int Recognizer::createCropedMatrix(){
 
 int Recognizer::resizeImage(){
     
-    int h = 50*(this->height/this->width);
+    int w = right-left;
+    int h = bottom-top;
+    int k = 0;
     
-    Magick::Geometry newSize = Magick::Geometry(50, h);
-    // Resize without preserving Aspect Ratio
-    newSize.aspect(true);
-    image.resize(newSize);
+    float *pixels = new float[w*h];
+    
+    for(int i = 0; i < h; i++)
+    {
+        for(int j = 0; j < w; j++)
+        {
+            pixels[k] = croppedMatrix[i][j];
+            k++;
+        } 
+    }
+    Magick::Image image( w,h,"R", Magick::FloatPixel, pixels ); 
+    
+    Magick::Geometry s1  = Magick::Geometry(40, 40);
+    s1.aspect(true);
+    image.resize(s1);
+    
+    image.write("imgs/out.jpg");
     
     
+    ssize_t columns = 40; 
+    float pixVal;
+    Magick::PixelPacket *pixels2 = image.getPixels(0, 0, 40, 40);
     
+    for(int i = 0; i < 40; i++)
+    {
+        for(int j = 0; j < 40; j++)
+        {
+            // filling the image matrix
+            Magick::Color color = pixels2[40 * i + j];
+            pixVal = (color.redQuantum()/range)/256;
+            if ( pixVal > 0.5 ) this->resizedMatrix[i][j] = 0;
+            else this->resizedMatrix[i][j] = 1;
+        } 
+    }
     return 0;
 }
 
@@ -179,6 +212,22 @@ int Recognizer::printCropedMatrix(){
         for(int columns = 0; columns < w; columns++)    
         {
             std::cout<<croppedMatrix[rows][columns]<<" ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    return 0;
+}
+
+int Recognizer::printResizedMatrix(){
+    
+    int w = 40;
+    int h = 40;
+    for(int rows = 0; rows < h; rows++)
+    {
+        for(int columns = 0; columns < w; columns++)    
+        {
+            std::cout<<resizedMatrix[rows][columns]<<" ";
         }
         std::cout<<"\n";
     }

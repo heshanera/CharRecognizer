@@ -25,6 +25,7 @@ public:
     
     int printThresholdMatrix();
     int printCropedMatrix();
+    int printResizedMatrix();
     
     
 private:
@@ -35,12 +36,15 @@ private:
     int width, height;
     double range;
     
+    // boundaries
+    int top,bottom,left,right;
+    int **croppedMatrix, **resizedMatrix;
+    
+    
     Matrix  InputMatrix, weightMatrix1, weightMatrix2, 
             weightMatrix3, targerMatrix;
     
-    // boundaries
-    int top,bottom,left,right;
-    int **croppedMatrix;
+    
     
 
 };
