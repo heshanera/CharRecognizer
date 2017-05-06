@@ -22,10 +22,15 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    rc.recognize("imgs/A.jpg");
-    rc.recognize("imgs/B.jpg");
-    rc.recognize("imgs/C.jpg");
-    rc.recognize("imgs/D.jpg");
+    
+    rc.train();
+    
+    /*
+    rc.recognize("imgs/training/A.jpg");
+    rc.recognize("imgs/training/B.jpg");
+    rc.recognize("imgs/training/C.jpg");
+    rc.recognize("imgs/training/D.jpg");
+    */
     
     return 0;
 }

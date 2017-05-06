@@ -15,6 +15,9 @@ public:
     Trainer();
     Trainer(const Trainer& orig);
     virtual ~Trainer();
+    
+    int initializeWeightMatrices();
+    
 private:
     Matrix  inputMatrix,
             weightMatrix1,
