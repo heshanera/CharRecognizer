@@ -106,5 +106,25 @@ int Trainer::initializeWeightMatrices() {
     }
     targetMatrix.allocateSize(classes,chars);
     targetMatrix.fillMatrix(targetMatrixData);
+    
+    return 0;
+}
 
+int Trainer::forwardPropagation(){
+    
+    // input layer --> hidden layer 1
+    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+
+    // hidden layer 1 --> hidden layer 2    
+    hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
+    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+    
+    // hidden layer 2 --> output layer
+    outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
+    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    
+    outputLayerMatrix.printMatrix();
+    
+    return 0;
 }

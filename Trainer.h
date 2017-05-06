@@ -17,13 +17,13 @@ public:
     virtual ~Trainer();
     
     int initializeWeightMatrices();
+    int forwardPropagation();
     
 private:
-    Matrix  inputMatrix,
-            weightMatrix1,
-            weightMatrix2,
-            weightMatrix3,
-            targetMatrix;
+    Matrix inputMatrix, targetMatrix;
+    Matrix weightMatrix1, weightMatrix2, weightMatrix3;
+    Matrix hiddenLayer1Matrix, hiddenLayer2Matrix;
+    Matrix outputLayerMatrix;
 
 };
 
