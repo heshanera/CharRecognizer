@@ -155,8 +155,7 @@ int Recognizer::resizeImage(){
     s1.aspect(true);
     image.resize(s1);
     
-    image.write("imgs/out.jpg");
-    
+    //image.write("imgs/out.jpg");
     
     ssize_t columns = 40; 
     float pixVal;
@@ -169,8 +168,8 @@ int Recognizer::resizeImage(){
             // filling the image matrix
             Magick::Color color = pixels2[40 * i + j];
             pixVal = (color.redQuantum()/range)/256;
-            if ( pixVal > 0.5 ) this->resizedMatrix[i][j] = 0;
-            else this->resizedMatrix[i][j] = 1;
+            if ( pixVal > 0.5 ) this->resizedMatrix[i][j] = 1;
+            else this->resizedMatrix[i][j] = 0;
         } 
     }
     return 0;
@@ -178,7 +177,7 @@ int Recognizer::resizeImage(){
 
 int Recognizer::forwardPropagation(){
     
-    // [ 1 x rows ] X [ rows x columns]
+    // [ rows x 1 ] X [ 1 x columns]
     // [ rows x 1 ] - size of the input matrix
     // [ [ rows x columns] ] - weight matrix | columns - no of hidden layers
     
