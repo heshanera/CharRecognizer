@@ -32,7 +32,7 @@ int Recognizer::initializeImage(std::string path)
       
         image.type( Magick::GrayscaleType );
         image.modifyImage();
-
+        
         int w = image.columns(),h = image.rows();
         int row = 0,column = 0;
         int range = 256; //pow(2, image.modulusDepth());
@@ -67,7 +67,7 @@ int Recognizer::initializeImage(std::string path)
                 pixVal = (color.redQuantum()/range)/256;
                 this->imageMatrix[row][column] = pixVal;
                 
-                // filling the threshhold matrix
+                // filling the threshold matrix
                 if ( pixVal > 0.5 ) this->thresholdMatrix[row][column] = 0;
                 else this->thresholdMatrix[row][column] = 1;
                 
@@ -78,17 +78,21 @@ int Recognizer::initializeImage(std::string path)
                 // finding the boundaries
                 if ( thresholdMatrix[row][column] == 1 ){
                     
-                    // top postion
-                    if ( top == -1 ) { top = row; bottom = row; }
+                    if ( ( top == -1 ) & ( bottom == -1 ) & ( left == -1 ) & ( right == -1 )){
+                        top = row; bottom = row; left = column; right = column;
+                    }
                     
-                    // bottom position
-                    if ( bottom != -1) bottom = row;
+                    if ( ( left != -1) & ( left > column ) ) {
+                            left = column;
+                    }
                     
-                    // left position
-                    if (left == -1 ) { left = column; right = column; }
+                    if ( ( right != -1) & ( right < column ) ) {
+                            right = column;
+                    }
                     
-                    // right position
-                    if (right != -1 ) right = column;    
+                    if ( ( bottom != -1) & ( bottom < row ) ) {
+                            bottom = row;
+                    }
                 }
                 
                 //std::cout<< (color.redQuantum()/range)/256 << " ";
@@ -109,19 +113,33 @@ int Recognizer::createCropedMatrix(){
     // boundaries 
     int w = right-left;
     int h = bottom-top;
+    //std::cout<<"top: "<<top<<" bottom: "<<bottom<<" left: "<<left<<" "<<" right: "<<right<<"\n";
+    //std::cout<<"w: "<<w<<" h: "<<h<<"\n\n";
     
-    std::cout<<top<<" "<<bottom;
-    
-    // croped Matrix
+    // cropped Matrix
     this->croppedMatrix = new int*[h];for(int i = 0; i < h; ++i) this->croppedMatrix[i] = new int[w];
     
     for(int rows = 0; rows < h; rows++)
     {
         for(int columns = 0; columns < w; columns++)    
         {
-            this->croppedMatrix[rows][columns] = this->thresholdMatrix[rows+left][columns+top];
+            this->croppedMatrix[rows][columns] = this->thresholdMatrix[rows+top][columns+left];
         }
     }
+    return 0;
+}
+
+int Recognizer::resizeImage(){
+    
+    int h = 50*(this->height/this->width);
+    
+    Magick::Geometry newSize = Magick::Geometry(50, h);
+    // Resize without preserving Aspect Ratio
+    newSize.aspect(true);
+    image.resize(newSize);
+    
+    
+    
     return 0;
 }
 
@@ -147,19 +165,23 @@ int Recognizer::printThresholdMatrix(){
         }
         std::cout<<"\n";
     }
+    std::cout<<"\n\n";
     return 0;
 }
 
 
 int Recognizer::printCropedMatrix(){
     
-    for(int rows = 0; rows < this->height; rows++)
+    int w = right-left;
+    int h = bottom-top;
+    for(int rows = 0; rows < h; rows++)
     {
-        for(int columns = 0; columns < this->width; columns++)    
+        for(int columns = 0; columns < w; columns++)    
         {
-            std::cout<<thresholdMatrix[rows][columns]<<" ";
+            std::cout<<croppedMatrix[rows][columns]<<" ";
         }
         std::cout<<"\n";
     }
+    std::cout<<"\n\n";
     return 0;
 }

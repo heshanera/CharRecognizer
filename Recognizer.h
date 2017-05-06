@@ -21,6 +21,7 @@ public:
     int initializeImage(std::string imgPath);
     int createCropedMatrix();
     int forwardPropagation();
+    int resizeImage();
     
     int printThresholdMatrix();
     int printCropedMatrix();
