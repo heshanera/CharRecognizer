@@ -27,6 +27,31 @@ float Activation::unitStep(float x)
 	else return 1;	
 }
 
+Matrix Activation::unitStep(Matrix m)
+{	
+	int rows = m.getrows();
+	int cols = m.getcols();
+	
+	int size = rows * cols;
+	float* tmpdata;
+	tmpdata = new float[size];
+
+	int k = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			tmpdata[k] = unitStep(m.get(i,j)); 
+			k++;
+		}	
+	}	
+
+	Matrix m2;
+	m2.allocateSize(rows,cols);
+	m2.fillMatrix(tmpdata);
+	return m2;
+}
+
 /************************ linear ****************************/
 
 float Activation::linear(float m, float c, float x)

@@ -20,6 +20,7 @@ public:
 
     // Unit step
     static float unitStep(float x);
+    static Matrix unitStep(Matrix m);
 
     // Linear
     static float linear(float m, float c, float x);

@@ -42,7 +42,7 @@ int Trainer::initializeWeightMatrices() {
         
         for (int j = 0; j < (1601); j++) {
             
-            if ( j == 0 ) inputMatrixData[(1601*i)] = 2; // bias
+            if ( j == 0 ) inputMatrixData[(1601*i)] = 1; // bias
             else inputMatrixData[j + (1601*i)] = tmpData[j-1]; 
             
             
