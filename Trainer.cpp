@@ -140,7 +140,11 @@ int Trainer::forwardPropagation(){
 
 int Trainer::backPropagation(){
 
-    errorMarginMatrix = targetMatrix.substract(outputLayerMatrix);
+    w3Delta1 = outputLayerMatrix.substract(targetMatrix);
+    w3Delta2 = outputLayerMatrix.hadamardMul()
+    w3Delta3 = hiddenLayer2Matrix.transpose();        
+            
+            
     errorMarginMatrix.printMatrix();
     
     return 0;

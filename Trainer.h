@@ -25,7 +25,7 @@ private:
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     Matrix hiddenLayer1Matrix, hiddenLayer2Matrix;
     Matrix outputLayerMatrix;
-    Matrix errorMarginMatrix;
+    Matrix w3Delta1,w3Delta2,w3Delta3;
 
 };
 
