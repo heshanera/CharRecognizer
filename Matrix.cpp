@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include "Matrix.h"
+#include "Trainer.h"
+#include "Recognizer.h"
 
 Matrix::Matrix() {
 }
@@ -119,26 +121,26 @@ Matrix Matrix::transpose()
 
 Matrix Matrix::add(Matrix m)
 {
-	int size = this->rows * this->cols;
-	float* tmpdata;
-	tmpdata = new float[size];
+    int size = this->rows * this->cols;
+    float* tmpdata;
+    tmpdata = new float[size];
 
-	if ( (this->rows == m.rows) && (this->cols == m.cols))
-	{
-		int k = 0;
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				tmpdata[k] = this->matrix[i][j]+m.matrix[i][j]; k++;
-			}	
-		}	
-	}
+    if ( (this->rows == m.rows) && (this->cols == m.cols))
+    {
+        int k = 0;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                tmpdata[k] = this->matrix[i][j]+m.matrix[i][j]; k++;
+            }	
+        }	
+    }
 
-	Matrix m2;
-	m2.allocateSize(this->rows,this->cols);
-	m2.fillMatrix(tmpdata);
-	return m2;
+    Matrix m2;
+    m2.allocateSize(this->rows,this->cols);
+    m2.fillMatrix(tmpdata);
+    return m2;
 }
 
 Matrix Matrix::substract(Matrix m)
@@ -167,61 +169,61 @@ Matrix Matrix::substract(Matrix m)
 
 Matrix Matrix::scalarMul(float val)
 {
-	int size = this->rows * this->cols;
-	
-	float* tmpdata;
-	tmpdata = new float[size];
+    int size = this->rows * this->cols;
 
-	int k = 0;
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < cols; j++)
-		{
-			tmpdata[k] = this->matrix[i][j]*val; k++;
-		}	
-	}	
+    float* tmpdata;
+    tmpdata = new float[size];
 
-	Matrix m2;
-	m2.allocateSize(this->rows,this->cols);
-	m2.fillMatrix(tmpdata);
-	return m2;
+    int k = 0;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            tmpdata[k] = this->matrix[i][j]*val; k++;
+        }	
+    }	
+
+    Matrix m2;
+    m2.allocateSize(this->rows,this->cols);
+    m2.fillMatrix(tmpdata);
+    return m2;
 }
 
 Matrix Matrix::matrixMul(Matrix m)
 {
-	int size = this->rows * m.cols;
-	float* tmpdata;
-	tmpdata = new float[size];
+    int size = this->rows * m.cols;
+    float* tmpdata;
+    tmpdata = new float[size];
 
-	int arrIndx = 0;
-	if ( (this->cols == m.rows))
-	{
-		int p = 0; 
-		for(int n = 0; n < this->rows; n++)
-		{	
-			for(int l = 0; l < m.cols; l++)
-			{	
-				float tmpSum = 0;
-				int j = 0, k = 0;
-				for (int i = 0; i < this->cols; i++)
-				{
-					tmpSum += this->matrix[k+p][j] * m.matrix[j][k+l];
-					//std::cout<<"( "<< this->matrix[k+p][j] << " * " << m.matrix[j][k+l] << " ) \n";
-					j++;
-				}	
-				//std::cout<<tmpSum<<"***";	
-				tmpdata[arrIndx] = tmpSum;
-				arrIndx++;
-			}	
-			p++;
-			//std::cout<<"\n";
-		}
-		//std::cout<<"\n";	
-	}
-	Matrix m2;
-	m2.allocateSize(this->rows,m.cols);
-	m2.fillMatrix(tmpdata);
-	return m2;
+    int arrIndx = 0;
+    if ( (this->cols == m.rows))
+    {
+        int p = 0; 
+        for(int n = 0; n < this->rows; n++)
+        {	
+            for(int l = 0; l < m.cols; l++)
+            {	
+                float tmpSum = 0;
+                int j = 0, k = 0;
+                for (int i = 0; i < this->cols; i++)
+                {
+                    tmpSum += this->matrix[k+p][j] * m.matrix[j][k+l];
+                    //std::cout<<"( "<< this->matrix[k+p][j] << " * " << m.matrix[j][k+l] << " ) \n";
+                    j++;
+                }	
+                //std::cout<<tmpSum<<"***";	
+                tmpdata[arrIndx] = tmpSum;
+                arrIndx++;
+            }	
+            p++;
+            //std::cout<<"\n";
+        }
+        //std::cout<<"\n";	
+    }
+    Matrix m2;
+    m2.allocateSize(this->rows,m.cols);
+    m2.fillMatrix(tmpdata);
+    return m2;
 }
 
 Matrix Matrix::hadamardMul(Matrix m)

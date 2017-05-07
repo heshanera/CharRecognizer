@@ -53,7 +53,7 @@ int Trainer::initializeWeightMatrices() {
     }    
     inputMatrix.allocateSize(chars,1601 /* = width x height + bias = 40*40+1 */);
     inputMatrix.fillMatrix(inputMatrixData);
-    inputMatrix.printMatrix();
+    //inputMatrix.printMatrix();
     
     // Initializing the weight Matrix1 **************************************************************/
     int hiddenLayer1Nodes = 500;
@@ -64,7 +64,7 @@ int Trainer::initializeWeightMatrices() {
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
             randomFloat = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            weightMatrix1Data[k] = randomFloat;
+            weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
     }
@@ -118,9 +118,17 @@ int Trainer::initializeWeightMatrices() {
 int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
-    //hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+   
+    Matrix weightMatrix0, inputMatrix0;
+    inputMatrix0.allocateSize(4,5);
+    weightMatrix0.allocateSize(5,4);
+    
+    
+    hiddenLayer1Matrix = inputMatrix0.add(weightMatrix0);
+    //std::cout<<weightMatrix0.getrows();
+    //weightMatrix1.printMatrix();
     //hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
-    //hiddenLayer1Matrix.printMatrix();
+    
 
     /*
     // hidden layer 1 --> hidden layer 2    
