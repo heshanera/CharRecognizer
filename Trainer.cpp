@@ -63,7 +63,7 @@ int Trainer::initializeWeightMatrices() {
     int k = 0;
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1000));
             weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -77,8 +77,8 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer1Nodes; i++){
         for(int j = 0; j < hiddenLayer2Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            weightMatrix2Data[k] = randomFloat;
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1000));
+            weightMatrix2Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
     }
@@ -91,8 +91,8 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer2Nodes; i++){
         for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            weightMatrix3Data[k] = randomFloat;
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1500));
+            weightMatrix3Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
     }
@@ -102,14 +102,15 @@ int Trainer::initializeWeightMatrices() {
     // Initializing the target Matrix **************************************************************/
     float targetMatrixData[classes*chars];
     k = 0;
-    for (int i = 0; i < classes; i++){
-        for (int j = 0; j < chars; j++){
+    for (int i = 0; i < chars; i++){
+        for (int j = 0; j < classes; j++){
             if ( i == j ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
+            k++;
         }
    
     }
-    targetMatrix.allocateSize(classes,chars);
+    targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
     
     return 0;
@@ -120,20 +121,27 @@ int Trainer::forwardPropagation(){
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
     hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
-    hiddenLayer1Matrix.printMatrix();
+    //hiddenLayer1Matrix.printMatrix();
     
     
-
-    /*
     // hidden layer 1 --> hidden layer 2    
     hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
     hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+    //hiddenLayer2Matrix.printMatrix();
+    
     
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    //outputLayerMatrix.printMatrix();
     
-    outputLayerMatrix.printMatrix();
-    */
+    return 0;
+}
+
+int Trainer::backPropagation(){
+
+    errorMarginMatrix = targetMatrix.substract(outputLayerMatrix);
+    errorMarginMatrix.printMatrix();
+    
     return 0;
 }

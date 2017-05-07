@@ -18,12 +18,14 @@ public:
     
     int initializeWeightMatrices();
     int forwardPropagation();
+    int backPropagation();
     
 private:
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     Matrix hiddenLayer1Matrix, hiddenLayer2Matrix;
     Matrix outputLayerMatrix;
+    Matrix errorMarginMatrix;
 
 };
 

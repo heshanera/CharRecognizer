@@ -22,8 +22,16 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    
     rc.train();
+    /*
+    int x = 0;
+    while (x < 10){
+        float r = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 100);
+        std::cout<<r<<"\n";
+        x++;
+    }
+    */  
+    
     
     /*
     rc.recognize("imgs/training/A.jpg");

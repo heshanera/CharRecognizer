@@ -45,20 +45,16 @@ int Matrix::fillMatrix(float data[])
 
 int Matrix::printMatrix()
 {
-	float** matrix = this->matrix;
-	int rows = this->rows;
-	int cols = this->cols;
-
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < cols; j++)
-		{
-			std::cout<<matrix[i][j]<<" ";
-		}	
-		std::cout<<"\n";
-	}	
-	std::cout<<"\n";
-	return 1;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            std::cout<<matrix[i][j]<<" ";
+        }	
+        std::cout<<"\n";
+    }	
+    std::cout<<"\n\n\n";
+    return 1;
 }
 
 int Matrix::getrows()
