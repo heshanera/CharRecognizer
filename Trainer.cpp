@@ -142,16 +142,18 @@ int Trainer::forwardPropagation(){
 int Trainer::backPropagation(){
 
     
-    // weight matrix 3 ( hidden layer 2 --> output layer )
+    // updating weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.substract(targetMatrix);
     w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.substractFrom(1));
     w3Delta3 = hiddenLayer2Matrix.transpose();        
     w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);      
     // updating the weights
     weightMatrix3.substract(w3Delta);
-    //weightMatrix3.printMatrix();
     
-    // weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
+    // updating weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
+    
+    
+    // updating weight matrix 1 ( input layer 1 --> hidden layer 1 )
     
     
     

@@ -30,6 +30,8 @@ private:
     Matrix hiddenLayer1Matrix, hiddenLayer2Matrix;
     Matrix outputLayerMatrix;
     Matrix w3Delta,w3Delta1,w3Delta2,w3Delta3;
+    Matrix w2Delta,w2Delta1,w2Delta2,w2Delta3;
+    Matrix w1Delta,w1Delta1,w1Delta2,w1Delta3;
 
 };
 
