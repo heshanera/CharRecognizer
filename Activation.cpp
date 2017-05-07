@@ -9,7 +9,6 @@
 #include <cmath>
 
 #include "Activation.h"
-#include "Matrix.h"
 
 const float EulerConstant = std::exp(1.0);
 

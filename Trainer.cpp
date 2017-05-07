@@ -118,16 +118,10 @@ int Trainer::initializeWeightMatrices() {
 int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
-   
-    Matrix weightMatrix0, inputMatrix0;
-    inputMatrix0.allocateSize(4,5);
-    weightMatrix0.allocateSize(5,4);
+    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix.printMatrix();
     
-    
-    hiddenLayer1Matrix = inputMatrix0.add(weightMatrix0);
-    //std::cout<<weightMatrix0.getrows();
-    //weightMatrix1.printMatrix();
-    //hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
     
 
     /*

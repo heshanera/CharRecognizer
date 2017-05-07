@@ -1,22 +1,9 @@
-/* 
- * File:   Matrix.cpp
- * Author: heshan
- * 
- * Created on May 4, 2017, 8:31 PM
- */
 #include <iostream>
 #include "Matrix.h"
-#include "Trainer.h"
-#include "Recognizer.h"
 
-Matrix::Matrix() {
-}
+Matrix::Matrix(void) { }
 
-Matrix::Matrix(const Matrix& orig) {
-}
-
-Matrix::~Matrix() {
-}
+Matrix::~Matrix(void) { }
 
 int Matrix::allocateSize(int rows,int cols)
 {
@@ -121,26 +108,26 @@ Matrix Matrix::transpose()
 
 Matrix Matrix::add(Matrix m)
 {
-    int size = this->rows * this->cols;
-    float* tmpdata;
-    tmpdata = new float[size];
+	int size = this->rows * this->cols;
+	float* tmpdata;
+	tmpdata = new float[size];
 
-    if ( (this->rows == m.rows) && (this->cols == m.cols))
-    {
-        int k = 0;
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                tmpdata[k] = this->matrix[i][j]+m.matrix[i][j]; k++;
-            }	
-        }	
-    }
+	if ( (this->rows == m.rows) && (this->cols == m.cols))
+	{
+		int k = 0;
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+			{
+				tmpdata[k] = this->matrix[i][j]+m.matrix[i][j]; k++;
+			}	
+		}	
+	}
 
-    Matrix m2;
-    m2.allocateSize(this->rows,this->cols);
-    m2.fillMatrix(tmpdata);
-    return m2;
+	Matrix m2;
+	m2.allocateSize(this->rows,this->cols);
+	m2.fillMatrix(tmpdata);
+	return m2;
 }
 
 Matrix Matrix::substract(Matrix m)
@@ -169,24 +156,24 @@ Matrix Matrix::substract(Matrix m)
 
 Matrix Matrix::scalarMul(float val)
 {
-    int size = this->rows * this->cols;
+	int size = this->rows * this->cols;
+	
+	float* tmpdata;
+	tmpdata = new float[size];
 
-    float* tmpdata;
-    tmpdata = new float[size];
+	int k = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			tmpdata[k] = this->matrix[i][j]*val; k++;
+		}	
+	}	
 
-    int k = 0;
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < cols; j++)
-        {
-            tmpdata[k] = this->matrix[i][j]*val; k++;
-        }	
-    }	
-
-    Matrix m2;
-    m2.allocateSize(this->rows,this->cols);
-    m2.fillMatrix(tmpdata);
-    return m2;
+	Matrix m2;
+	m2.allocateSize(this->rows,this->cols);
+	m2.fillMatrix(tmpdata);
+	return m2;
 }
 
 Matrix Matrix::matrixMul(Matrix m)
