@@ -22,7 +22,8 @@ public:
     
 private:
     
-    int classes,chars,learningRate;
+    int classes,chars;
+    float learningRate;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

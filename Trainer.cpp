@@ -24,7 +24,7 @@ int Trainer::initializeWeightMatrices() {
     chars = 8; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.5 // learning rate of the network 
+    learningRate = 0.5; // learning rate of the network 
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
@@ -63,7 +63,7 @@ int Trainer::initializeWeightMatrices() {
     int k = 0;
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1000));
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
             weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -77,7 +77,7 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer1Nodes; i++){
         for(int j = 0; j < hiddenLayer2Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1000));
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
             weightMatrix2Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -91,13 +91,14 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer2Nodes; i++){
         for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 1500));
+            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
             weightMatrix3Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
     }
     weightMatrix3.allocateSize(hiddenLayer2Nodes,outputLayerNodes);
     weightMatrix3.fillMatrix(weightMatrix3Data);
+    //weightMatrix3.printMatrix();
     
     // Initializing the target Matrix **************************************************************/
     float targetMatrixData[classes*chars];
@@ -141,14 +142,19 @@ int Trainer::forwardPropagation(){
 int Trainer::backPropagation(){
 
     
-    
+    // weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.substract(targetMatrix);
     w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.substractFrom(1));
     w3Delta3 = hiddenLayer2Matrix.transpose();        
-            
-    w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2));
-            
-    w3Delta.printMatrix();
+    w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);      
+    // updating the weights
+    weightMatrix3.substract(w3Delta);
+    //weightMatrix3.printMatrix();
+    
+    // weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
+    
+    
+    
     
     return 0;
 }
