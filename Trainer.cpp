@@ -20,11 +20,11 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices() { 
     
-    int classes = 26;
-    int chars = 8;
-    int w = 40, h = 40;
-    int size = 1600;
-    
+    classes = 26; // output node classes
+    chars = 8; // number of training chars 
+    int w = 40, h = 40; // width x height of a char (in pixels)
+    int size = 1600; // width x height
+    learningRate = 0.5 // learning rate of the network 
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
@@ -140,12 +140,15 @@ int Trainer::forwardPropagation(){
 
 int Trainer::backPropagation(){
 
+    
+    
     w3Delta1 = outputLayerMatrix.substract(targetMatrix);
-    w3Delta2 = outputLayerMatrix.hadamardMul()
+    w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.substractFrom(1));
     w3Delta3 = hiddenLayer2Matrix.transpose();        
             
+    w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2));
             
-    errorMarginMatrix.printMatrix();
+    w3Delta.printMatrix();
     
     return 0;
 }

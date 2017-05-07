@@ -171,6 +171,27 @@ Matrix Matrix::substract(int val)
 	return m2;
 }
 
+Matrix Matrix::substractFrom(int val)
+{
+	int size = this->rows * this->cols;
+	float* tmpdata;
+	tmpdata = new float[size];
+
+        int k = 0;    
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                tmpdata[k] = val-this->matrix[i][j]; k++;
+            }	
+        }
+
+	Matrix m2;
+	m2.allocateSize(this->rows,this->cols);
+	m2.fillMatrix(tmpdata);
+	return m2;
+}
+
 Matrix Matrix::scalarMul(float val)
 {
 	int size = this->rows * this->cols;
