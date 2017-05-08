@@ -19,6 +19,7 @@ public:
     int initializeWeightMatrices();
     int forwardPropagation();
     int backPropagation();
+    int writeWeights();
     
     int printOutputLayer();
     

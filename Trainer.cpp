@@ -6,7 +6,7 @@
  */
 
 #include <iostream>
-
+#include <fstream>
 #include "Trainer.h"
 #include "Matrix.h"
 #include "Activation.h"
@@ -24,13 +24,13 @@ int Trainer::initializeWeightMatrices() {
     chars = 25; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.01; // learning rate of the network 
+    learningRate = 0.3; // learning rate of the network 
     inputLayerNodes = size + 1;
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
-                                    "imgs/training/G.jpg","imgs/training/H.jpg",//"imgs/training/I.jpg",
+                                    "imgs/training/G.jpg","imgs/training/H.jpg",//"imgs/training/.jpg",
                                     "imgs/training/J.jpg","imgs/training/K.jpg","imgs/training/L.jpg",
                                     "imgs/training/M.jpg","imgs/training/N.jpg","imgs/training/O.jpg",
                                     "imgs/training/P.jpg","imgs/training/Q.jpg","imgs/training/R.jpg",
@@ -70,7 +70,7 @@ int Trainer::initializeWeightMatrices() {
     int k = 0;
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = 0.0085;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
+            randomFloat = 0.0095;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -93,12 +93,12 @@ int Trainer::initializeWeightMatrices() {
     weightMatrix2.fillMatrix(weightMatrix2Data);
     
     // Initializing the weight Matrix3 **************************************************************/
-    int outputLayerNodes = 26;
+    int outputLayerNodes = classes;
     float weightMatrix3Data[ hiddenLayer2Nodes * outputLayerNodes ];
     k = 0;
     for(int i = 0; i < hiddenLayer2Nodes; i++){
         for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = 0.0087;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
+            randomFloat = 0.0085;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix3Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -184,6 +184,49 @@ int Trainer::backPropagation(){
     //weightMatrix3.printMatrix();
     //weightMatrix2.printMatrix();
     
+    return 0;
+}
+
+int Trainer::writeWeights(){
+    
+    std::ofstream weightData;
+    weightData.open ("weights");
+
+    weightData <<"matrix1: ";
+    int rows = weightMatrix1.getrows();
+    int cols = weightMatrix1.getcols();
+    for (int i = 0; i < rows; i++) {	
+        for (int j = 0; j < cols; j++) {	
+            float weight = weightMatrix1.get(i,j);
+            weightData <<weight<<" ";
+        }    
+    }	
+    weightData <<"\nmatrix2: ";
+    rows = weightMatrix2.getrows();
+    cols = weightMatrix2.getcols();
+    for (int i = 0; i < rows; i++)
+    {	
+    for (int j = 0; j < cols; j++)
+        {	
+            float weight = weightMatrix2.get(i,j);
+            weightData <<weight<<" ";
+        }    
+        //weightData <<"\n";
+    }	
+    weightData <<"\nmatrix3: ";
+    rows = weightMatrix3.getrows();
+    cols = weightMatrix3.getcols();
+    for (int i = 0; i < rows; i++)
+    {	
+    for (int j = 0; j < cols; j++)
+        {	
+            float weight = weightMatrix3.get(i,j);
+            weightData <<weight<<" ";
+        }    
+        //weightData <<"\n";
+    }	
+    weightData <<"\n";
+    weightData.close();
     
     return 0;
 }
@@ -195,23 +238,23 @@ int Trainer::printOutputLayer(){
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
-    float tmp = 0;
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            tmp = outputLayerMatrix.get(i,j)*100000;
-            std::cout<<tmp<<" ";
-        }
-        std::cout<<"\n";
-    }
-    std::cout<<"\n\nfinal Matrix\n";
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < cols; j++){
-            tmp = outputLayerMatrix.get(i,j)*100000;
-            if ( tmp < 4.23047 ) std::cout<<0<<" ";
-            else std::cout<<1<<" ";         
+            std::cout<<outputLayerMatrix.get(i,j)*10000<<" ";
         }
         std::cout<<"\n";
     }
     
+    /*
+    float tmp;
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            tmp = outputLayerMatrix.get(i,j)*10000;
+            if ( tmp > 0.754182 ) std::cout<<"1";
+            else std::cout<<"0";
+        }
+        std::cout<<"\n";
+    }
+    */
     return 0;        
 }

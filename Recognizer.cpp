@@ -21,23 +21,22 @@ int Recognizer::recognize(std::string path) {
     
     ImageProcessor imgPrc;
     imgPrc.initializeImage(path);
-    //imgPrc.printThresholdMatrix();
     imgPrc.createCropedMatrix();
-    //imgPrc.printCropedMatrix();
-    imgPrc.resizeImage();
-    imgPrc.printResizedMatrix();
-}
+    
+    float inputMatrixData[(w*h+1)];
+    int* charData;
+    charData = imgPrc.resizeImage();
+    int brk = 0;
+    for (int j = 0; j < (1601); j++) {
 
-int Recognizer::forwardPropagation(){
+        if ( j == 0 ) inputMatrixData[(1601*i)] = 1; // bias
+        else inputMatrixData[j + (1601)] = charData[j-1]; 
+
+        if ( j != 0 ) brk++;
+        if (j != 0 ) std::cout<<inputMatrixData[j + (1601)]<<" ";
+        if (brk%40 == 0) std::cout<<"\n";
+    }
     
-    
-    
-    // [ rows x 1 ] X [ 1 x columns]
-    // [ rows x 1 ] - size of the input matrix
-    // [ [ rows x columns] ] - weight matrix | columns - no of hidden layers
-    
-     
-    return 0;
 }
 
 int Recognizer::train(){
@@ -46,9 +45,10 @@ int Recognizer::train(){
     trainer.initializeWeightMatrices();
     
     // training for i no of iterations
-    for (int i = 0; i < 25; i++) {    
+    for (int i = 0; i < 20; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
-        trainer.printOutputLayer();
+        //trainer.printOutputLayer();
     }
+    trainer.writeWeights();
 }
