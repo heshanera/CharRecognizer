@@ -21,16 +21,16 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices() { 
     
     classes = 26; // output node classes
-    chars = 9; // number of training chars 
+    chars = 25; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.5; // learning rate of the network 
+    learningRate = 0.01; // learning rate of the network 
     inputLayerNodes = size + 1;
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
-                                    "imgs/training/G.jpg","imgs/training/H.jpg","imgs/training/I.jpg",
+                                    "imgs/training/G.jpg","imgs/training/H.jpg",//"imgs/training/I.jpg",
                                     "imgs/training/J.jpg","imgs/training/K.jpg","imgs/training/L.jpg",
                                     "imgs/training/M.jpg","imgs/training/N.jpg","imgs/training/O.jpg",
                                     "imgs/training/P.jpg","imgs/training/Q.jpg","imgs/training/R.jpg",
@@ -46,15 +46,15 @@ int Trainer::initializeWeightMatrices() {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
         tmpData = imgPrc.resizeImage();
-        
+        int brk = 0;
         for (int j = 0; j < (1601); j++) {
             
             if ( j == 0 ) inputMatrixData[(1601*i)] = 1; // bias
             else inputMatrixData[j + (1601*i)] = tmpData[j-1]; 
             
-            
-            //std::cout<<inputMatrixData[j+ (1600*i)]<<" ";
-            //if (j%40 == 0) std::cout<<"\n";
+            if ( j != 0 ) brk++;
+            if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
+            if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
     }    
@@ -70,7 +70,7 @@ int Trainer::initializeWeightMatrices() {
     int k = 0;
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = 0.008;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
+            randomFloat = 0.0085;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -98,7 +98,7 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer2Nodes; i++){
         for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = 0.007;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
+            randomFloat = 0.0087;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix3Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -195,9 +195,20 @@ int Trainer::printOutputLayer(){
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
+    float tmp = 0;
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            std::cout<<outputLayerMatrix.get(i,j)*1000<<" ";
+            tmp = outputLayerMatrix.get(i,j)*100000;
+            std::cout<<tmp<<" ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\nfinal Matrix\n";
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            tmp = outputLayerMatrix.get(i,j)*100000;
+            if ( tmp < 4.23047 ) std::cout<<0<<" ";
+            else std::cout<<1<<" ";         
         }
         std::cout<<"\n";
     }
