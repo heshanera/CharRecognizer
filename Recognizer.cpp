@@ -44,7 +44,11 @@ int Recognizer::train(){
 
     Trainer trainer;
     trainer.initializeWeightMatrices();
-    trainer.forwardPropagation();
-    trainer.backPropagation();
-    
+    /*
+    // training for i no of iterations
+    for (int i = 0; i < 10; i++) {    
+        trainer.forwardPropagation();
+        trainer.backPropagation();
+        trainer.printOutputLayer();
+    }*/
 }

@@ -21,15 +21,22 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices() { 
     
     classes = 26; // output node classes
-    chars = 8; // number of training chars 
+    chars = 9; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.5; // learning rate of the network 
+    inputLayerNodes = size + 1;
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
-                                    "imgs/training/G.jpg","imgs/training/H.jpg"};
+                                    "imgs/training/G.jpg","imgs/training/H.jpg","imgs/training/I.jpg",
+                                    "imgs/training/J.jpg","imgs/training/K.jpg","imgs/training/L.jpg",
+                                    "imgs/training/M.jpg","imgs/training/N.jpg","imgs/training/O.jpg",
+                                    "imgs/training/P.jpg","imgs/training/Q.jpg","imgs/training/R.jpg",
+                                    "imgs/training/S.jpg","imgs/training/T.jpg","imgs/training/U.jpg",
+                                    "imgs/training/V.jpg","imgs/training/W.jpg","imgs/training/X.jpg",
+                                    "imgs/training/Y.jpg","imgs/training/Z.jpg"};
     ImageProcessor imgPrc;
     float inputMatrixData[(w*h+1)*chars];
     int* tmpData;
@@ -63,7 +70,7 @@ int Trainer::initializeWeightMatrices() {
     int k = 0;
     for(int i = 0; i < charPixSize; i++){
         for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
+            randomFloat = 0.008;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix1Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -77,7 +84,7 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer1Nodes; i++){
         for(int j = 0; j < hiddenLayer2Nodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
+            randomFloat = 0.009;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix2Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -91,7 +98,7 @@ int Trainer::initializeWeightMatrices() {
     k = 0;
     for(int i = 0; i < hiddenLayer2Nodes; i++){
         for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 50));
+            randomFloat = 0.007;//LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
             weightMatrix3Data[k] = randomFloat; k++;
             //std::cout<<randomFloat<<" " ;
         }
@@ -153,7 +160,6 @@ int Trainer::backPropagation(){
     w2Delta2 = hiddenLayer2Matrix.hadamardMul(hiddenLayer2Matrix.subtractFrom(1));
     w2Delta3 = hiddenLayer1Matrix.transpose().matrixMul(w2Delta2);
     w2Delta.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
-    
     for (int i = 0; i < hiddenLayer1Nodes; i++){
         for (int j = 0; j < hiddenLayer2Nodes; j++){
             w2Delta.set(i, j, ( w2Delta3.get(i,j)*w2Delta1.get(0,j)*learningRate ));
@@ -161,14 +167,40 @@ int Trainer::backPropagation(){
     }
     
     // updating weight matrix 1 ( input layer 1 --> hidden layer 1 )
-    
-    
-    
+    w1Delta1 = w2Delta1.matrixMul(weightMatrix2.transpose());
+    w1Delta2 = hiddenLayer1Matrix.hadamardMul(hiddenLayer1Matrix.subtractFrom(1));
+    w1Delta3 = inputMatrix.transpose().matrixMul(w1Delta2);
+    w1Delta.allocateSize(inputLayerNodes,hiddenLayer1Nodes);
+    for (int i = 0; i < inputLayerNodes; i++){
+        for (int j = 0; j < hiddenLayer1Nodes; j++){
+            w1Delta.set(i, j, ( w1Delta3.get(i,j)*w1Delta1.get(0,j)*learningRate ));
+        }
+    }
     
     // updating the weights
-    weightMatrix3.subtract(w3Delta);
-    weightMatrix2.subtract(w2Delta);
+    weightMatrix3 = weightMatrix3.subtract(w3Delta);
+    weightMatrix2 = weightMatrix2.subtract(w2Delta);
+    weightMatrix1 = weightMatrix1.subtract(w1Delta);
+    //weightMatrix3.printMatrix();
+    //weightMatrix2.printMatrix();
     
     
     return 0;
+}
+
+int Trainer::printOutputLayer(){
+    
+    std::cout<<"\n\ntarget Matrix\n";
+    targetMatrix.printMatrix();
+    std::cout<<"\n\noutput Matrix\n";
+    int rows = outputLayerMatrix.getrows();
+    int cols = outputLayerMatrix.getcols();
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            std::cout<<outputLayerMatrix.get(i,j)*1000<<" ";
+        }
+        std::cout<<"\n";
+    }
+    
+    return 0;        
 }

@@ -20,10 +20,12 @@ public:
     int forwardPropagation();
     int backPropagation();
     
+    int printOutputLayer();
+    
 private:
     
     int classes,chars;
-    int hiddenLayer1Nodes,hiddenLayer2Nodes;
+    int inputLayerNodes,hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
     
     Matrix inputMatrix, targetMatrix;
