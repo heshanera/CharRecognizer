@@ -8,10 +8,11 @@
 #include <fstream>
 #include <sstream>
 #include <Magick++.h>
-#include "Recognizer.h"
 #include "ImageProcessor.h"
-#include "Trainer.h"
+#include "Recognizer.h"
+#include "Activation.h"
 #include "Matrix.h"
+#include "Trainer.h"
 
 Recognizer::Recognizer() { }
 
@@ -21,7 +22,7 @@ Recognizer::~Recognizer() { }
 
 int Recognizer::recognize(std::string path) {
     
-    Matrix inputMatrix;
+    int w = 40, h = 40; // width x height of a char (in pixels)
     float inputMatrixData[(w*h+1)];
     int* charData;
     ImageProcessor imgPrc;
@@ -32,16 +33,22 @@ int Recognizer::recognize(std::string path) {
     int brk = 0;
     for (int j = 0; j < (1601); j++) {
 
-        if ( j == 0 ) inputMatrixData[(1601*i)] = 1; // bias
-        else inputMatrixData[j + (1601)] = charData[j-1]; 
+        if ( j == 0 ) inputMatrixData[j] = 1; // bias
+        else inputMatrixData[j] = charData[j-1]; 
 
         if ( j != 0 ) brk++;
-        if (j != 0 ) std::cout<<inputMatrixData[j + (1601)]<<" ";
+        if (j != 0 ) std::cout<<inputMatrixData[j]<<" ";
         if (brk%40 == 0) std::cout<<"\n";
     }
     inputMatrix.allocateSize(1,1601 /* = width x height + bias = 40*40+1 */);
     inputMatrix.fillMatrix(inputMatrixData);
     
+    // loading the data from the data file
+    loadWeights();
+    // return the output matrix
+    getOutputMatrix();
+    
+    return 0;
 }
 
 int Recognizer::loadWeights(){
@@ -50,6 +57,10 @@ int Recognizer::loadWeights(){
     int hiddenLayer1Nodes = 500;
     int hiddenLayer2Nodes = 750;
     int outputNodes = 26;
+    
+    float weightMatrix1Data[ inputNodes * hiddenLayer1Nodes];
+    float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
+    float weightMatrix3Data[ hiddenLayer2Nodes * outputNodes];
     
     std::string line;
     std::ifstream datafile ("weights");
@@ -69,7 +80,7 @@ int Recognizer::loadWeights(){
                 while (tmpindx < weightMatrix1Size ) {
                         float weight;
                         in >> weight;
-                        data2[tmpindx] = weight;
+                        weightMatrix1Data[tmpindx] = weight;
                         tmpindx++;
                 }	
 
@@ -79,7 +90,7 @@ int Recognizer::loadWeights(){
                 while (tmpindx < weightMatrix2Size ) {
                         float weight;
                         in >> weight;
-                        data3[tmpindx%4] = weight;
+                        weightMatrix2Data[tmpindx%4] = weight;
                         tmpindx++;
                 }	
 
@@ -89,7 +100,7 @@ int Recognizer::loadWeights(){
                 while (tmpindx < weightMatrix3Size ) {
                         float weight;
                         in >> weight;
-                        data3[tmpindx%4] = weight;
+                        weightMatrix3Data[tmpindx%4] = weight;
                         tmpindx++;
                 }
             }
@@ -103,10 +114,33 @@ int Recognizer::loadWeights(){
     weightMatrix2.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
     weightMatrix3.allocateSize(hiddenLayer2Nodes,outputNodes);
     
-    weightMatrix1.fillMatrix(data2);
-    weightMatrix2.fillMatrix(data3);
-    weightMatrix3.fillMatrix(data3);
+    weightMatrix1.fillMatrix(weightMatrix1Data);
+    weightMatrix2.fillMatrix(weightMatrix2Data);
+    weightMatrix3.fillMatrix(weightMatrix3Data);
     
+}
+
+
+int Recognizer::getOutputMatrix(){
+    
+    // input layer --> hidden layer 1
+    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    //hiddenLayer1Matrix.printMatrix();
+    
+    
+    // hidden layer 1 --> hidden layer 2    
+    hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
+    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+    //hiddenLayer2Matrix.printMatrix();
+    
+    
+    // hidden layer 2 --> output layer
+    outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
+    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    outputLayerMatrix.printMatrix();
+    
+    return 0;
 }
 
 int Recognizer::train(){

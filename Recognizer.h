@@ -9,6 +9,7 @@
 #define RECOGNIZER_H
 
 #include <Magick++.h>
+#include "Matrix.h"
 
 class Recognizer {
 public:
@@ -18,11 +19,13 @@ public:
     
     int recognize(std::string path);
     int loadWeights();
+    int getOutputMatrix();
     int train();
     
 private:
     std::string imgPath;
     Magick::Image img;
+    Matrix inputMatrix, hiddenLayer1Matrix, hiddenLayer2Matrix, outputLayerMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     
 };

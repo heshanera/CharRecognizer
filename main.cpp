@@ -22,24 +22,12 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    rc.train();
-    rc.recognize("imgs/training/A.jpg");
-    /*
-    int x = 0;
-    while (x < 10){
-        float r = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 100);
-        std::cout<<r<<"\n";
-        x++;
-    }
-    */  
-    
-    
-    /*
-    rc.recognize("imgs/training/A.jpg");
-    rc.recognize("imgs/training/B.jpg");
-    rc.recognize("imgs/training/C.jpg");
-    rc.recognize("imgs/training/D.jpg");
-    */
+    //rc.train();
+    rc.recognize("imgs/testing/A.jpg");
+    rc.recognize("imgs/testing/B.jpg");
+    rc.recognize("imgs/testing/C.jpg");
+    rc.recognize("imgs/testing/D.jpg");
+    rc.recognize("imgs/testing/E.jpg");
     
     return 0;
 }
