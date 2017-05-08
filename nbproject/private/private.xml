@@ -14,7 +14,8 @@
             <file>file:/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp</file>
             <file>file:/home/heshan/NetBeansProjects/CharRecognizer/Trainer.h</file>
             <file>file:/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp</file>
-            <file>file:/home/heshan/NetBeansProjects/CharRecognizer/weights</file>
+            <file>file:/home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp</file>
+            <file>file:/home/heshan/NetBeansProjects/CharRecognizer/Activation.h</file>
             <file>file:/home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp</file>
             <file>file:/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.h</file>
         </group>
