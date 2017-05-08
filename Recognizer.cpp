@@ -46,6 +46,11 @@ int Recognizer::recognize(std::string path) {
 
 int Recognizer::loadWeights(){
     
+    int inputNodes = 1601;
+    int hiddenLayer1Nodes = 500;
+    int hiddenLayer2Nodes = 750;
+    int outputNodes = 26;
+    
     std::string line;
     std::ifstream datafile ("weights");
     
@@ -60,7 +65,7 @@ int Recognizer::loadWeights(){
             int tmpindx = 0;
             if(matrix == "matrix1:") {
                 
-                int weightMatrix1Size = (1601 * 500); // size of weight matrix 1
+                int weightMatrix1Size = (inputNodes * hiddenLayer1Nodes); // size of weight matrix 1
                 while (tmpindx < weightMatrix1Size ) {
                         float weight;
                         in >> weight;
@@ -70,8 +75,8 @@ int Recognizer::loadWeights(){
 
             } else if(matrix == "matrix2:") {
 
-                int weightMatrix1Size = (500 * 750); // size of weight matrix 2    
-                while (tmpindx < weightMatrix1Size ) {
+                int weightMatrix2Size = (hiddenLayer1Nodes * hiddenLayer2Nodes); // size of weight matrix 2    
+                while (tmpindx < weightMatrix2Size ) {
                         float weight;
                         in >> weight;
                         data3[tmpindx%4] = weight;
@@ -80,8 +85,8 @@ int Recognizer::loadWeights(){
 
             } else if(matrix == "matrix3:"){
                 
-                int weightMatrix1Size = (750 * 26); // size of weight matrix 3  
-                while (tmpindx < weightMatrix1Size ) {
+                int weightMatrix3Size = (hiddenLayer2Nodes * outputNodes); // size of weight matrix 3  
+                while (tmpindx < weightMatrix3Size ) {
                         float weight;
                         in >> weight;
                         data3[tmpindx%4] = weight;
@@ -94,11 +99,14 @@ int Recognizer::loadWeights(){
 
     else std::cout << "Unable to load the data file";
 
-    weightMatrix1.allocateSize(2,4);	
-    weightMatrix2.allocateSize(4,1);	
+    weightMatrix1.allocateSize(inputNodes,hiddenLayer1Nodes);	
+    weightMatrix2.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
+    weightMatrix3.allocateSize(hiddenLayer2Nodes,outputNodes);
+    
     weightMatrix1.fillMatrix(data2);
     weightMatrix2.fillMatrix(data3);
-
+    weightMatrix3.fillMatrix(data3);
+    
 }
 
 int Recognizer::train(){

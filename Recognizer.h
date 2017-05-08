@@ -17,12 +17,13 @@ public:
     virtual ~Recognizer();
     
     int recognize(std::string path);
-    int forwardPropagation();
+    int loadWeights();
     int train();
     
 private:
     std::string imgPath;
     Magick::Image img;
+    Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     
 };
 
