@@ -23,11 +23,8 @@ int main(int argc, char** argv) {
 
     Recognizer rc;
     //rc.train();
-    rc.recognize("imgs/testing/A.jpg");
-    rc.recognize("imgs/testing/B.jpg");
-    rc.recognize("imgs/testing/C.jpg");
-    rc.recognize("imgs/testing/D.jpg");
-    rc.recognize("imgs/testing/E.jpg");
+    //rc.recognize("imgs/testing/Italic_A.jpg");
+    //rc.recognize("imgs/testing/D.jpg");
     
     return 0;
 }

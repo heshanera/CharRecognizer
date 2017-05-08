@@ -149,7 +149,7 @@ int Recognizer::train(){
     trainer.initializeWeightMatrices();
     
     // training for i no of iterations
-    for (int i = 0; i < 20; i++) {    
+    for (int i = 0; i < 40; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
         //trainer.printOutputLayer();
