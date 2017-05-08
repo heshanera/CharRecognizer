@@ -23,6 +23,7 @@ public:
 private:
     
     int classes,chars;
+    int hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
     
     Matrix inputMatrix, targetMatrix;

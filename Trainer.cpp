@@ -56,7 +56,7 @@ int Trainer::initializeWeightMatrices() {
     //inputMatrix.printMatrix();
     
     // Initializing the weight Matrix1 **************************************************************/
-    int hiddenLayer1Nodes = 500;
+    hiddenLayer1Nodes = 500;
     int charPixSize = 1601 /* = width x height + bias = 40*40+1 */;
     float randomFloat;
     float weightMatrix1Data[ charPixSize * hiddenLayer1Nodes];
@@ -72,7 +72,7 @@ int Trainer::initializeWeightMatrices() {
     weightMatrix1.fillMatrix(weightMatrix1Data);
     
     // Initializing the weight Matrix2 **************************************************************/
-    int hiddenLayer2Nodes = 750;
+    hiddenLayer2Nodes = 750;
     float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
     k = 0;
     for(int i = 0; i < hiddenLayer1Nodes; i++){
@@ -143,14 +143,22 @@ int Trainer::backPropagation(){
 
     
     // updating weight matrix 3 ( hidden layer 2 --> output layer )
-    w3Delta1 = outputLayerMatrix.substract(targetMatrix);
-    w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.substractFrom(1));
+    w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
+    w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.subtractFrom(1));
     w3Delta3 = hiddenLayer2Matrix.transpose();        
     w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);      
     
     // updating weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
     w2Delta1 = w3Delta1.hadamardMul(w3Delta2).matrixMul(weightMatrix3.transpose());
-    w2Delta2 = w3Delta3;
+    w2Delta2 = hiddenLayer2Matrix.hadamardMul(hiddenLayer2Matrix.subtractFrom(1));
+    w2Delta3 = hiddenLayer1Matrix.transpose().matrixMul(w2Delta2);
+    w2Delta.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
+    
+    for (int i = 0; i < hiddenLayer1Nodes; i++){
+        for (int j = 0; j < hiddenLayer2Nodes; j++){
+            w2Delta.set(i, j, ( w2Delta3.get(i,j)*w2Delta1.get(0,j)*learningRate ));
+        }
+    }
     
     // updating weight matrix 1 ( input layer 1 --> hidden layer 1 )
     
@@ -158,7 +166,8 @@ int Trainer::backPropagation(){
     
     
     // updating the weights
-    weightMatrix3.substract(w3Delta);
+    weightMatrix3.subtract(w3Delta);
+    weightMatrix2.subtract(w2Delta);
     
     
     return 0;

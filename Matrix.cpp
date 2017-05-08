@@ -126,7 +126,7 @@ Matrix Matrix::add(Matrix m)
 	return m2;
 }
 
-Matrix Matrix::substract(Matrix m)
+Matrix Matrix::subtract(Matrix m)
 {
 	int size = this->rows * this->cols;
 	float* tmpdata;
@@ -150,7 +150,7 @@ Matrix Matrix::substract(Matrix m)
 	return m2;
 }
 
-Matrix Matrix::substract(int val)
+Matrix Matrix::subtract(int val)
 {
 	int size = this->rows * this->cols;
 	float* tmpdata;
@@ -171,7 +171,7 @@ Matrix Matrix::substract(int val)
 	return m2;
 }
 
-Matrix Matrix::substractFrom(int val)
+Matrix Matrix::subtractFrom(int val)
 {
 	int size = this->rows * this->cols;
 	float* tmpdata;
