@@ -177,79 +177,55 @@ int* ImageProcessor::skeletonize(){
     int h = 40;
     int* skeletonizedImageArray = new int[w*h];
     
-    int **tmpImage;
-    tmpImage = resizedMatrix;
+    int **tmpMatrix, **intermediateMatrix;
+    tmpMatrix = resizedMatrix;
+    intermediateMatrix = resizedMatrix;
     int kVal1,kVal2,kVal3,kVal4,kVal5,kVal6,kVal7,kVal8,kVal9;
     int k = 0;
     
-    
-    
-    for (int i = 1; i < w-1; i++){
-        for (int j = 1; j < h-1; j++){
+    for (int k = 0; k < 1; k++){
+        for (int i = 1; i < w-1; i++){
+            for (int j = 1; j < h-1; j++){
 
-                for (int k = 0; k < 8; k++){
                 //
                 // 
                 //  kernel Values:  | 1 2 3 |
                 //                  | 4 5 6 |
                 //                  | 7 8 9 |
                 //
-
+                
                 kVal1 = kernel[k][0][0]; kVal2 = kernel[k][0][1]; kVal3 = kernel[k][0][2];
                 kVal4 = kernel[k][1][0]; kVal5 = kernel[k][1][1]; kVal6 = kernel[k][1][2];
                 kVal7 = kernel[k][2][0]; kVal8 = kernel[k][2][1]; kVal9 = kernel[k][2][2];
-
-
+                
+                
+                
                 int fit = 1;
-                if ( (kVal1 == 1) && (tmpImage[i-1][j-1] != 1)) fit = 0;
-                if ( (kVal2 == 1) && (tmpImage[i-1][j] != 1)) fit = 0;
-                if ( (kVal3 == 1) && (tmpImage[i-1][j+1] != 1)) fit = 0;
-                if ( (kVal4 == 1) && (tmpImage[i][j-1] != 1)) fit = 0;
-                if ( (kVal5 == 1) && (tmpImage[i][j] != 1)) fit = 0;
-                if ( (kVal6 == 1) && (tmpImage[i][j+1] != 1)) fit = 0;
-                if ( (kVal7 == 1) && (tmpImage[i+1][j-1] != 1)) fit = 0;
-                if ( (kVal8 == 1) && (tmpImage[i+1][j] != 1)) fit = 0;
-                if ( (kVal9 == 1) && (tmpImage[i+1][j+1] != 1)) fit = 0;
+                if ( (kVal1 != -1) && (kVal1 == tmpMatrix[i-1][j-1]) ) fit = 0;
+                if ( (kVal2 != -1) && (kVal2 == tmpMatrix[i-1][j]) ) fit = 0;
+                if ( (kVal3 != -1) && (kVal3 == tmpMatrix[i-1][j+1]) ) fit = 0;
+                if ( (kVal4 != -1) && (kVal4 == tmpMatrix[i][j-1]) ) fit = 0;
+                if ( (kVal5 != -1) && (kVal5 == tmpMatrix[i][j]) ) fit = 0;
+                if ( (kVal6 != -1) && (kVal6 == tmpMatrix[i][j+1]) ) fit = 0;
+                if ( (kVal7 != -1) && (kVal7 == tmpMatrix[i+1][j-1]) ) fit = 0;
+                if ( (kVal8 != -1) && (kVal8 == tmpMatrix[i+1][j] )) fit = 0;
+                if ( (kVal9 != -1) && (kVal9 == tmpMatrix[i+1][j+1]) ) fit = 0;
+                
+                if ( fit == 1 ) intermediateMatrix[i][j] == 1;
+                else intermediateMatrix[i][j] == 0;
+                 
+            }
+            std::cout<<"\n";     
+        }
+        
+        // tmpMatrix = tmpMatrix - intermediateMatrix   | A - B = ( A n (NOT)B )
+                
+        for (int a = 0; a < w; a++){
+            for (int b = 0; b < h; b++){
 
+                if ( intermediateMatrix[a][b] == 1 ) { tmpMatrix[a][b] = tmpMatrix[a][b]*0; }
+                else if ( intermediateMatrix[a][b] == 0 ) { tmpMatrix[a][b] = tmpMatrix[a][b]*1; }    
 
-                if ( fit == 1 ){
-
-                    // Not operation
-                    if ( kVal1 == 0 ) { tmpImage[i-1][j-1] = tmpImage[i-1][j-1]*1; } 
-                    else if ( kVal1 == 1 ) { tmpImage[i-1][j-1] = tmpImage[i-1][j-1]*0; }   
-
-                    // Not operation
-                    if ( kVal2 == 0 ) { tmpImage[i-1][j] = tmpImage[i-1][j]*1; } 
-                    else if ( kVal2 == 1 ) { tmpImage[i-1][j] = tmpImage[i-1][j]*0; } 
-
-                    // Not operation
-                    if ( kVal3 == 0 ) { tmpImage[i-1][j+1] = tmpImage[i-1][j+1]*1; } 
-                    else if ( kVal3 == 1 ) { tmpImage[i-1][j+1] = tmpImage[i-1][j+1]*0; } 
-
-                    // Not operation
-                    if ( kVal4 == 0 ) { tmpImage[i][j-1] = tmpImage[i][j-1]*1; } 
-                    else if ( kVal4 == 1 ) { tmpImage[i][j] = tmpImage[i][j-1]*0; } 
-
-                    // Not operation
-                    if ( kVal5 == 0 ) { tmpImage[i][j] = tmpImage[i][j]*1; } 
-                    else if ( kVal5 == 1 ) { tmpImage[i][j] = tmpImage[i][j]*0; } 
-
-                    // Not operation
-                    if ( kVal6 == 0 ) { tmpImage[i][j+1] = tmpImage[i][j+1]*1; } 
-                    else if ( kVal6 == 1 ) { tmpImage[i][j+1] = tmpImage[i][j+1]*0; } 
-
-                    // Not operation
-                    if ( kVal7 == 0 ) { tmpImage[i+1][j-1] = tmpImage[i+1][j-1]*1; } 
-                    else if ( kVal7 == 1 ) { tmpImage[i+1][j-1] = tmpImage[i+1][j-1]*0; } 
-
-                    // Not operation
-                    if ( kVal8 == 0 ) { tmpImage[i+1][j] = tmpImage[i+1][j]*1; } 
-                    else if ( kVal8 == 1 ) { tmpImage[i+1][j] = tmpImage[i+1][j]*0; } 
-
-                    // Not operation
-                    if ( kVal9 == 0 ) { tmpImage[i+1][j+1] = tmpImage[i+1][j+1]*1; } 
-                    else if ( kVal9 == 1 ) { tmpImage[i+1][j+1] = tmpImage[i+1][j+1]*0; }           
-                }   
             }
         }
         
@@ -257,7 +233,7 @@ int* ImageProcessor::skeletonize(){
     
     for (int i = 0; i < w; i++){
         for (int j = 0; j < h; j++){
-            std::cout<<tmpImage[i][j]<<" ";          
+            std::cout<<resizedMatrix[i][j]<<" ";          
         }
         std::cout<<"\n";
     }
