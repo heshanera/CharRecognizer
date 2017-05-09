@@ -19,6 +19,7 @@ public:
     int initializeImage(std::string imgPath);
     int createCropedMatrix();
     int* resizeImage();
+    int* skeletonize();
     
     int printThresholdMatrix();
     int printCropedMatrix();

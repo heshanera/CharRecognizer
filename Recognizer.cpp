@@ -56,7 +56,7 @@ int Recognizer::loadWeights(){
     int inputNodes = 1601;
     int hiddenLayer1Nodes = 150;
     int hiddenLayer2Nodes = 300;
-    int outputNodes = 3;
+    int outputNodes = 26;
     
     float weightMatrix1Data[ inputNodes * hiddenLayer1Nodes];
     float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
@@ -73,9 +73,10 @@ int Recognizer::loadWeights(){
             std::string matrix;
             in >> matrix;                  
 
-            int tmpindx = 0;
+            int tmpindx;
             if(matrix == "matrix1:") {
                 
+                tmpindx = 0;
                 int weightMatrix1Size = (inputNodes * hiddenLayer1Nodes); // size of weight matrix 1
                 while (tmpindx < weightMatrix1Size ) {
                         float weight;
@@ -86,21 +87,23 @@ int Recognizer::loadWeights(){
 
             } else if(matrix == "matrix2:") {
 
+                tmpindx = 0;
                 int weightMatrix2Size = (hiddenLayer1Nodes * hiddenLayer2Nodes); // size of weight matrix 2    
                 while (tmpindx < weightMatrix2Size ) {
                         float weight;
                         in >> weight;
-                        weightMatrix2Data[tmpindx%4] = weight;
+                        weightMatrix2Data[tmpindx] = weight;
                         tmpindx++;
                 }	
 
             } else if(matrix == "matrix3:"){
                 
+                tmpindx = 0;
                 int weightMatrix3Size = (hiddenLayer2Nodes * outputNodes); // size of weight matrix 3  
                 while (tmpindx < weightMatrix3Size ) {
                         float weight;
                         in >> weight;
-                        weightMatrix3Data[tmpindx%4] = weight;
+                        weightMatrix3Data[tmpindx] = weight;
                         tmpindx++;
                 }
             }
@@ -140,6 +143,33 @@ int Recognizer::getOutputMatrix(){
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
     outputLayerMatrix.printMatrix();
     
+    
+    
+    std::cout<<"\n\n-------------------------\n";
+    
+    int rows = outputLayerMatrix.getrows();
+    int cols = outputLayerMatrix.getcols();
+    
+    std::cout<<"\n\nOut Vector: \n";
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            std::cout<<outputLayerMatrix.get(i,j)*10e10<<" ";
+        }
+    }
+    
+    
+    float tmp;
+    std::cout<<"\n\nMedian of Vector: \n";
+    for (int i = 0; i < rows; i++){
+        tmp = 0;
+        for (int j = 0; j < cols; j++){
+            tmp += outputLayerMatrix.get(i,j);
+        }
+        std::cout<<(tmp/26)*10e10<<"\n";
+    } 
+    
+    std::cout<<"\n-------------------------\n\n";
+    
     return 0;
 }
 
@@ -149,7 +179,7 @@ int Recognizer::train(){
     trainer.initializeWeightMatrices();
     
     // training for i no of iterations
-    for (int i = 0; i < 150; i++) {    
+    for (int i = 0; i < 100; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
         trainer.printOutputLayer();

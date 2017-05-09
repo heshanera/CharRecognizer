@@ -117,7 +117,7 @@ int* ImageProcessor::resizeImage(){
         
     int w = right-left;
     int h = bottom-top;
-    int* resizedImageMatrix = new int[w*h];
+    int* resizedImageArray = new int[w*h];
     int k = 0;
     
     float *pixels = new float[w*h];
@@ -149,12 +149,103 @@ int* ImageProcessor::resizeImage(){
             // filling the image matrix
             Magick::Color color = pixels2[40 * i + j];
             pixVal = (color.redQuantum()/range)/256;
-            if ( pixVal > 0.5 ) { this->resizedMatrix[i][j] = 1; resizedImageMatrix[k] = 1; }
-            else { this->resizedMatrix[i][j] = 0; resizedImageMatrix[k] = 0; }
+            if ( pixVal > 0.5 ) { this->resizedMatrix[i][j] = 1; resizedImageArray[k] = 1; }
+            else { this->resizedMatrix[i][j] = 0; resizedImageArray[k] = 0; }
             k++;
         } 
     }
-    return resizedImageMatrix;
+    return resizedImageArray;
+}
+
+int* ImageProcessor::skeletonize(){
+
+    float kernel[8][3][3] =    {   //original kernel 
+                                   { { 0, 0, 0},{-1, 1,-1},{ 1, 1, 1} },
+                                   { {-1, 0, 0},{ 1, 1, 0},{-1, 1,-1} },
+                                   //original kernel 90 degrees rotated
+                                   { { 1,-1, 0},{ 1, 1, 0},{ 1,-1, 0} },
+                                   { {-1, 1,-1},{ 1, 1, 0},{-1, 0, 0} },
+                                   //original kernel 180 degrees rotated
+                                   { { 1, 1, 1},{-1, 1,-1},{ 0, 0, 0} },
+                                   { {-1, 1,-1},{ 0, 1, 1},{ 0, 0,-1} },
+                                   //original kernel 270 degrees rotated
+                                   { { 0,-1, 1},{ 0, 1, 1},{ 0,-1, 1} },
+                                   { { 0, 0,-1},{ 0, 1, 1},{-1, 1,-1} }
+                                };
+    
+    int w = right-left;
+    int h = bottom-top;
+    int* skeletonizedImageArray = new int[w*h];
+    
+    int **tmpImage;
+    tmpImage = resizedMatrix;
+    int kVal1,kVal2,kVal3,kVal4,kVal5,kVal6,kVal7,kVal8,kVal9;
+    int k = 0;
+    
+    for (int i = 1; i < w-1; i++){
+        for (int j = 1; j < h-1; j++){
+            
+            //
+            // 
+            //  kernel Values:  | 1 2 3 |
+            //                  | 4 5 6 |
+            //                  | 7 8 9 |
+            //
+            
+            kVal1 = kernel[k][0][0]; kVal2 = kernel[k][0][1]; kVal3 = kernel[k][0][2];
+            kVal4 = kernel[k][1][0]; kVal5 = kernel[k][1][1]; kVal6 = kernel[k][1][2];
+            kVal7 = kernel[k][2][0]; kVal8 = kernel[k][2][1]; kVal9 = kernel[k][2][2];
+            
+            std::cout<<resizedMatrix[0][0];
+            
+            /*
+            // Not operation
+            if ( kVal1 == 0 ) { tmpImage[i-1][j-1] = tmpImage[i-1][j-1]*1; } 
+            else if ( kVal1 == 1 ) { tmpImage[i-1][j-1] = tmpImage[i-1][j-1]*0; }   
+            
+            // Not operation
+            if ( kVal2 == 0 ) { tmpImage[i-1][j] = tmpImage[i-1][j]*1; } 
+            else if ( kVal2 == 1 ) { tmpImage[i-1][j] = tmpImage[i-1][j]*0; } 
+            
+            // Not operation
+            if ( kVal3 == 0 ) { tmpImage[i-1][j+1] = tmpImage[i-1][j+1]*1; } 
+            else if ( kVal3 == 1 ) { tmpImage[i-1][j+1] = tmpImage[i-1][j+1]*0; } 
+            
+            // Not operation
+            if ( kVal4 == 0 ) { tmpImage[i][j-1] = tmpImage[i][j-1]*1; } 
+            else if ( kVal4 == 1 ) { tmpImage[i][j] = tmpImage[i][j-1]*0; } 
+            
+            // Not operation
+            if ( kVal5 == 0 ) { tmpImage[i][j] = tmpImage[i][j]*1; } 
+            else if ( kVal5 == 1 ) { tmpImage[i][j] = tmpImage[i][j]*0; } 
+            
+            // Not operation
+            if ( kVal6 == 0 ) { tmpImage[i][j+1] = tmpImage[i][j+1]*1; } 
+            else if ( kVal6 == 1 ) { tmpImage[i][j+1] = tmpImage[i][j+1]*0; } 
+            
+            // Not operation
+            if ( kVal7 == 0 ) { tmpImage[i+1][j-1] = tmpImage[i+1][j-1]*1; } 
+            else if ( kVal7 == 1 ) { tmpImage[i+1][j-1] = tmpImage[i+1][j-1]*0; } 
+            
+            // Not operation
+            if ( kVal8 == 0 ) { tmpImage[i+1][j] = tmpImage[i+1][j]*1; } 
+            else if ( kVal8 == 1 ) { tmpImage[i+1][j] = tmpImage[i+1][j]*0; } 
+            
+            // Not operation
+            if ( kVal9 == 0 ) { tmpImage[i+1][j+1] = tmpImage[i+1][j+1]*1; } 
+            else if ( kVal9 == 1 ) { tmpImage[i+1][j+1] = tmpImage[i+1][j+1]*0; }          */   
+        }
+    }
+    
+    /*
+    for (int i = 0; i < w; i++){
+        for (int j = 0; j < h; j++){
+            std::cout<<tmpImage[i][j];          
+        }
+    }
+    */
+    
+    return 0;
 }
 
 int ImageProcessor::printThresholdMatrix(){
