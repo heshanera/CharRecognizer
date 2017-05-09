@@ -54,9 +54,9 @@ int Recognizer::recognize(std::string path) {
 int Recognizer::loadWeights(){
     
     int inputNodes = 1601;
-    int hiddenLayer1Nodes = 500;
-    int hiddenLayer2Nodes = 750;
-    int outputNodes = 26;
+    int hiddenLayer1Nodes = 150;
+    int hiddenLayer2Nodes = 300;
+    int outputNodes = 3;
     
     float weightMatrix1Data[ inputNodes * hiddenLayer1Nodes];
     float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
@@ -149,10 +149,10 @@ int Recognizer::train(){
     trainer.initializeWeightMatrices();
     
     // training for i no of iterations
-    for (int i = 0; i < 40; i++) {    
+    for (int i = 0; i < 150; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
-        //trainer.printOutputLayer();
+        trainer.printOutputLayer();
     }
     trainer.writeWeights();
 }

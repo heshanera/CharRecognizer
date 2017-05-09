@@ -22,9 +22,9 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    //rc.train();
+    rc.train();
     //rc.recognize("imgs/testing/Italic_A.jpg");
-    //rc.recognize("imgs/testing/D.jpg");
+    rc.recognize("imgs/testing/B.jpg");
     
     return 0;
 }
