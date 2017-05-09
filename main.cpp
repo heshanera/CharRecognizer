@@ -27,8 +27,10 @@ int main(int argc, char** argv) {
     //rc.recognize("imgs/testing/Italic_A.jpg");
     //rc.recognize("imgs/testing/A3.jpg");
     
+    
+    
     int w = 40, h = 40;
-    int chars = 1;
+    int chars = 2;
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
                                     "imgs/training/G.jpg","imgs/training/H.jpg",//"imgs/training/.jpg",
