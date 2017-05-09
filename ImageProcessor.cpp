@@ -184,6 +184,11 @@ int* ImageProcessor::skeletonize(){
     int k = 0;
     
     for (int k = 0; k < 1; k++){
+        
+        kVal1 = kernel[k][0][0]; kVal2 = kernel[k][0][1]; kVal3 = kernel[k][0][2];
+        kVal4 = kernel[k][1][0]; kVal5 = kernel[k][1][1]; kVal6 = kernel[k][1][2];
+        kVal7 = kernel[k][2][0]; kVal8 = kernel[k][2][1]; kVal9 = kernel[k][2][2];
+        
         for (int i = 1; i < w-1; i++){
             for (int j = 1; j < h-1; j++){
 
@@ -194,32 +199,35 @@ int* ImageProcessor::skeletonize(){
                 //                  | 7 8 9 |
                 //
                 
-                kVal1 = kernel[k][0][0]; kVal2 = kernel[k][0][1]; kVal3 = kernel[k][0][2];
-                kVal4 = kernel[k][1][0]; kVal5 = kernel[k][1][1]; kVal6 = kernel[k][1][2];
-                kVal7 = kernel[k][2][0]; kVal8 = kernel[k][2][1]; kVal9 = kernel[k][2][2];
                 
                 
                 
                 int fit = 1;
-                if ( (kVal1 != -1) && (kVal1 == tmpMatrix[i-1][j-1]) ) fit = 0;
-                if ( (kVal2 != -1) && (kVal2 == tmpMatrix[i-1][j]) ) fit = 0;
-                if ( (kVal3 != -1) && (kVal3 == tmpMatrix[i-1][j+1]) ) fit = 0;
-                if ( (kVal4 != -1) && (kVal4 == tmpMatrix[i][j-1]) ) fit = 0;
-                if ( (kVal5 != -1) && (kVal5 == tmpMatrix[i][j]) ) fit = 0;
-                if ( (kVal6 != -1) && (kVal6 == tmpMatrix[i][j+1]) ) fit = 0;
-                if ( (kVal7 != -1) && (kVal7 == tmpMatrix[i+1][j-1]) ) fit = 0;
-                if ( (kVal8 != -1) && (kVal8 == tmpMatrix[i+1][j] )) fit = 0;
-                if ( (kVal9 != -1) && (kVal9 == tmpMatrix[i+1][j+1]) ) fit = 0;
+                if ( (kVal1 != -1) & (kVal1 == tmpMatrix[i-1][j-1]) ) fit = 0;
+                if ( (kVal2 != -1) & (kVal2 == tmpMatrix[i-1][j]) ) fit = 0;
+                if ( (kVal3 != -1) & (kVal3 == tmpMatrix[i-1][j+1]) ) fit = 0;
+                if ( (kVal4 != -1) & (kVal4 == tmpMatrix[i][j-1]) ) fit = 0;
+                if ( (kVal5 != -1) & (kVal5 == tmpMatrix[i][j]) ) fit = 0;
+                if ( (kVal6 != -1) & (kVal6 == tmpMatrix[i][j+1]) ) fit = 0;
+                if ( (kVal7 != -1) & (kVal7 == tmpMatrix[i+1][j-1]) ) fit = 0;
+                if ( (kVal8 != -1) & (kVal8 == tmpMatrix[i+1][j] )) fit = 0;
+                if ( (kVal9 != -1) & (kVal9 == tmpMatrix[i+1][j+1]) ) fit = 0;
                 
-                if ( fit == 1 ) intermediateMatrix[i][j] == 1;
-                else intermediateMatrix[i][j] == 0;
+                if ( fit == 1 ) { intermediateMatrix[i][j] = 1; std::cout<<fit<<"  ##  ";}
+                else intermediateMatrix[i][j] = 0;
                  
-            }
-            std::cout<<"\n";     
+            }    
         }
         
+        for (int i = 0; i < w; i++){
+        for (int j = 0; j < h; j++){
+            std::cout<<tmpMatrix[i][j]<<" ";          
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n\n";
+        
         // tmpMatrix = tmpMatrix - intermediateMatrix   | A - B = ( A n (NOT)B )
-                
         for (int a = 0; a < w; a++){
             for (int b = 0; b < h; b++){
 
@@ -229,8 +237,10 @@ int* ImageProcessor::skeletonize(){
             }
         }
         
+        
+        
     }
-    
+    /*
     for (int i = 0; i < w; i++){
         for (int j = 0; j < h; j++){
             std::cout<<resizedMatrix[i][j]<<" ";          
@@ -238,7 +248,7 @@ int* ImageProcessor::skeletonize(){
         std::cout<<"\n";
     }
     std::cout<<"\n\n\n";
-    
+    */
     return 0;
 }
 
