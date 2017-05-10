@@ -29,7 +29,8 @@ int Recognizer::recognize(std::string path) {
     
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
-    charData = imgPrc.resizeImage();
+    imgPrc.resizeImage();
+    charData = imgPrc.skeletonize();
     int brk = 0;
     for (int j = 0; j < (1601); j++) {
 
@@ -53,28 +54,55 @@ int Recognizer::recognize(std::string path) {
 
 int Recognizer::loadWeights(){
     
-    int inputNodes = 1601;
-    int hiddenLayer1Nodes = 150;
-    int hiddenLayer2Nodes = 300;
-    int outputNodes = 26;
-    
-    float weightMatrix1Data[ inputNodes * hiddenLayer1Nodes];
-    float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
-    float weightMatrix3Data[ hiddenLayer2Nodes * outputNodes];
-    
+    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
+    int metaData = 0;
+    float *weightMatrix1Data, *weightMatrix2Data, *weightMatrix3Data;
     std::string line;
     std::ifstream datafile ("weights");
     
     if (datafile.is_open()) {
+        while ( getline (datafile,line) ) {
+            
+            std::istringstream in(line);
+            std::string networkData;
+            in >> networkData;
+            
+            if (networkData == "inputNodes:") {
+
+                in >> inputNodes; metaData++;
+
+            } else if (networkData == "hiddenLayer1Nodes:"){    
+
+                in >> hiddenLayer1Nodes; metaData++;
+
+            } else if (networkData == "hiddenLayer2Nodes:"){    
+
+                in >> hiddenLayer2Nodes; metaData++;
+
+            } else if (networkData == "outputNodes:"){    
+
+                in >> outputNodes; metaData++;
+
+            }
+            if (metaData == 4) break;
+        }    
+    }    
+    
+    weightMatrix1Data = new float[ inputNodes * hiddenLayer1Nodes];
+    weightMatrix2Data = new float[ hiddenLayer1Nodes * hiddenLayer2Nodes];
+    weightMatrix3Data = new float[ hiddenLayer2Nodes * outputNodes];
+    
+    if (datafile.is_open()) {
         
         while ( getline (datafile,line) ) {
+            
             //std::cout << line << '\n';
             std::istringstream in(line);
-            std::string matrix;
-            in >> matrix;                  
-
+            std::string networkData;
+            in >> networkData;                  
             int tmpindx;
-            if(matrix == "matrix1:") {
+           
+            if(networkData == "matrix1:") {
                 
                 tmpindx = 0;
                 int weightMatrix1Size = (inputNodes * hiddenLayer1Nodes); // size of weight matrix 1
@@ -85,7 +113,7 @@ int Recognizer::loadWeights(){
                         tmpindx++;
                 }	
 
-            } else if(matrix == "matrix2:") {
+            } else if(networkData == "matrix2:") {
 
                 tmpindx = 0;
                 int weightMatrix2Size = (hiddenLayer1Nodes * hiddenLayer2Nodes); // size of weight matrix 2    
@@ -96,7 +124,7 @@ int Recognizer::loadWeights(){
                         tmpindx++;
                 }	
 
-            } else if(matrix == "matrix3:"){
+            } else if(networkData == "matrix3:"){
                 
                 tmpindx = 0;
                 int weightMatrix3Size = (hiddenLayer2Nodes * outputNodes); // size of weight matrix 3  
@@ -141,7 +169,7 @@ int Recognizer::getOutputMatrix(){
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
-    outputLayerMatrix.printMatrix();
+    //outputLayerMatrix.printMatrix();
     
     
     
@@ -153,36 +181,38 @@ int Recognizer::getOutputMatrix(){
     std::cout<<"\n\nOut Vector: \n";
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            std::cout<<outputLayerMatrix.get(i,j)*10e10<<" ";
+            std::cout<<outputLayerMatrix.get(i,j)*10e4<<" ";
         }
     }
     
     
     float tmp;
-    std::cout<<"\n\nMedian of Vector: \n";
+    std::cout<<"\n\nMedian Matrix: \n";
     for (int i = 0; i < rows; i++){
         tmp = 0;
         for (int j = 0; j < cols; j++){
             tmp += outputLayerMatrix.get(i,j);
         }
-        std::cout<<(tmp/26)*10e10<<"\n";
-    } 
+        std::cout<<(tmp/26)*10e4<<"\n";
+    }
+    std::cout<<"\n\n";
     
     std::cout<<"\n-------------------------\n\n";
     
     return 0;
 }
 
-int Recognizer::train(){
+int Recognizer::train(int noOfIteration){
 
     Trainer trainer;
-    trainer.initializeWeightMatrices();
+    trainer.initializeWeightMatrices(noOfIteration);
     
     // training for i no of iterations
-    for (int i = 0; i < 100; i++) {    
+    for (int i = 0; i < noOfIteration; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
-        trainer.printOutputLayer();
     }
+    trainer.printOutputLayer();
+    trainer.printdifferenceMedianList();
     trainer.writeWeights();
 }

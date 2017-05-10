@@ -16,18 +16,22 @@ public:
     Trainer(const Trainer& orig);
     virtual ~Trainer();
     
-    int initializeWeightMatrices();
+    int initializeWeightMatrices(int);
     int forwardPropagation();
     int backPropagation();
     int writeWeights();
     
     int printOutputLayer();
+    int printSortedList(float *,int);
+    int printdifferenceMedianList();
     
 private:
     
     int classes,chars;
     int inputLayerNodes,hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
+    float *differenceMedianList;
+    int iterationNo;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

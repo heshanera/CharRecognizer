@@ -20,7 +20,7 @@ public:
     int recognize(std::string path);
     int loadWeights();
     int getOutputMatrix();
-    int train();
+    int train(int noOfIteration);
     
 private:
     std::string imgPath;

@@ -18,14 +18,20 @@ Trainer::Trainer(const Trainer& orig) { }
 
 Trainer::~Trainer() { }
 
-int Trainer::initializeWeightMatrices() { 
+int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 26; // output node classes
     chars = 25; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.2; // learning rate of the network 
+    learningRate = 0.3; // learning rate of the network 
+    differenceMedianList = new float[noOfIteration]; //No of training Iterations
+    iterationNo = 0;
+    
     inputLayerNodes = size + 1;
+    hiddenLayer1Nodes = 150;
+    hiddenLayer2Nodes = 300;
+    
     
     // Initializing the input Matrix **************************************************************/
     std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
@@ -40,39 +46,40 @@ int Trainer::initializeWeightMatrices() {
         
     ImageProcessor imgPrc;
     float inputMatrixData[(w*h+1)*chars];
-    int* tmpData;
+    int *tmpData, *tmpData2;
     
     for (int i = 0; i < chars; i++) {
         
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        tmpData = imgPrc.resizeImage();
-        
+        tmpData2 = imgPrc.resizeImage();
+        tmpData = imgPrc.skeletonize();
                 
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
         
         int brk = 0;
-        for (int j = 0; j < (1601); j++) {
+        for (int j = 0; j < inputLayerNodes; j++) {
             
-            if ( j == 0 ) inputMatrixData[(1601*i)] = 1; // bias
-            else inputMatrixData[j + (1601*i)] = tmpData[j-1]; 
+            if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
+            else inputMatrixData[j + (inputLayerNodes*i)] = tmpData[j-1]; 
             
             if ( j != 0 ) brk++;
-            if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
+            //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
+            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
     }    
-    inputMatrix.allocateSize(chars,1601 /* = width x height + bias = 40*40+1 */);
+    inputMatrix.allocateSize(chars,inputLayerNodes);
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.0005, HI = 0.009;
+    float LO = 0.001, HI = 0.049;
     
     // Initializing the weight Matrix1 **************************************************************/
-    hiddenLayer1Nodes = 150;
-    int charPixSize = 1601 /* = width x height + bias = 40*40+1 */;
+    
+    int charPixSize = inputLayerNodes;
     float randomFloat;
     float weightMatrix1Data[ charPixSize * hiddenLayer1Nodes];
     int k = 0;
@@ -87,7 +94,6 @@ int Trainer::initializeWeightMatrices() {
     weightMatrix1.fillMatrix(weightMatrix1Data);
     
     // Initializing the weight Matrix2 **************************************************************/
-    hiddenLayer2Nodes = 300;
     float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
     k = 0;
     for(int i = 0; i < hiddenLayer1Nodes; i++){
@@ -128,6 +134,7 @@ int Trainer::initializeWeightMatrices() {
     }
     targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
+    
     
     return 0;
 }
@@ -200,7 +207,14 @@ int Trainer::writeWeights(){
     std::ofstream weightData;
     weightData.open ("weights");
 
-    weightData <<"matrix1: ";
+    weightData <<"inputNodes: "<<inputLayerNodes;
+    weightData <<"\nhiddenLayer1Nodes: "<<hiddenLayer1Nodes;
+    weightData <<"\nhiddenLayer2Nodes: "<<hiddenLayer2Nodes;
+    weightData <<"\noutputNodes: "<<classes;
+    
+    weightData <<"\n\n";
+    
+    weightData <<"\nmatrix1: ";
     int rows = weightMatrix1.getrows();
     int cols = weightMatrix1.getcols();
     for (int i = 0; i < rows; i++) {	
@@ -241,8 +255,26 @@ int Trainer::writeWeights(){
 
 int Trainer::printOutputLayer(){
     
-    std::cout<<"\n\ntarget Matrix\n";
-    targetMatrix.printMatrix();
+    //std::cout<<"\n\ntarget Matrix\n";
+    //targetMatrix.printMatrix();
+    
+    // input layer --> hidden layer 1
+    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    //hiddenLayer1Matrix.printMatrix();
+    
+    
+    // hidden layer 1 --> hidden layer 2    
+    hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
+    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+    //hiddenLayer2Matrix.printMatrix();
+    
+    
+    // hidden layer 2 --> output layer
+    outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
+    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    //outputLayerMatrix.printMatrix();
+    
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
@@ -253,17 +285,71 @@ int Trainer::printOutputLayer(){
         std::cout<<"\n";
     }
     
-    
+    float medianlist[chars];
     float tmp;
     std::cout<<"\n\nMedian Matrix: \n";
     for (int i = 0; i < rows; i++){
         tmp = 0;
         for (int j = 0; j < cols; j++){
             tmp += outputLayerMatrix.get(i,j);
+            //std::cout<<outputLayerMatrix.get(i,j)<<" ";
         }
-        std::cout<<(tmp/classes)*10e10<<"\n";
+        tmp = (tmp/classes)*10e4;
+        std::cout<<tmp<<"\n";
+        medianlist[i] = tmp;
+        //std::cout<<"\n";
     }
     std::cout<<"\n\n";
     
+    std::cout<<"\n\nSorted Median Matrix: \n";
+    printSortedList(medianlist, chars);
+    
     return 0;        
+}
+
+int Trainer::printSortedList(float* list, int listSize){
+    
+    char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
+                    'J','K','L','M','N','O','P','Q','R',
+                    'S','T','U','V','W','X','Y','Z'     };
+    
+    float tmp, differenceTotal = 0;
+    char tmpChar;
+    for (int i = 0; i < listSize; i++){ 
+        for (int j = 0; j < listSize-i-1; j++){
+            
+            if ( list[j] > list[j+1] ){
+                tmp = list[j];
+                list[j] = list[j+1];
+                list[j+1] = tmp;
+                
+                tmpChar = caps[j];
+                caps[j] = caps[j+1];
+                caps[j+1] = tmpChar;        
+            }
+        }
+    }
+    
+    std::cout<<"value"<<"  ===  "<<"difference"<<"  ===  "<<"character\n";
+    for (int j = 0; j < listSize; j++){
+        if (j < listSize-1) {
+            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< caps[j] <<"\n";
+            differenceTotal += list[j+1]-list[j];
+        } else {
+            std::cout<<list[j]<<"  ===  "<< 0 <<"  ===  "<< caps[j]<< "\n";
+        }
+    }
+    std::cout<<"\n\n";
+    
+    differenceMedianList[iterationNo] = differenceTotal/chars;
+    iterationNo++;        
+    
+}
+
+int Trainer::printdifferenceMedianList(){
+    
+    std::cout<<"Difference Median"<<"   ==>   "<<"Iteration"<<"\n";
+    for (int j = 0; j < iterationNo; j++){
+        std::cout<<differenceMedianList[j]<<"   ==>   "<<(j+1)<<"\n";
+    }     
 }

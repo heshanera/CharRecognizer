@@ -33,7 +33,7 @@ private:
     double range;
     // boundaries
     int top,bottom,left,right;
-    int **croppedMatrix, **resizedMatrix;
+    int **croppedMatrix, **resizedMatrix, **skeletonizedMatrix;
 
 };
 
