@@ -211,8 +211,8 @@ int Recognizer::train(int noOfIteration){
     for (int i = 0; i < noOfIteration; i++) {    
         trainer.forwardPropagation();
         trainer.backPropagation();
+        trainer.printOutputLayer();
     }
-    trainer.printOutputLayer();
     trainer.printdifferenceMedianList();
     trainer.writeWeights();
 }

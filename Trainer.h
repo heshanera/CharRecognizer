@@ -32,6 +32,7 @@ private:
     float learningRate;
     float *differenceMedianList;
     int iterationNo;
+    char *targetChars;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

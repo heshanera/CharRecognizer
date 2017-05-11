@@ -43,7 +43,17 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/S.jpg","imgs/training/T.jpg","imgs/training/U.jpg",
                                     "imgs/training/V.jpg","imgs/training/W.jpg","imgs/training/X.jpg",
                                     "imgs/training/Y.jpg","imgs/training/Z.jpg"};
-        
+    
+    
+    char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
+                    'J','K','L','M','N','O','P','Q','R',
+                    'S','T','U','V','W','X','Y','Z'     };
+    
+    targetChars = new char[chars];
+    for (int i = 0; i < chars; i++){
+        targetChars[i] = caps[i];
+    }
+    
     ImageProcessor imgPrc;
     float inputMatrixData[(w*h+1)*chars];
     int *tmpData, *tmpData2;
@@ -323,9 +333,9 @@ int Trainer::printSortedList(float* list, int listSize){
                 list[j] = list[j+1];
                 list[j+1] = tmp;
                 
-                tmpChar = caps[j];
-                caps[j] = caps[j+1];
-                caps[j+1] = tmpChar;        
+                tmpChar = targetChars[j];
+                targetChars[j] = targetChars[j+1];
+                targetChars[j+1] = tmpChar;        
             }
         }
     }
@@ -333,10 +343,10 @@ int Trainer::printSortedList(float* list, int listSize){
     std::cout<<"value"<<"  ===  "<<"difference"<<"  ===  "<<"character\n";
     for (int j = 0; j < listSize; j++){
         if (j < listSize-1) {
-            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< caps[j] <<"\n";
+            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< targetChars[j] <<"\n";
             differenceTotal += list[j+1]-list[j];
         } else {
-            std::cout<<list[j]<<"  ===  "<< 0 <<"  ===  "<< caps[j]<< "\n";
+            std::cout<<list[j]<<"  ===  "<< 0 <<"  ===  "<< targetChars[j]<< "\n";
         }
     }
     std::cout<<"\n\n";
@@ -352,4 +362,5 @@ int Trainer::printdifferenceMedianList(){
     for (int j = 0; j < iterationNo; j++){
         std::cout<<differenceMedianList[j]<<"   ==>   "<<(j+1)<<"\n";
     }     
+    std::cout<<"\n------------------------------------------\n"<<iterationNo;
 }
