@@ -20,26 +20,35 @@ Recognizer::Recognizer(const Recognizer& orig) { }
 
 Recognizer::~Recognizer() { }
 
-int Recognizer::recognize(std::string path) {
+char Recognizer::recognize(std::string path) {
     
     int w = 40, h = 40; // width x height of a char (in pixels)
     float inputMatrixData[(w*h+1)];
-    int* charData;
+    int *preCharData, *charData;
     ImageProcessor imgPrc;
     
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
-    imgPrc.resizeImage();
+    preCharData = imgPrc.resizeImage();
     charData = imgPrc.skeletonize();
     int brk = 0;
     for (int j = 0; j < (1601); j++) {
 
         if ( j == 0 ) inputMatrixData[j] = 1; // bias
         else inputMatrixData[j] = charData[j-1]; 
-
+        
+        // printing the character ( before skeletonization)
+        if (j%40 == 0) std::cout<<"\n";
+        if (j < 1600 ) std::cout<<preCharData[j]<<" ";
+        
+        /*
+        // printing the skeletonized Image
         if ( j != 0 ) brk++;
         if (j != 0 ) std::cout<<inputMatrixData[j]<<" ";
         if (brk%40 == 0) std::cout<<"\n";
+        */ 
+        
+        
     }
     inputMatrix.allocateSize(1,1601 /* = width x height + bias = 40*40+1 */);
     inputMatrix.fillMatrix(inputMatrixData);
@@ -48,13 +57,15 @@ int Recognizer::recognize(std::string path) {
     loadWeights();
     // return the output matrix
     getOutputMatrix();
+    // return the character
+    char character = checkTheRange();
     
-    return 0;
+    return character;
 }
 
 int Recognizer::loadWeights(){
     
-    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes, trainSet;
+    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
     int metaData = 0;
     float *weightMatrix1Data, *weightMatrix2Data, *weightMatrix3Data;
     std::string line;
@@ -210,7 +221,7 @@ int Recognizer::getOutputMatrix(){
     */
     
     float tmp;
-    std::cout<<"\n\nMedian Matrix: \n";
+    //std::cout<<"\n\nMedian: \n";
     for (int i = 0; i < rows; i++){
         tmp = 0;
         for (int j = 0; j < cols; j++){
@@ -229,9 +240,20 @@ int Recognizer::getOutputMatrix(){
 
 char Recognizer::checkTheRange(){
     
-    std::cout<<charValue;
+    std::cout<<"\n\n\n-----------------------------\n\n";
+    //std::cout<<charValue;
     
-    return '0';
+    for (int i = 0; i < trainSet; i++){
+        if ( charValue <= rangeData[(i*2)+1] ) {
+            
+            std::cout<<"\t"<<rangeChars[i];
+            std::cout<<"\n\n-----------------------------\n\n\n";
+            
+            return rangeChars[i];
+            break;
+        }
+    }
+    return '\0';
 }
 
 int Recognizer::train(int noOfIteration){

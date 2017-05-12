@@ -17,7 +17,7 @@ public:
     Recognizer(const Recognizer& orig);
     virtual ~Recognizer();
     
-    int recognize(std::string path);
+    char recognize(std::string path);
     int loadWeights();
     int getOutputMatrix();
     char checkTheRange();
@@ -28,6 +28,7 @@ private:
     Magick::Image img;
     Matrix inputMatrix, hiddenLayer1Matrix, hiddenLayer2Matrix, outputLayerMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
+    int trainSet;
     float *rangeData;
     char *rangeChars;
     float charValue;
