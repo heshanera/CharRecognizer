@@ -225,6 +225,7 @@ int Trainer::writeWeights(){
     weightData <<"\nhiddenLayer1Nodes: "<<hiddenLayer1Nodes;
     weightData <<"\nhiddenLayer2Nodes: "<<hiddenLayer2Nodes;
     weightData <<"\noutputNodes: "<<classes;
+    weightData <<"\ntrainSet: "<<chars;
     
     weightData <<"\n\n";
     
@@ -261,12 +262,15 @@ int Trainer::writeWeights(){
         }    
         //weightData <<"\n";
     }	
-    weightData <<"\n";
+    weightData <<"\n\n\n";
     
     // writing the character ranges
-    
-    
-    
+    weightData <<"range: ";
+    for(int i = 0; i < chars; i++){
+        weightData <<rangeChars[i]<<" ";
+        weightData <<rangeData[i*2]<<" ";
+        weightData <<rangeData[(i*2)+1]<<" ";
+    }
     
     weightData.close();
     
@@ -322,16 +326,17 @@ int Trainer::printOutputLayer(){
     std::cout<<"\n\n";
     
     std::cout<<"\n\nSorted Mean Matrix: \n";
-    printSortedList(meanlist, chars);
+    sortMeanList(meanlist, chars);
     
     return 0;        
 }
 
-int Trainer::printSortedList(float* list, int listSize){
+int Trainer::sortMeanList(float* list, int listSize){
     
     char typeOfTrainingChars[] = {  1,  1,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 
                                     11 ,12 ,13, 14, 15, 16, 17, 18, 19, 20,
-                                    21, 22, 23, 24, 25};
+                                    21, 22, 23, 24, 25
+                                };
     
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
@@ -343,9 +348,8 @@ int Trainer::printSortedList(float* list, int listSize){
         targetChars[i] = caps[typeOfTrainingChars[i]-1];
     } 
     
-    
-    for (int i = 0; i < listSize; i++){ 
-        std::cout<<targetChars[i]<<" ";}
+    /*
+    for (int i = 0; i < listSize; i++){ std::cout<<targetChars[i]<<" ";} */
     
     float tmp, differenceTotal = 0;
     char tmpChar;
@@ -361,25 +365,50 @@ int Trainer::printSortedList(float* list, int listSize){
                 targetChars[j+1] = tmpChar;        
             }
         }
-        std::cout<<"\n";
     }
     
+    rangeData = new float[chars*2];
+    rangeChars = new char[chars];
     
     
     std::cout<<"value"<<"  ===  "<<"difference"<<"  ===  "<<"character\n";
     for (int j = 0; j < listSize; j++){
-        if (j < listSize-1) {
+        if (j == 0){
             std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< targetChars[j] <<"\n";
             differenceTotal += list[j+1]-list[j];
+            
+            rangeChars[j] = targetChars[j];
+            rangeData[j*2] = std::numeric_limits<float>::min();;
+            rangeData[(j*2)+1] = list[j]+(list[j+1]-list[j])/2;
+            
+        } else if (j < listSize-1) {
+            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< targetChars[j] <<"\n";
+            differenceTotal += list[j+1]-list[j];
+            
+            rangeChars[j] = targetChars[j];
+            rangeData[j*2] = list[j]-(list[j]-list[j-1])/2;
+            rangeData[(j*2)+1] = list[j]+(list[j+1]-list[j])/2;
+            
         } else {
             std::cout<<list[j]<<"  ===  "<< 0 <<"  ===  "<< targetChars[j]<< "\n";
+            
+            rangeChars[j] = targetChars[j];
+            rangeData[j*2] = list[j]-(list[j]-list[j-1])/2;
+            rangeData[(j*2)+1] = std::numeric_limits<float>::max();
         }
     }
     std::cout<<"\n\n";
     
     differenceMeanList[iterationNo] = differenceTotal/chars;
     iterationNo++;        
-    
+    /*
+    for(int i = 0; i < chars; i++){
+        std::cout<<rangeChars[(i)]<<" ";
+        std::cout<<rangeData[(i*2)]<<" ";
+        std::cout<<rangeData[(i*2)+1]<<" \n";
+    }
+    */
+    return 0;
 }
 
 int Trainer::printdifferenceMeanList(){

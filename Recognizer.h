@@ -20,6 +20,7 @@ public:
     int recognize(std::string path);
     int loadWeights();
     int getOutputMatrix();
+    char checkTheRange();
     int train(int noOfIteration);
     
 private:
@@ -27,6 +28,9 @@ private:
     Magick::Image img;
     Matrix inputMatrix, hiddenLayer1Matrix, hiddenLayer2Matrix, outputLayerMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
+    float *rangeData;
+    char *rangeChars;
+    float charValue;
     
 };
 

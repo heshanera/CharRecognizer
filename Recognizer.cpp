@@ -54,7 +54,7 @@ int Recognizer::recognize(std::string path) {
 
 int Recognizer::loadWeights(){
     
-    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
+    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes, trainSet;
     int metaData = 0;
     float *weightMatrix1Data, *weightMatrix2Data, *weightMatrix3Data;
     std::string line;
@@ -83,8 +83,12 @@ int Recognizer::loadWeights(){
 
                 in >> outputNodes; metaData++;
 
+            } else if (networkData == "trainSet:"){    
+
+                in >> trainSet; metaData++;
+
             }
-            if (metaData == 4) break;
+            if (metaData == 5) break;
         }    
     }    
     
@@ -134,7 +138,27 @@ int Recognizer::loadWeights(){
                         weightMatrix3Data[tmpindx] = weight;
                         tmpindx++;
                 }
-            }
+            } else if(networkData == "range:"){
+                
+                tmpindx = 0;
+                
+                rangeData = new float[trainSet*2];
+                rangeChars = new char[trainSet];
+                
+                while (tmpindx < ( trainSet ) ) {
+                        float rangeS, rangeE;
+                        char c;
+                        in >> c; in >> rangeS; in >> rangeE;
+                        
+                        rangeChars[tmpindx] = c;
+                        rangeData[(tmpindx*2)] = rangeS;
+                        rangeData[(tmpindx*2)+1] = rangeE;
+                          
+                        //std::cout<<c<<"\t"<<rangeS<<"\t"<<rangeE<<"\n";
+                        
+                        tmpindx++;
+                }
+            }    
         }
         datafile.close();
     }
@@ -172,11 +196,10 @@ int Recognizer::getOutputMatrix(){
     //outputLayerMatrix.printMatrix();
     
     
-    
-    std::cout<<"\n\n-------------------------\n";
-    
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
+    /*
+    std::cout<<"\n\n-------------------------\n";
     
     std::cout<<"\n\nOut Vector: \n";
     for (int i = 0; i < rows; i++){
@@ -184,7 +207,7 @@ int Recognizer::getOutputMatrix(){
             std::cout<<outputLayerMatrix.get(i,j)*10e4<<" ";
         }
     }
-    
+    */
     
     float tmp;
     std::cout<<"\n\nMedian Matrix: \n";
@@ -193,13 +216,22 @@ int Recognizer::getOutputMatrix(){
         for (int j = 0; j < cols; j++){
             tmp += outputLayerMatrix.get(i,j);
         }
-        std::cout<<(tmp/cols)*10e4<<"\n";
+        tmp = (tmp/cols)*10e4;
+        charValue = tmp;
+        //std::cout<<(tmp/cols)*10e4<<"\n";
     }
-    std::cout<<"\n\n";
+    //std::cout<<"\n\n";
     
-    std::cout<<"\n-------------------------\n\n";
+    //std::cout<<"\n-------------------------\n\n";
     
     return 0;
+}
+
+char Recognizer::checkTheRange(){
+    
+    std::cout<<charValue;
+    
+    return '0';
 }
 
 int Recognizer::train(int noOfIteration){
@@ -213,6 +245,6 @@ int Recognizer::train(int noOfIteration){
         trainer.backPropagation();
         trainer.printOutputLayer();
     }
-    trainer.printdifferenceMedianList();
+    trainer.printdifferenceMeanList();
     trainer.writeWeights();
 }

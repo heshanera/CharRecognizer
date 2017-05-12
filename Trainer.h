@@ -19,10 +19,10 @@ public:
     int initializeWeightMatrices(int);
     int forwardPropagation();
     int backPropagation();
+    int sortMeanList(float *,int);
     int writeWeights();
     
     int printOutputLayer();
-    int printSortedList(float *,int);
     int printdifferenceMeanList();
     
 private:
@@ -33,6 +33,8 @@ private:
     float *differenceMeanList;
     int iterationNo;
     char *targetChars;
+    float *rangeData;
+    char *rangeChars;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
