@@ -21,7 +21,7 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 25; // output node classes
-    chars = 25; // number of training chars 
+    chars = 26; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.3; // learning rate of the network 
@@ -42,11 +42,11 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/P.jpg","imgs/training/Q.jpg","imgs/training/R.jpg",
                                     "imgs/training/S.jpg","imgs/training/T.jpg","imgs/training/U.jpg",
                                     "imgs/training/V.jpg","imgs/training/W.jpg","imgs/training/X.jpg",
-                                    "imgs/training/Y.jpg","imgs/training/Z.jpg"};
+                                    "imgs/training/Y.jpg","imgs/training/Z.jpg","imgs/training/A2.jpg"};
     
-    char typeOfTrainingChars[] = {  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
-                                    10, 11 ,12 ,13, 14, 15, 16, 17, 18, 19, 
-                                    20, 21, 22, 23, 24, 25};
+    char typeOfTrainingChars[] = {  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 
+                                    11 ,12 ,13, 14, 15, 16, 17, 18, 19, 20,
+                                    21, 22, 23, 24, 25, 1};
     
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
@@ -55,7 +55,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
     targetChars = new char[chars];
     for (int i = 0; i < chars; i++){
-        targetChars[i] = caps[i];
+        targetChars[i] = caps[typeOfTrainingChars[i]-1];
     }
     
     ImageProcessor imgPrc;
@@ -140,7 +140,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
-            if ( i == j ) targetMatrixData[k] = 1;
+            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
             k++;
         }
@@ -148,7 +148,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     }
     targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
-    
+    targetMatrix.printMatrix();
     
     return 0;
 }

@@ -23,9 +23,9 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    rc.train(10);//(37);
+    //rc.train(36);//(37);
     //rc.recognize("imgs/testing/Italic_A.jpg");
-    //rc.recognize("imgs/testing/A3.jpg");
+    rc.recognize("imgs/testing/A.jpg");
     
     
     // writing the ranges to the file
