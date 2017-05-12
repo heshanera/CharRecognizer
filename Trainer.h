@@ -23,14 +23,14 @@ public:
     
     int printOutputLayer();
     int printSortedList(float *,int);
-    int printdifferenceMedianList();
+    int printdifferenceMeanList();
     
 private:
     
     int classes,chars;
     int inputLayerNodes,hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
-    float *differenceMedianList;
+    float *differenceMeanList;
     int iterationNo;
     char *targetChars;
     

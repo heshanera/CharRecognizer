@@ -193,7 +193,7 @@ int Recognizer::getOutputMatrix(){
         for (int j = 0; j < cols; j++){
             tmp += outputLayerMatrix.get(i,j);
         }
-        std::cout<<(tmp/26)*10e4<<"\n";
+        std::cout<<(tmp/cols)*10e4<<"\n";
     }
     std::cout<<"\n\n";
     

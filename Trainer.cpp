@@ -21,11 +21,11 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 25; // output node classes
-    chars = 26; // number of training chars 
+    chars = 27; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.3; // learning rate of the network 
-    differenceMedianList = new float[noOfIteration]; //No of training Iterations
+    learningRate = 0.5; // learning rate of the network 
+    differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
@@ -34,7 +34,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
     
     // Initializing the input Matrix **************************************************************/
-    std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
+    std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/A2.jpg","imgs/training/A3.jpg","imgs/training/B.jpg","imgs/training/C.jpg",
                                     "imgs/training/D.jpg","imgs/training/E.jpg","imgs/training/F.jpg",
                                     "imgs/training/G.jpg","imgs/training/H.jpg",//"imgs/training/.jpg",
                                     "imgs/training/J.jpg","imgs/training/K.jpg","imgs/training/L.jpg",
@@ -42,16 +42,16 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/P.jpg","imgs/training/Q.jpg","imgs/training/R.jpg",
                                     "imgs/training/S.jpg","imgs/training/T.jpg","imgs/training/U.jpg",
                                     "imgs/training/V.jpg","imgs/training/W.jpg","imgs/training/X.jpg",
-                                    "imgs/training/Y.jpg","imgs/training/Z.jpg","imgs/training/A2.jpg"};
+                                    "imgs/training/Y.jpg","imgs/training/Z.jpg"};
     
-    char typeOfTrainingChars[] = {  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 
+    char typeOfTrainingChars[] = {  1,  1,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 
                                     11 ,12 ,13, 14, 15, 16, 17, 18, 19, 20,
-                                    21, 22, 23, 24, 25, 1};
+                                    21, 22, 23, 24, 25};
     
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
                     'J','K','L','M','N','O','P','Q','R',
-                    'S','T','U','V','W','X','Y','Z'     };
+                    'S','T','U','V','W','X','Y','Z'};
     
     targetChars = new char[chars];
     for (int i = 0; i < chars; i++){
@@ -160,7 +160,7 @@ int Trainer::forwardPropagation(){
     hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
-    
+   
     // hidden layer 1 --> hidden layer 2    
     hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
     hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
@@ -262,6 +262,12 @@ int Trainer::writeWeights(){
         //weightData <<"\n";
     }	
     weightData <<"\n";
+    
+    // writing the character ranges
+    
+    
+    
+    
     weightData.close();
     
     return 0;
@@ -299,9 +305,9 @@ int Trainer::printOutputLayer(){
         std::cout<<"\n";
     }
     
-    float medianlist[chars];
+    float meanlist[chars];
     float tmp;
-    std::cout<<"\n\nMedian Matrix: \n";
+    std::cout<<"\n\nMean Matrix: \n";
     for (int i = 0; i < rows; i++){
         tmp = 0;
         for (int j = 0; j < cols; j++){
@@ -310,28 +316,41 @@ int Trainer::printOutputLayer(){
         }
         tmp = (tmp/classes)*10e4;
         std::cout<<tmp<<"\n";
-        medianlist[i] = tmp;
+        meanlist[i] = tmp;
         //std::cout<<"\n";
     }
     std::cout<<"\n\n";
     
-    std::cout<<"\n\nSorted Median Matrix: \n";
-    printSortedList(medianlist, chars);
+    std::cout<<"\n\nSorted Mean Matrix: \n";
+    printSortedList(meanlist, chars);
     
     return 0;        
 }
 
 int Trainer::printSortedList(float* list, int listSize){
     
+    char typeOfTrainingChars[] = {  1,  1,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 
+                                    11 ,12 ,13, 14, 15, 16, 17, 18, 19, 20,
+                                    21, 22, 23, 24, 25};
+    
+    
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
                     'J','K','L','M','N','O','P','Q','R',
-                    'S','T','U','V','W','X','Y','Z'     };
+                    'S','T','U','V','W','X','Y','Z'};
+    
+    targetChars = new char[chars];
+    for (int i = 0; i < chars; i++){
+        targetChars[i] = caps[typeOfTrainingChars[i]-1];
+    } 
+    
+    
+    for (int i = 0; i < listSize; i++){ 
+        std::cout<<targetChars[i]<<" ";}
     
     float tmp, differenceTotal = 0;
     char tmpChar;
-    for (int i = 0; i < listSize; i++){ 
+    for (int i = 0; i < listSize; i++){
         for (int j = 0; j < listSize-i-1; j++){
-            
             if ( list[j] > list[j+1] ){
                 tmp = list[j];
                 list[j] = list[j+1];
@@ -342,7 +361,10 @@ int Trainer::printSortedList(float* list, int listSize){
                 targetChars[j+1] = tmpChar;        
             }
         }
+        std::cout<<"\n";
     }
+    
+    
     
     std::cout<<"value"<<"  ===  "<<"difference"<<"  ===  "<<"character\n";
     for (int j = 0; j < listSize; j++){
@@ -355,16 +377,16 @@ int Trainer::printSortedList(float* list, int listSize){
     }
     std::cout<<"\n\n";
     
-    differenceMedianList[iterationNo] = differenceTotal/chars;
+    differenceMeanList[iterationNo] = differenceTotal/chars;
     iterationNo++;        
     
 }
 
-int Trainer::printdifferenceMedianList(){
+int Trainer::printdifferenceMeanList(){
     
-    std::cout<<"Difference Median"<<"   ==>   "<<"Iteration"<<"\n";
+    std::cout<<"Difference Mean"<<"   ==>   "<<"Iteration"<<"\n";
     for (int j = 0; j < iterationNo; j++){
-        std::cout<<differenceMedianList[j]<<"   ==>   "<<(j+1)<<"\n";
+        std::cout<<differenceMeanList[j]<<"   ==>   "<<(j+1)<<"\n";
     }     
     std::cout<<"\n------------------------------------------\n"<<iterationNo;
 }
