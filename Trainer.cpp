@@ -20,7 +20,7 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 26; // output node classes
+    classes = 25; // output node classes
     chars = 25; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
@@ -43,6 +43,10 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/S.jpg","imgs/training/T.jpg","imgs/training/U.jpg",
                                     "imgs/training/V.jpg","imgs/training/W.jpg","imgs/training/X.jpg",
                                     "imgs/training/Y.jpg","imgs/training/Z.jpg"};
+    
+    char typeOfTrainingChars[] = {  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 
+                                    10, 11 ,12 ,13, 14, 15, 16, 17, 18, 19, 
+                                    20, 21, 22, 23, 24, 25};
     
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
