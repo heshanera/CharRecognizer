@@ -24,13 +24,13 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     chars = 27; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.5; // learning rate of the network 
+    learningRate = 0.2; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 150;
-    hiddenLayer2Nodes = 300;
+    hiddenLayer1Nodes = 250;
+    hiddenLayer2Nodes = 400;
     
     
     // Initializing the input Matrix **************************************************************/

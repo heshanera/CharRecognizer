@@ -241,7 +241,7 @@ int Recognizer::getOutputMatrix(){
 char Recognizer::checkTheRange(){
     
     std::cout<<"\n\n\n-----------------------------\n\n";
-    //std::cout<<charValue;
+    std::cout<<charValue<<"\t==>";
     
     for (int i = 0; i < trainSet; i++){
         if ( charValue <= rangeData[(i*2)+1] ) {
