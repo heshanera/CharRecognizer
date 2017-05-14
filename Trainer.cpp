@@ -29,8 +29,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 350;
-    hiddenLayer2Nodes = 500;
+    hiddenLayer1Nodes = 200;
+    hiddenLayer2Nodes = 150;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -130,7 +130,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.001, HI = 0.049;
+    float LO = 0.001, HI = 0.0049;
     
     // Initializing the weight Matrix1 **************************************************************/
     
