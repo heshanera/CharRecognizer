@@ -20,7 +20,7 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 125; // output node classes
+    classes = 25; // output node classes
     chars = 125; // number of training chars 
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
@@ -29,8 +29,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 250;
-    hiddenLayer2Nodes = 400;
+    hiddenLayer1Nodes = 350;
+    hiddenLayer2Nodes = 500;
     
     
     // Initializing the input Matrix **************************************************************/
