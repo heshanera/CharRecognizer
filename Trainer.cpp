@@ -20,17 +20,17 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 41; // output node classes ( 25 + 16 )
-    chars = 125 + 80; // number of training chars (25*5 + 16*5)
+    classes = 40; // output node classes ( 25 + 15 )
+    chars = 125 + 75; // number of training chars (25*5 + 15*5)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.2; // learning rate of the network 
+    learningRate = 0.025; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 200;
-    hiddenLayer2Nodes = 150;
+    hiddenLayer1Nodes = 300;
+    hiddenLayer2Nodes = 250;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -70,7 +70,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/h.jpg","imgs/training/h2.jpg","imgs/training/h3.jpg","imgs/training/h4.jpg","imgs/training/h5.jpg",
                                     //"imgs/training/i.jpg","imgs/training/i2.jpg","imgs/training/i3.jpg","imgs/training/i4.jpg","imgs/training/i5.jpg",
                                     "imgs/training/j.jpg","imgs/training/j2.jpg","imgs/training/j3.jpg","imgs/training/j4.jpg","imgs/training/j5.jpg",
-                                    "imgs/training/l.jpg","imgs/training/l2.jpg","imgs/training/l3.jpg","imgs/training/l4.jpg","imgs/training/l5.jpg",
+                                    //"imgs/training/l.jpg","imgs/training/l2.jpg","imgs/training/l3.jpg","imgs/training/l4.jpg","imgs/training/l5.jpg",
                                     "imgs/training/m.jpg","imgs/training/m2.jpg","imgs/training/m3.jpg","imgs/training/m4.jpg","imgs/training/m5.jpg",
                                     "imgs/training/n.jpg","imgs/training/n2.jpg","imgs/training/n3.jpg","imgs/training/n4.jpg","imgs/training/n5.jpg",
                                     "imgs/training/q.jpg","imgs/training/q2.jpg","imgs/training/q3.jpg","imgs/training/q4.jpg","imgs/training/q5.jpg",
@@ -80,54 +80,57 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/y.jpg","imgs/training/y2.jpg","imgs/training/y3.jpg","imgs/training/y4.jpg","imgs/training/y5.jpg"
                                 };
     
-    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  
-                                    2, 2, 2, 2, 2,  
-                                    3, 3, 3, 3, 3,  
-                                    4, 4, 4, 4, 4,  
-                                    5, 5, 5, 5, 5,  
-                                    6, 6, 6, 6, 6,  
-                                    7, 7, 7, 7, 7,  
-                                    8, 8, 8, 8, 8,  
-                                    9, 9, 9, 9, 9,  
-                                    10,10,10,10,10, 
-                                    11,11,11,11,11,
-                                    12,12,12,12,12,
-                                    13,13,13,13,13, 
-                                    14,14,14,14,14, 
-                                    15,15,15,15,15, 
-                                    16,16,16,16,16, 
-                                    17,17,17,17,17, 
-                                    18,18,18,18,18, 
-                                    19,19,19,19,19, 
-                                    20,20,20,20,20,
-                                    21,21,21,21,21, 
-                                    22,22,22,22,22, 
-                                    23,23,23,23,23, 
-                                    24,24,24,24,24, 
-                                    25,25,25,25,25,
+    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  // A
+                                    2, 2, 2, 2, 2,  // B  
+                                    3, 3, 3, 3, 3,  // C  
+                                    4, 4, 4, 4, 4,  // D  
+                                    5, 5, 5, 5, 5,  // E  
+                                    6, 6, 6, 6, 6,  // F  
+                                    7, 7, 7, 7, 7,  // G  
+                                    8, 8, 8, 8, 8,  // H  
+                                    9, 9, 9, 9, 9,  // J  
+                                    10,10,10,10,10, // K 
+                                    11,11,11,11,11, // L
+                                    12,12,12,12,12, // M
+                                    13,13,13,13,13, // N
+                                    14,14,14,14,14, // O
+                                    15,15,15,15,15, // P
+                                    16,16,16,16,16, // Q
+                                    17,17,17,17,17, // R
+                                    18,18,18,18,18, // S
+                                    19,19,19,19,19, // T
+                                    20,20,20,20,20, // U
+                                    21,21,21,21,21, // V
+                                    22,22,22,22,22, // W
+                                    23,23,23,23,23, // X
+                                    24,24,24,24,24, // Y
+                                    25,25,25,25,25, // Z
             
-                                    26, 26, 26, 26, 26,  
-                                    27, 27, 27, 27, 27,  
-                                    28, 28, 28, 28, 28,  
-                                    29, 29, 29, 29, 29,  
-                                    30, 30, 30, 30, 30,  
-                                    31, 31, 31, 31, 31,  
-                                    32, 32, 32, 32, 32,  
-                                    33, 33, 33, 33, 33,  
-                                    34, 34, 34, 34, 34,  
-                                    35, 35, 35, 35, 35, 
-                                    36, 36, 36, 36, 36, 
-                                    37, 37, 37, 37, 37, 
-                                    38, 38, 38, 38, 38, 
-                                    39, 39, 39, 39, 39, 
-                                    40, 40, 40, 40, 40, 
-                                    41, 41, 41, 41, 41
+                                    26, 26, 26, 26, 26, // a 
+                                    27, 27, 27, 27, 27, // b 
+                                    28, 28, 28, 28, 28, // d  
+                                    29, 29, 29, 29, 29, // e 
+                                    30, 30, 30, 30, 30, // f 
+                                    31, 31, 31, 31, 31, // g 
+                                    32, 32, 32, 32, 32, // h 
+                                    33, 33, 33, 33, 33, // j 
+                                    34, 34, 34, 34, 34, // m 
+                                    35, 35, 35, 35, 35, // n 
+                                    36, 36, 36, 36, 36, // q 
+                                    37, 37, 37, 37, 37, // r 
+                                    38, 38, 38, 38, 38, // t 
+                                    39, 39, 39, 39, 39, // u 
+                                    40, 40, 40, 40, 40, // y
                                 };
     
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
                     'J','K','L','M','N','O','P','Q','R',
-                    'S','T','U','V','W','X','Y','Z'};
+                    'S','T','U','V','W','X','Y','Z',
+    
+                    'a','b','d','e','f','g','h','j','m',
+                    'n','q','r','t','u','y'
+                    };
     
     targetChars = new char[chars];
     for (int i = 0; i < chars; i++){
@@ -165,7 +168,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.001, HI = 0.0049;
+    float LO = 0.001, HI = 0.009;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -409,36 +412,57 @@ int Trainer::printOutputLayer(){
 
 int Trainer::sortMeanList(float* list, int listSize){
     
-    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  
-                                    2, 2, 2, 2, 2,  
-                                    3, 3, 3, 3, 3,  
-                                    4, 4, 4, 4, 4,  
-                                    5, 5, 5, 5, 5,  
-                                    6, 6, 6, 6, 6,  
-                                    7, 7, 7, 7, 7,  
-                                    8, 8, 8, 8, 8,  
-                                    9, 9, 9, 9, 9,  
-                                    10,10,10,10,10, 
-                                    11,11,11,11,11,
-                                    12,12,12,12,12,
-                                    13,13,13,13,13, 
-                                    14,14,14,14,14, 
-                                    15,15,15,15,15, 
-                                    16,16,16,16,16, 
-                                    17,17,17,17,17, 
-                                    18,18,18,18,18, 
-                                    19,19,19,19,19, 
-                                    20,20,20,20,20,
-                                    21,21,21,21,21, 
-                                    22,22,22,22,22, 
-                                    23,23,23,23,23, 
-                                    24,24,24,24,24, 
-                                    25,25,25,25,25
+    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  // A
+                                    2, 2, 2, 2, 2,  // B  
+                                    3, 3, 3, 3, 3,  // C  
+                                    4, 4, 4, 4, 4,  // D  
+                                    5, 5, 5, 5, 5,  // E  
+                                    6, 6, 6, 6, 6,  // F  
+                                    7, 7, 7, 7, 7,  // G  
+                                    8, 8, 8, 8, 8,  // H  
+                                    9, 9, 9, 9, 9,  // J  
+                                    10,10,10,10,10, // K 
+                                    11,11,11,11,11, // L
+                                    12,12,12,12,12, // M
+                                    13,13,13,13,13, // N
+                                    14,14,14,14,14, // O
+                                    15,15,15,15,15, // P
+                                    16,16,16,16,16, // Q
+                                    17,17,17,17,17, // R
+                                    18,18,18,18,18, // S
+                                    19,19,19,19,19, // T
+                                    20,20,20,20,20, // U
+                                    21,21,21,21,21, // V
+                                    22,22,22,22,22, // W
+                                    23,23,23,23,23, // X
+                                    24,24,24,24,24, // Y
+                                    25,25,25,25,25, // Z
+            
+                                    26, 26, 26, 26, 26, // a 
+                                    27, 27, 27, 27, 27, // b 
+                                    28, 28, 28, 28, 28, // d  
+                                    29, 29, 29, 29, 29, // e 
+                                    30, 30, 30, 30, 30, // f 
+                                    31, 31, 31, 31, 31, // g 
+                                    32, 32, 32, 32, 32, // h 
+                                    33, 33, 33, 33, 33, // j 
+                                    34, 34, 34, 34, 34, // m 
+                                    35, 35, 35, 35, 35, // n 
+                                    36, 36, 36, 36, 36, // q 
+                                    37, 37, 37, 37, 37, // r 
+                                    38, 38, 38, 38, 38, // t 
+                                    39, 39, 39, 39, 39, // u 
+                                    40, 40, 40, 40, 40, // y
                                 };
+    
     
     char caps[] = { 'A','B','C','D','E','F','G','H',//'I',
                     'J','K','L','M','N','O','P','Q','R',
-                    'S','T','U','V','W','X','Y','Z'};
+                    'S','T','U','V','W','X','Y','Z',
+    
+                    'a','b','d','e','f','g','h','j','m',
+                    'n','q','r','t','u','y'
+                    };
     
     targetChars = new char[chars];
     for (int i = 0; i < chars; i++){
