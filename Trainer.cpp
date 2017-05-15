@@ -20,8 +20,8 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 25; // output node classes
-    chars = 125; // number of training chars 
+    classes = 41; // output node classes ( 25 + 16 )
+    chars = 125 + 80; // number of training chars (25*5 + 16*5)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.2; // learning rate of the network 
@@ -59,7 +59,25 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/W.jpg","imgs/training/W2.jpg","imgs/training/W3.jpg","imgs/training/W4.jpg","imgs/training/W5.jpg",
                                     "imgs/training/X.jpg","imgs/training/X2.jpg","imgs/training/X3.jpg","imgs/training/X4.jpg","imgs/training/X5.jpg",
                                     "imgs/training/Y.jpg","imgs/training/Y2.jpg","imgs/training/Y3.jpg","imgs/training/Y4.jpg","imgs/training/Y5.jpg",
-                                    "imgs/training/Z.jpg","imgs/training/Z2.jpg","imgs/training/Z3.jpg","imgs/training/Z4.jpg","imgs/training/Z5.jpg"
+                                    "imgs/training/Z.jpg","imgs/training/Z2.jpg","imgs/training/Z3.jpg","imgs/training/Z4.jpg","imgs/training/Z5.jpg",
+    
+                                    "imgs/training/a.jpg","imgs/training/a2.jpg","imgs/training/a3.jpg","imgs/training/a4.jpg","imgs/training/a5.jpg",
+                                    "imgs/training/b.jpg","imgs/training/b2.jpg","imgs/training/b3.jpg","imgs/training/b4.jpg","imgs/training/b5.jpg",
+                                    "imgs/training/d.jpg","imgs/training/d2.jpg","imgs/training/d3.jpg","imgs/training/d4.jpg","imgs/training/d5.jpg",
+                                    "imgs/training/e.jpg","imgs/training/e2.jpg","imgs/training/e3.jpg","imgs/training/e4.jpg","imgs/training/e5.jpg",
+                                    "imgs/training/f.jpg","imgs/training/f2.jpg","imgs/training/f3.jpg","imgs/training/f4.jpg","imgs/training/f5.jpg",
+                                    "imgs/training/g.jpg","imgs/training/g2.jpg","imgs/training/g3.jpg","imgs/training/g4.jpg","imgs/training/g5.jpg",
+                                    "imgs/training/h.jpg","imgs/training/h2.jpg","imgs/training/h3.jpg","imgs/training/h4.jpg","imgs/training/h5.jpg",
+                                    //"imgs/training/i.jpg","imgs/training/i2.jpg","imgs/training/i3.jpg","imgs/training/i4.jpg","imgs/training/i5.jpg",
+                                    "imgs/training/j.jpg","imgs/training/j2.jpg","imgs/training/j3.jpg","imgs/training/j4.jpg","imgs/training/j5.jpg",
+                                    "imgs/training/l.jpg","imgs/training/l2.jpg","imgs/training/l3.jpg","imgs/training/l4.jpg","imgs/training/l5.jpg",
+                                    "imgs/training/m.jpg","imgs/training/m2.jpg","imgs/training/m3.jpg","imgs/training/m4.jpg","imgs/training/m5.jpg",
+                                    "imgs/training/n.jpg","imgs/training/n2.jpg","imgs/training/n3.jpg","imgs/training/n4.jpg","imgs/training/n5.jpg",
+                                    "imgs/training/q.jpg","imgs/training/q2.jpg","imgs/training/q3.jpg","imgs/training/q4.jpg","imgs/training/q5.jpg",
+                                    "imgs/training/r.jpg","imgs/training/r2.jpg","imgs/training/r3.jpg","imgs/training/r4.jpg","imgs/training/r5.jpg",
+                                    "imgs/training/t.jpg","imgs/training/t2.jpg","imgs/training/t3.jpg","imgs/training/t4.jpg","imgs/training/t5.jpg",
+                                    "imgs/training/u.jpg","imgs/training/u2.jpg","imgs/training/u3.jpg","imgs/training/u4.jpg","imgs/training/u5.jpg",
+                                    "imgs/training/y.jpg","imgs/training/y2.jpg","imgs/training/y3.jpg","imgs/training/y4.jpg","imgs/training/y5.jpg"
                                 };
     
     char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  
@@ -86,7 +104,24 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     22,22,22,22,22, 
                                     23,23,23,23,23, 
                                     24,24,24,24,24, 
-                                    25,25,25,25,25
+                                    25,25,25,25,25,
+            
+                                    26, 26, 26, 26, 26,  
+                                    27, 27, 27, 27, 27,  
+                                    28, 28, 28, 28, 28,  
+                                    29, 29, 29, 29, 29,  
+                                    30, 30, 30, 30, 30,  
+                                    31, 31, 31, 31, 31,  
+                                    32, 32, 32, 32, 32,  
+                                    33, 33, 33, 33, 33,  
+                                    34, 34, 34, 34, 34,  
+                                    35, 35, 35, 35, 35, 
+                                    36, 36, 36, 36, 36, 
+                                    37, 37, 37, 37, 37, 
+                                    38, 38, 38, 38, 38, 
+                                    39, 39, 39, 39, 39, 
+                                    40, 40, 40, 40, 40, 
+                                    41, 41, 41, 41, 41
                                 };
     
     
