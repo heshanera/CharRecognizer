@@ -21,7 +21,7 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 50; // output node classes ( 25(uppercase) + 15(lowercase) +10(digits))
-    chars = 125 + 75 +50; // number of training chars (25*5 + 15*5 + 10*5)
+    chars = 150 + 90 +60; // number of training chars (25*6 + 15*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.022; // learning rate of the network 
@@ -34,116 +34,119 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
     
     // Initializing the input Matrix **************************************************************/
-    std::string trainingImages[] = {"imgs/training/A.jpg","imgs/training/A2.jpg","imgs/training/A3.jpg","imgs/training/A4.jpg","imgs/training/A5.jpg",
-                                    "imgs/training/B.jpg","imgs/training/B2.jpg","imgs/training/B3.jpg","imgs/training/B4.jpg","imgs/training/B5.jpg",
-                                    "imgs/training/C.jpg","imgs/training/C2.jpg","imgs/training/C3.jpg","imgs/training/C4.jpg","imgs/training/C5.jpg",
-                                    "imgs/training/D.jpg","imgs/training/D2.jpg","imgs/training/D3.jpg","imgs/training/D4.jpg","imgs/training/D5.jpg",
-                                    "imgs/training/E.jpg","imgs/training/E2.jpg","imgs/training/E3.jpg","imgs/training/E4.jpg","imgs/training/E5.jpg",
-                                    "imgs/training/F.jpg","imgs/training/F2.jpg","imgs/training/F3.jpg","imgs/training/F4.jpg","imgs/training/F5.jpg",
-                                    "imgs/training/G.jpg","imgs/training/G2.jpg","imgs/training/G3.jpg","imgs/training/G4.jpg","imgs/training/G5.jpg",
-                                    "imgs/training/H.jpg","imgs/training/H2.jpg","imgs/training/H3.jpg","imgs/training/H4.jpg","imgs/training/H5.jpg",
-                                    //"imgs/training/.jpg","imgs/training/I2.jpg","imgs/training/I3.jpg","imgs/training/I4.jpg","imgs/training/I5.jpg",
-                                    "imgs/training/J.jpg","imgs/training/J2.jpg","imgs/training/J3.jpg","imgs/training/J4.jpg","imgs/training/J5.jpg",
-                                    "imgs/training/K.jpg","imgs/training/K2.jpg","imgs/training/K3.jpg","imgs/training/K4.jpg","imgs/training/K5.jpg",
-                                    "imgs/training/L.jpg","imgs/training/L2.jpg","imgs/training/L3.jpg","imgs/training/L4.jpg","imgs/training/L5.jpg",
-                                    "imgs/training/M.jpg","imgs/training/M2.jpg","imgs/training/M3.jpg","imgs/training/M4.jpg","imgs/training/M5.jpg",
-                                    "imgs/training/N.jpg","imgs/training/N2.jpg","imgs/training/N3.jpg","imgs/training/N4.jpg","imgs/training/N5.jpg",
-                                    "imgs/training/O.jpg","imgs/training/O2.jpg","imgs/training/O3.jpg","imgs/training/O4.jpg","imgs/training/O5.jpg",
-                                    "imgs/training/P.jpg","imgs/training/P2.jpg","imgs/training/P3.jpg","imgs/training/P4.jpg","imgs/training/P5.jpg",
-                                    "imgs/training/Q.jpg","imgs/training/Q2.jpg","imgs/training/Q3.jpg","imgs/training/Q4.jpg","imgs/training/Q5.jpg",
-                                    "imgs/training/R.jpg","imgs/training/R2.jpg","imgs/training/R3.jpg","imgs/training/R4.jpg","imgs/training/R5.jpg",
-                                    "imgs/training/S.jpg","imgs/training/S2.jpg","imgs/training/S3.jpg","imgs/training/S4.jpg","imgs/training/S5.jpg",
-                                    "imgs/training/T.jpg","imgs/training/T2.jpg","imgs/training/T3.jpg","imgs/training/T4.jpg","imgs/training/T5.jpg",
-                                    "imgs/training/U.jpg","imgs/training/U2.jpg","imgs/training/U3.jpg","imgs/training/U4.jpg","imgs/training/U5.jpg",
-                                    "imgs/training/V.jpg","imgs/training/V2.jpg","imgs/training/V3.jpg","imgs/training/V4.jpg","imgs/training/V5.jpg",
-                                    "imgs/training/W.jpg","imgs/training/W2.jpg","imgs/training/W3.jpg","imgs/training/W4.jpg","imgs/training/W5.jpg",
-                                    "imgs/training/X.jpg","imgs/training/X2.jpg","imgs/training/X3.jpg","imgs/training/X4.jpg","imgs/training/X5.jpg",
-                                    "imgs/training/Y.jpg","imgs/training/Y2.jpg","imgs/training/Y3.jpg","imgs/training/Y4.jpg","imgs/training/Y5.jpg",
-                                    "imgs/training/Z.jpg","imgs/training/Z2.jpg","imgs/training/Z3.jpg","imgs/training/Z4.jpg","imgs/training/Z5.jpg",
+    std::string trainingImages[] = {"imgs/training/A.png","imgs/training/A2.png","imgs/training/A3.png","imgs/training/A4.png","imgs/training/A5.png","imgs/training/A6.png",
+                                    "imgs/training/B.png","imgs/training/B2.png","imgs/training/B3.png","imgs/training/B4.png","imgs/training/B5.png","imgs/training/B6.png",
+                                    "imgs/training/C.png","imgs/training/C2.png","imgs/training/C3.png","imgs/training/C4.png","imgs/training/C5.png","imgs/training/C6.png",
+                                    "imgs/training/D.png","imgs/training/D2.png","imgs/training/D3.png","imgs/training/D4.png","imgs/training/D5.png","imgs/training/D6.png",
+                                    "imgs/training/E.png","imgs/training/E2.png","imgs/training/E3.png","imgs/training/E4.png","imgs/training/E5.png","imgs/training/E6.png",
+                                    "imgs/training/F.png","imgs/training/F2.png","imgs/training/F3.png","imgs/training/F4.png","imgs/training/F5.png","imgs/training/F6.png",
+                                    "imgs/training/G.png","imgs/training/G2.png","imgs/training/G3.png","imgs/training/G4.png","imgs/training/G5.png","imgs/training/G6.png",
+                                    "imgs/training/H.png","imgs/training/H2.png","imgs/training/H3.png","imgs/training/H4.png","imgs/training/H5.png","imgs/training/H6.png",
+                                    "imgs/training/I.png","imgs/training/I2.png","imgs/training/I3.png","imgs/training/I4.png","imgs/training/I5.png","imgs/training/I6.png",
+                                    "imgs/training/J.png","imgs/training/J2.png","imgs/training/J3.png","imgs/training/J4.png","imgs/training/J5.png","imgs/training/J6.png",
+                                    "imgs/training/K.png","imgs/training/K2.png","imgs/training/K3.png","imgs/training/K4.png","imgs/training/K5.png","imgs/training/K6.png",
+                                    "imgs/training/L.png","imgs/training/L2.png","imgs/training/L3.png","imgs/training/L4.png","imgs/training/L5.png","imgs/training/L6.png",
+                                    "imgs/training/M.png","imgs/training/M2.png","imgs/training/M3.png","imgs/training/M4.png","imgs/training/M5.png","imgs/training/M6.png",
+                                    "imgs/training/N.png","imgs/training/N2.png","imgs/training/N3.png","imgs/training/N4.png","imgs/training/N5.png","imgs/training/N6.png",
+                                    "imgs/training/O.png","imgs/training/O2.png","imgs/training/O3.png","imgs/training/O4.png","imgs/training/O5.png","imgs/training/O6.png",
+                                    "imgs/training/P.png","imgs/training/P2.png","imgs/training/P3.png","imgs/training/P4.png","imgs/training/P5.png","imgs/training/P6.png",
+                                    "imgs/training/Q.png","imgs/training/Q2.png","imgs/training/Q3.png","imgs/training/Q4.png","imgs/training/Q5.png","imgs/training/Q6.png",
+                                    "imgs/training/R.png","imgs/training/R2.png","imgs/training/R3.png","imgs/training/R4.png","imgs/training/R5.png","imgs/training/R6.png",
+                                    "imgs/training/S.png","imgs/training/S2.png","imgs/training/S3.png","imgs/training/S4.png","imgs/training/S5.png","imgs/training/S6.png",
+                                    "imgs/training/T.png","imgs/training/T2.png","imgs/training/T3.png","imgs/training/T4.png","imgs/training/T5.png","imgs/training/T6.png",
+                                    "imgs/training/U.png","imgs/training/U2.png","imgs/training/U3.png","imgs/training/U4.png","imgs/training/U5.png","imgs/training/U6.png",
+                                    "imgs/training/V.png","imgs/training/V2.png","imgs/training/V3.png","imgs/training/V4.png","imgs/training/V5.png","imgs/training/V6.png",
+                                    "imgs/training/W.png","imgs/training/W2.png","imgs/training/W3.png","imgs/training/W4.png","imgs/training/W5.png","imgs/training/W6.png",
+                                    "imgs/training/X.png","imgs/training/X2.png","imgs/training/X3.png","imgs/training/X4.png","imgs/training/X5.png","imgs/training/X6.png",
+                                    "imgs/training/Y.png","imgs/training/Y2.png","imgs/training/Y3.png","imgs/training/Y4.png","imgs/training/Y5.png","imgs/training/Y6.png",
+                                    "imgs/training/Z.png","imgs/training/Z2.png","imgs/training/Z3.png","imgs/training/Z4.png","imgs/training/Z5.png","imgs/training/Z6.png",
     
-                                    "imgs/training/a.jpg","imgs/training/a2.jpg","imgs/training/a3.jpg","imgs/training/a4.jpg","imgs/training/a5.jpg",
-                                    "imgs/training/b.jpg","imgs/training/b2.jpg","imgs/training/b3.jpg","imgs/training/b4.jpg","imgs/training/b5.jpg",
-                                    "imgs/training/d.jpg","imgs/training/d2.jpg","imgs/training/d3.jpg","imgs/training/d4.jpg","imgs/training/d5.jpg",
-                                    "imgs/training/e.jpg","imgs/training/e2.jpg","imgs/training/e3.jpg","imgs/training/e4.jpg","imgs/training/e5.jpg",
-                                    "imgs/training/f.jpg","imgs/training/f2.jpg","imgs/training/f3.jpg","imgs/training/f4.jpg","imgs/training/f5.jpg",
-                                    "imgs/training/g.jpg","imgs/training/g2.jpg","imgs/training/g3.jpg","imgs/training/g4.jpg","imgs/training/g5.jpg",
-                                    "imgs/training/h.jpg","imgs/training/h2.jpg","imgs/training/h3.jpg","imgs/training/h4.jpg","imgs/training/h5.jpg",
-                                    //"imgs/training/i.jpg","imgs/training/i2.jpg","imgs/training/i3.jpg","imgs/training/i4.jpg","imgs/training/i5.jpg",
-                                    "imgs/training/j.jpg","imgs/training/j2.jpg","imgs/training/j3.jpg","imgs/training/j4.jpg","imgs/training/j5.jpg",
-                                    //"imgs/training/l.jpg","imgs/training/l2.jpg","imgs/training/l3.jpg","imgs/training/l4.jpg","imgs/training/l5.jpg",
-                                    "imgs/training/m.jpg","imgs/training/m2.jpg","imgs/training/m3.jpg","imgs/training/m4.jpg","imgs/training/m5.jpg",
-                                    "imgs/training/n.jpg","imgs/training/n2.jpg","imgs/training/n3.jpg","imgs/training/n4.jpg","imgs/training/n5.jpg",
-                                    "imgs/training/q.jpg","imgs/training/q2.jpg","imgs/training/q3.jpg","imgs/training/q4.jpg","imgs/training/q5.jpg",
-                                    "imgs/training/r.jpg","imgs/training/r2.jpg","imgs/training/r3.jpg","imgs/training/r4.jpg","imgs/training/r5.jpg",
-                                    "imgs/training/t.jpg","imgs/training/t2.jpg","imgs/training/t3.jpg","imgs/training/t4.jpg","imgs/training/t5.jpg",
-                                    "imgs/training/u.jpg","imgs/training/u2.jpg","imgs/training/u3.jpg","imgs/training/u4.jpg","imgs/training/u5.jpg",
-                                    "imgs/training/y.jpg","imgs/training/y2.jpg","imgs/training/y3.jpg","imgs/training/y4.jpg","imgs/training/y5.jpg",
+                                    "imgs/training/a.png","imgs/training/a2.png","imgs/training/a3.png","imgs/training/a4.png","imgs/training/a5.png","imgs/training/a6.png",
+                                    "imgs/training/b.png","imgs/training/b2.png","imgs/training/b3.png","imgs/training/b4.png","imgs/training/b5.png","imgs/training/b6.png",
+                                    "imgs/training/d.png","imgs/training/d2.png","imgs/training/d3.png","imgs/training/d4.png","imgs/training/d5.png","imgs/training/d6.png",
+                                    "imgs/training/e.png","imgs/training/e2.png","imgs/training/e3.png","imgs/training/e4.png","imgs/training/e5.png","imgs/training/e6.png",
+                                    "imgs/training/f.png","imgs/training/f2.png","imgs/training/f3.png","imgs/training/f4.png","imgs/training/f5.png","imgs/training/f6.png",
+                                    "imgs/training/g.png","imgs/training/g2.png","imgs/training/g3.png","imgs/training/g4.png","imgs/training/g5.png","imgs/training/g6.png",
+                                    "imgs/training/h.png","imgs/training/h2.png","imgs/training/h3.png","imgs/training/h4.png","imgs/training/h5.png","imgs/training/h6.png",
+                                    "imgs/training/i.png","imgs/training/i2.png","imgs/training/i3.png","imgs/training/i4.png","imgs/training/i5.png","imgs/training/i6.png",
+                                    "imgs/training/j.png","imgs/training/j2.png","imgs/training/j3.png","imgs/training/j4.png","imgs/training/j5.png","imgs/training/j6.png",
+                                    "imgs/training/l.png","imgs/training/l2.png","imgs/training/l3.png","imgs/training/l4.png","imgs/training/l5.png","imgs/training/l6.png",
+                                    "imgs/training/m.png","imgs/training/m2.png","imgs/training/m3.png","imgs/training/m4.png","imgs/training/m5.png","imgs/training/m6.png",
+                                    "imgs/training/n.png","imgs/training/n2.png","imgs/training/n3.png","imgs/training/n4.png","imgs/training/n5.png","imgs/training/n6.png",
+                                    "imgs/training/q.png","imgs/training/q2.png","imgs/training/q3.png","imgs/training/q4.png","imgs/training/q5.png","imgs/training/q6.png",
+                                    "imgs/training/r.png","imgs/training/r2.png","imgs/training/r3.png","imgs/training/r4.png","imgs/training/r5.png","imgs/training/r6.png",
+                                    "imgs/training/t.png","imgs/training/t2.png","imgs/training/t3.png","imgs/training/t4.png","imgs/training/t5.png","imgs/training/t6.png",
+                                    "imgs/training/u.png","imgs/training/u2.png","imgs/training/u3.png","imgs/training/u4.png","imgs/training/u5.png","imgs/training/u6.png",
+                                    "imgs/training/y.png","imgs/training/y2.png","imgs/training/y3.png","imgs/training/y4.png","imgs/training/y5.png","imgs/training/y6.png",
                                     
-                                    "imgs/training/01.jpg","imgs/training/02.jpg","imgs/training/03.jpg","imgs/training/04.jpg","imgs/training/05.jpg",
-                                    "imgs/training/11.jpg","imgs/training/12.jpg","imgs/training/13.jpg","imgs/training/14.jpg","imgs/training/15.jpg",
-                                    "imgs/training/21.jpg","imgs/training/22.jpg","imgs/training/23.jpg","imgs/training/24.jpg","imgs/training/25.jpg",
-                                    "imgs/training/31.jpg","imgs/training/32.jpg","imgs/training/33.jpg","imgs/training/34.jpg","imgs/training/35.jpg",
-                                    "imgs/training/41.jpg","imgs/training/42.jpg","imgs/training/43.jpg","imgs/training/44.jpg","imgs/training/45.jpg",
-                                    "imgs/training/51.jpg","imgs/training/52.jpg","imgs/training/53.jpg","imgs/training/54.jpg","imgs/training/55.jpg",
-                                    "imgs/training/61.jpg","imgs/training/62.jpg","imgs/training/63.jpg","imgs/training/64.jpg","imgs/training/65.jpg",
-                                    "imgs/training/71.jpg","imgs/training/72.jpg","imgs/training/73.jpg","imgs/training/74.jpg","imgs/training/75.jpg",
-                                    "imgs/training/81.jpg","imgs/training/82.jpg","imgs/training/83.jpg","imgs/training/84.jpg","imgs/training/85.jpg",
-                                    "imgs/training/91.jpg","imgs/training/92.jpg","imgs/training/93.jpg","imgs/training/94.jpg","imgs/training/95.jpg",
+                                    "imgs/training/01.png","imgs/training/02.png","imgs/training/03.png","imgs/training/04.png","imgs/training/05.png","imgs/training/06.png",
+                                    "imgs/training/11.png","imgs/training/12.png","imgs/training/13.png","imgs/training/14.png","imgs/training/15.png","imgs/training/16.png",
+                                    "imgs/training/21.png","imgs/training/22.png","imgs/training/23.png","imgs/training/24.png","imgs/training/25.png","imgs/training/26.png",
+                                    "imgs/training/31.png","imgs/training/32.png","imgs/training/33.png","imgs/training/34.png","imgs/training/35.png","imgs/training/36.png",
+                                    "imgs/training/41.png","imgs/training/42.png","imgs/training/43.png","imgs/training/44.png","imgs/training/45.png","imgs/training/46.png",
+                                    "imgs/training/51.png","imgs/training/52.png","imgs/training/53.png","imgs/training/54.png","imgs/training/55.png","imgs/training/56.png",
+                                    "imgs/training/61.png","imgs/training/62.png","imgs/training/63.png","imgs/training/64.png","imgs/training/65.png","imgs/training/66.png",
+                                    "imgs/training/71.png","imgs/training/72.png","imgs/training/73.png","imgs/training/74.png","imgs/training/75.png","imgs/training/76.png",
+                                    "imgs/training/81.png","imgs/training/82.png","imgs/training/83.png","imgs/training/84.png","imgs/training/85.png","imgs/training/86.png",
+                                    "imgs/training/91.png","imgs/training/92.png","imgs/training/93.png","imgs/training/94.png","imgs/training/95.png","imgs/training/96.png",
     
                                 };
     
-    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  // A
-                                    2, 2, 2, 2, 2,  // B  
-                                    3, 3, 3, 3, 3,  // C  
-                                    4, 4, 4, 4, 4,  // D  
-                                    5, 5, 5, 5, 5,  // E  
-                                    6, 6, 6, 6, 6,  // F  
-                                    7, 7, 7, 7, 7,  // G  
-                                    8, 8, 8, 8, 8,  // H  
-                                    9, 9, 9, 9, 9,  // J  
-                                    10,10,10,10,10, // K 
-                                    11,11,11,11,11, // L
-                                    12,12,12,12,12, // M
-                                    13,13,13,13,13, // N
-                                    14,14,14,14,14, // O
-                                    15,15,15,15,15, // P
-                                    16,16,16,16,16, // Q
-                                    17,17,17,17,17, // R
-                                    18,18,18,18,18, // S
-                                    19,19,19,19,19, // T
-                                    20,20,20,20,20, // U
-                                    21,21,21,21,21, // V
-                                    22,22,22,22,22, // W
-                                    23,23,23,23,23, // X
-                                    24,24,24,24,24, // Y
-                                    25,25,25,25,25, // Z
+    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1, 1,  // A
+                                    2, 2, 2, 2, 2, 2,  // B  
+                                    3, 3, 3, 3, 3, 3,  // C  
+                                    4, 4, 4, 4, 4, 4,  // D  
+                                    5, 5, 5, 5, 5, 5,  // E  
+                                    6, 6, 6, 6, 6, 6,  // F  
+                                    7, 7, 7, 7, 7, 7,  // G  
+                                    8, 8, 8, 8, 8, 8,  // H  
+                                    9, 9, 9, 9, 9, 9,  // I  
+                                    10,10,10,10,10,10, // J 
+                                    11,11,11,11,11,11, // K
+                                    12,12,12,12,12,12, // L
+                                    13,13,13,13,13,13, // M
+                                    14,14,14,14,14,14, // N
+                                    15,15,15,15,15,15, // O
+                                    16,16,16,16,16,16, // P
+                                    17,17,17,17,17,17, // Q
+                                    18,18,18,18,18,18, // R
+                                    19,19,19,19,19,19, // S
+                                    20,20,20,20,20,20, // T
+                                    21,21,21,21,21,21, // U
+                                    22,22,22,22,22,22, // V
+                                    23,23,23,23,23,23, // W
+                                    24,24,24,24,24,24, // X
+                                    25,25,25,25,25,25, // Y
+                                    26,26,26,26,26,26, // Z 
             
-                                    26, 26, 26, 26, 26, // a 
-                                    27, 27, 27, 27, 27, // b 
-                                    28, 28, 28, 28, 28, // d  
-                                    29, 29, 29, 29, 29, // e 
-                                    30, 30, 30, 30, 30, // f 
-                                    31, 31, 31, 31, 31, // g 
-                                    32, 32, 32, 32, 32, // h 
-                                    33, 33, 33, 33, 33, // j 
-                                    34, 34, 34, 34, 34, // m 
-                                    35, 35, 35, 35, 35, // n 
-                                    36, 36, 36, 36, 36, // q 
-                                    37, 37, 37, 37, 37, // r 
-                                    38, 38, 38, 38, 38, // t 
-                                    39, 39, 39, 39, 39, // u 
-                                    40, 40, 40, 40, 40, // y
+                                    26, 26, 26, 26, 26, 26, // a 
+                                    27, 27, 27, 27, 27, 27, // b 
+                                    28, 28, 28, 28, 28, 28, // d  
+                                    29, 29, 29, 29, 29, 29, // e 
+                                    30, 30, 30, 30, 30, 30, // f 
+                                    31, 31, 31, 31, 31, 31, // g 
+                                    32, 32, 32, 32, 32, 32, // h 
+                                    33, 33, 33, 33, 33, 33, // i 
+                                    34, 34, 34, 34, 34, 34, // j 
+                                    35, 35, 35, 35, 35, 35, // l 
+                                    36, 36, 36, 36, 36, 36, // m 
+                                    37, 37, 37, 37, 37, 37, // n 
+                                    38, 38, 38, 38, 38, 38, // q 
+                                    39, 39, 39, 39, 39, 39, // r 
+                                    40, 40, 40, 40, 40, 40, // t
+                                    41, 41, 41, 41, 41, 41, // u
+                                    42, 42, 42, 42, 42, 42, // y
     
-                                    41, 41, 41, 41, 41, // 0
-                                    42, 42, 42, 42, 42, // 1 
-                                    43, 43, 43, 43, 43, // 2 
-                                    44, 44, 44, 44, 44, // 3 
-                                    45, 45, 45, 45, 45, // 4 
-                                    46, 46, 46, 46, 46, // 5 
-                                    47, 47, 47, 47, 47, // 6 
-                                    48, 48, 48, 48, 48, // 7 
-                                    49, 49, 49, 49, 49, // 8 
-                                    50, 50, 50, 50, 50, // 9 
+                                    43, 43, 43, 43, 43, 43, // 0 
+                                    44, 44, 44, 44, 44, 44, // 1 
+                                    45, 45, 45, 45, 45, 45, // 2 
+                                    46, 46, 46, 46, 46, 46, // 3 
+                                    47, 47, 47, 47, 47, 47, // 4 
+                                    48, 48, 48, 48, 48, 48, // 5 
+                                    49, 49, 49, 49, 49, 49, // 6 
+                                    50, 50, 50, 50, 50, 50, // 7 
+                                    51, 51, 51, 51, 51, 51, // 8 
+                                    52, 52, 52, 52, 52, 52, // 9 
     
                                 };
     
@@ -169,12 +172,11 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     int *tmpData, *tmpData2;
     
     for (int i = 0; i < chars; i++) {
-        
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        tmpData2 = imgPrc.resizeImage();
+        tmpData2 = imgPrc.resizeImage();        
         tmpData = imgPrc.skeletonize();
-                
+        
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
         

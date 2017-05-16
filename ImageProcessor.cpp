@@ -117,7 +117,7 @@ int* ImageProcessor::resizeImage(){
         
     int w = right-left;
     int h = bottom-top;
-    int* resizedImageMatrix = new int[w*h];
+    int* resizedImageMatrix = new int[1600];
     int k = 0;
     
     float *pixels = new float[w*h];
@@ -141,7 +141,7 @@ int* ImageProcessor::resizeImage(){
     ssize_t columns = 40; 
     float pixVal;
     Magick::PixelPacket *pixels2 = image.getPixels(0, 0, 40, 40);
-    k = 0;
+    int m = 0;
     for(int i = 0; i < 40; i++)
     {
         for(int j = 0; j < 40; j++)
@@ -149,9 +149,9 @@ int* ImageProcessor::resizeImage(){
             // filling the image matrix
             Magick::Color color = pixels2[40 * i + j];
             pixVal = (color.redQuantum()/range)/256;
-            if ( pixVal > 0.5 ) { this->resizedMatrix[i][j] = 1; resizedImageMatrix[k] = 1; }
-            else { this->resizedMatrix[i][j] = 0; resizedImageMatrix[k] = 0; }
-            k++;
+            if ( pixVal > 0.5 ) { this->resizedMatrix[i][j] = 1; resizedImageMatrix[m] = 1; }
+            else { this->resizedMatrix[i][j] = 0; resizedImageMatrix[m] = 0; }
+            m++;
         } 
     }
     return resizedImageMatrix;
