@@ -23,7 +23,7 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    //rc.train(15);//(36);
+    rc.train(40);//(36);
     //rc.recognize("imgs/testing/A.jpg");
     rc.recognize("imgs/testing/E.jpg");
     

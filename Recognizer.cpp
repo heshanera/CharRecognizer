@@ -29,8 +29,8 @@ char Recognizer::recognize(std::string path) {
     
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
-    preCharData = imgPrc.resizeImage();
-    charData = imgPrc.skeletonize();
+    /*preCharData*/charData = imgPrc.resizeImage();
+    //charData = imgPrc.skeletonize();
     int brk = 0;
     for (int j = 0; j < (1601); j++) {
 
@@ -39,7 +39,7 @@ char Recognizer::recognize(std::string path) {
         
         // printing the character ( before skeletonization)
         if (j%40 == 0) std::cout<<"\n";
-        if (j < 1600 ) std::cout<<preCharData[j]<<" ";
+        if (j < 1600 ) std::cout<<charData[j]<<" ";
         
         /*
         // printing the skeletonized Image

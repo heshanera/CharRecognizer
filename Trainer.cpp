@@ -20,17 +20,17 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 40; // output node classes ( 25 + 15 )
-    chars = 125 + 75; // number of training chars (25*5 + 15*5)
+    classes = 50; // output node classes ( 25(uppercase) + 15(lowercase) +10(digits))
+    chars = 125 + 75 +50; // number of training chars (25*5 + 15*5 + 10*5)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.025; // learning rate of the network 
+    learningRate = 0.001; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 300;
-    hiddenLayer2Nodes = 250;
+    hiddenLayer1Nodes = 350;
+    hiddenLayer2Nodes = 300;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -77,7 +77,19 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     "imgs/training/r.jpg","imgs/training/r2.jpg","imgs/training/r3.jpg","imgs/training/r4.jpg","imgs/training/r5.jpg",
                                     "imgs/training/t.jpg","imgs/training/t2.jpg","imgs/training/t3.jpg","imgs/training/t4.jpg","imgs/training/t5.jpg",
                                     "imgs/training/u.jpg","imgs/training/u2.jpg","imgs/training/u3.jpg","imgs/training/u4.jpg","imgs/training/u5.jpg",
-                                    "imgs/training/y.jpg","imgs/training/y2.jpg","imgs/training/y3.jpg","imgs/training/y4.jpg","imgs/training/y5.jpg"
+                                    "imgs/training/y.jpg","imgs/training/y2.jpg","imgs/training/y3.jpg","imgs/training/y4.jpg","imgs/training/y5.jpg",
+                                    
+                                    "imgs/training/01.jpg","imgs/training/02.jpg","imgs/training/03.jpg","imgs/training/04.jpg","imgs/training/05.jpg",
+                                    "imgs/training/11.jpg","imgs/training/12.jpg","imgs/training/13.jpg","imgs/training/14.jpg","imgs/training/15.jpg",
+                                    "imgs/training/21.jpg","imgs/training/22.jpg","imgs/training/23.jpg","imgs/training/24.jpg","imgs/training/25.jpg",
+                                    "imgs/training/31.jpg","imgs/training/32.jpg","imgs/training/33.jpg","imgs/training/34.jpg","imgs/training/35.jpg",
+                                    "imgs/training/41.jpg","imgs/training/42.jpg","imgs/training/43.jpg","imgs/training/44.jpg","imgs/training/45.jpg",
+                                    "imgs/training/51.jpg","imgs/training/52.jpg","imgs/training/53.jpg","imgs/training/54.jpg","imgs/training/55.jpg",
+                                    "imgs/training/61.jpg","imgs/training/62.jpg","imgs/training/63.jpg","imgs/training/64.jpg","imgs/training/65.jpg",
+                                    "imgs/training/71.jpg","imgs/training/72.jpg","imgs/training/73.jpg","imgs/training/74.jpg","imgs/training/75.jpg",
+                                    "imgs/training/81.jpg","imgs/training/82.jpg","imgs/training/83.jpg","imgs/training/84.jpg","imgs/training/85.jpg",
+                                    "imgs/training/91.jpg","imgs/training/92.jpg","imgs/training/93.jpg","imgs/training/94.jpg","imgs/training/95.jpg",
+    
                                 };
     
     char typeOfTrainingChars[] = {  1, 1, 1, 1, 1,  // A
@@ -121,6 +133,18 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                                     38, 38, 38, 38, 38, // t 
                                     39, 39, 39, 39, 39, // u 
                                     40, 40, 40, 40, 40, // y
+    
+                                    41, 41, 41, 41, 41, // 0
+                                    42, 42, 42, 42, 42, // 1 
+                                    43, 43, 43, 43, 43, // 2 
+                                    44, 44, 44, 44, 44, // 3 
+                                    45, 45, 45, 45, 45, // 4 
+                                    46, 46, 46, 46, 46, // 5 
+                                    47, 47, 47, 47, 47, // 6 
+                                    48, 48, 48, 48, 48, // 7 
+                                    49, 49, 49, 49, 49, // 8 
+                                    50, 50, 50, 50, 50, // 9 
+    
                                 };
     
     
@@ -129,7 +153,10 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
                     'S','T','U','V','W','X','Y','Z',
     
                     'a','b','d','e','f','g','h','j','m',
-                    'n','q','r','t','u','y'
+                    'n','q','r','t','u','y',
+    
+                    '0','1','2','3','4','5','6','7','8','9',
+    
                     };
     
     targetChars = new char[chars];
@@ -145,8 +172,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
         
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        tmpData2 = imgPrc.resizeImage();
-        tmpData = imgPrc.skeletonize();
+        /*tmpData2*/tmpData = imgPrc.resizeImage();
+        //tmpData = imgPrc.skeletonize();
                 
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
@@ -159,7 +186,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
+            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
@@ -453,6 +480,18 @@ int Trainer::sortMeanList(float* list, int listSize){
                                     38, 38, 38, 38, 38, // t 
                                     39, 39, 39, 39, 39, // u 
                                     40, 40, 40, 40, 40, // y
+    
+                                    41, 41, 41, 41, 41, // 0
+                                    42, 42, 42, 42, 42, // 1 
+                                    43, 43, 43, 43, 43, // 2 
+                                    44, 44, 44, 44, 44, // 3 
+                                    45, 45, 45, 45, 45, // 4 
+                                    46, 46, 46, 46, 46, // 5 
+                                    47, 47, 47, 47, 47, // 6 
+                                    48, 48, 48, 48, 48, // 7 
+                                    49, 49, 49, 49, 49, // 8 
+                                    50, 50, 50, 50, 50, // 9 
+    
                                 };
     
     
@@ -461,7 +500,10 @@ int Trainer::sortMeanList(float* list, int listSize){
                     'S','T','U','V','W','X','Y','Z',
     
                     'a','b','d','e','f','g','h','j','m',
-                    'n','q','r','t','u','y'
+                    'n','q','r','t','u','y',
+    
+                    '0','1','2','3','4','5','6','7','8','9',
+    
                     };
     
     targetChars = new char[chars];
