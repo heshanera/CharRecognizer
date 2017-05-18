@@ -24,12 +24,12 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     chars = 156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.017; //0.017; // learning rate of the network 
+    learningRate = 0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 350;
+    hiddenLayer1Nodes = 450;
     hiddenLayer2Nodes = 300;
     
     
@@ -174,8 +174,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     for (int i = 0; i < chars; i++) {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        /*tmpData2*/tmpData = imgPrc.resizeImage();        
-        //tmpData = imgPrc.skeletonize();
+        tmpData2 = imgPrc.resizeImage();        
+        tmpData = imgPrc.skeletonize();
         
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
@@ -188,7 +188,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
+            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
@@ -197,8 +197,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.001; //0.001;
-    float HI = 0.009; //0.009;
+    float LO = 0.001;
+    float HI = 0.009;
     
     // Initializing the weight Matrix1 **************************************************************/
     
