@@ -209,16 +209,16 @@ int Recognizer::getOutputMatrix(){
     
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
-    /*
+    
     std::cout<<"\n\n-------------------------\n";
     
     std::cout<<"\n\nOut Vector: \n";
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            std::cout<<outputLayerMatrix.get(i,j)*10e4<<" ";
+            std::cout<<floor(outputLayerMatrix.get(i,j) + 0.5)<<" ";
         }
     }
-    */
+    
     
     float tmp;
     //std::cout<<"\n\nMedian: \n";

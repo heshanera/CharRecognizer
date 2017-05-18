@@ -21,10 +21,10 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 53; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    chars = 60; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.017; // learning rate of the network 
+    learningRate = 0.1; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
@@ -413,7 +413,7 @@ int Trainer::printOutputLayer(){
     int cols = outputLayerMatrix.getcols();
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
-            std::cout<<outputLayerMatrix.get(i,j)<<" ";
+            std::cout<<floor(outputLayerMatrix.get(i,j) + 0.5)<<" ";
         }
         std::cout<<"\n";
     }

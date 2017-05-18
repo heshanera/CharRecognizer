@@ -23,12 +23,16 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    //rc.train(36);//(36);
+    rc.train(18);//(36);
     //rc.recognize("imgs/testing/A.png");
-    rc.recognize("imgs/testing/a.png");
-    rc.recognize("imgs/testing/s.png");
-    rc.recognize("imgs/testing/M2.png");
-    rc.recognize("imgs/testing/V.png");
+    rc.recognize("imgs/testing/A.png");
+    rc.recognize("imgs/testing/A2.png");
+    rc.recognize("imgs/testing/A3.png");
+    rc.recognize("imgs/testing/A4.png");
+    rc.recognize("imgs/testing/C2.png");
+    //rc.recognize("imgs/testing/s.png");
+    //rc.recognize("imgs/testing/M2.png");
+    //rc.recognize("imgs/testing/V.png");
     
     
     // writing the ranges to the file
