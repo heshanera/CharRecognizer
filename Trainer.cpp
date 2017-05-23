@@ -20,8 +20,8 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 53; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 60; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    chars = 6; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.1; //0.017; // learning rate of the network 
