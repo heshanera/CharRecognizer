@@ -262,11 +262,16 @@ int Recognizer::train(int noOfIteration){
     trainer.initializeWeightMatrices(noOfIteration);
     
     // training for i no of iterations
-    for (int i = 0; i < noOfIteration; i++) {    
-        trainer.forwardPropagation();
-        trainer.backPropagation();
-        trainer.printOutputLayer();
+    
+    for(int j = 0; j < 2; j++){
+        trainer.changeInputMatrix(j);
+        for (int i = 0; i < noOfIteration; i++) {   
+            trainer.forwardPropagation();
+            trainer.backPropagation();
+            trainer.printOutputLayer();
+        }
     }
+    
     trainer.printdifferenceMeanList();
     trainer.writeWeights();
 }

@@ -17,6 +17,7 @@ public:
     virtual ~Trainer();
     
     int initializeWeightMatrices(int);
+    int changeInputMatrix(int inputMatrixNo);
     int forwardPropagation();
     int backPropagation();
     int sortMeanList(float *,int);
