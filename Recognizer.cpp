@@ -260,13 +260,17 @@ int Recognizer::train(int noOfIteration){
 
     Trainer trainer;
     trainer.initializeWeightMatrices(noOfIteration);
-    
+    int iterationNo = 0;
     // training for i no of iterations
-    for (int i = 0; i < noOfIteration; i++) {    
+    for (int i = 0; i < noOfIteration; i++) {
+        
+        iterationNo++;
+        std::cout<<"Iteration: "<<iterationNo<<"\n";
+        
         trainer.forwardPropagation();
         trainer.backPropagation();
         trainer.printOutputLayer();
     }
-    trainer.printdifferenceMeanList();
-    trainer.writeWeights();
+    //trainer.printdifferenceMeanList();
+    //trainer.writeWeights();
 }

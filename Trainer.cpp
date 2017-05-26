@@ -20,11 +20,11 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 4; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 24; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.01; //0.017; // learning rate of the network 
+    learningRate = 0.0035; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
@@ -174,8 +174,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     for (int i = 0; i < chars; i++) {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        tmpData2 = imgPrc.resizeImage();        
-        tmpData = imgPrc.skeletonize();
+        /*tmpData2*/tmpData = imgPrc.resizeImage();        
+        //tmpData = imgPrc.skeletonize();
         
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
@@ -184,11 +184,14 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
         for (int j = 0; j < inputLayerNodes; j++) {
             
             if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
-            else inputMatrixData[j + (inputLayerNodes*i)] = tmpData[j-1]; 
+            else {
+                if ( tmpData[j-1] == 0 ) inputMatrixData[j + (inputLayerNodes*i)] = -1;
+                else inputMatrixData[j + (inputLayerNodes*i)] = 1;
+            }    
             
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
+            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
@@ -197,8 +200,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.0001;
-    float HI = 0.0005;
+    float LO = 0.00001;
+    float HI = 0.00009;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -249,8 +252,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
-            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
-            else targetMatrixData[k] = 0;
+            //if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
+            targetMatrixData[k] = typeOfTrainingChars[i]*0.1 ;
             k++;
         }
    
@@ -278,14 +281,13 @@ int Trainer::forwardPropagation(){
     
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
-    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
-    //outputLayerMatrix.printMatrix();
+    //outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    outputLayerMatrix.printMatrix();
     
     return 0;
 }
 
 int Trainer::backPropagation(){
-
     
     // updating weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
@@ -408,6 +410,7 @@ int Trainer::printOutputLayer(){
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
     //outputLayerMatrix.printMatrix();
     
+    /*
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
@@ -418,7 +421,7 @@ int Trainer::printOutputLayer(){
         }
         std::cout<<"\n";
     }
-    
+     
     float meanlist[chars];
     float tmp;
     std::cout<<"\n\nMean Matrix: \n";
@@ -437,7 +440,7 @@ int Trainer::printOutputLayer(){
     
     std::cout<<"\n\nSorted Mean Matrix: \n";
     sortMeanList(meanlist, chars);
-    
+    */
     return 0;        
 }
 
