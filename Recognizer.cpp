@@ -29,8 +29,8 @@ char Recognizer::recognize(std::string path) {
     
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
-    preCharData = imgPrc.resizeImage();
-    charData = imgPrc.skeletonize();
+    /*preCharData*/charData = imgPrc.resizeImage();
+    //charData = imgPrc.skeletonize();
     int brk = 0;
     for (int j = 0; j < (1601); j++) {
 
@@ -39,7 +39,7 @@ char Recognizer::recognize(std::string path) {
         
         // printing the character ( before skeletonization)
         if (j%40 == 0) std::cout<<"\n";
-        if (j < 1600 ) std::cout<<preCharData[j]<<" ";
+        if (j < 1600 ) std::cout<<charData[j]<<" ";
         
         /*
         // printing the skeletonized Image
@@ -58,7 +58,7 @@ char Recognizer::recognize(std::string path) {
     // return the output matrix
     getOutputMatrix();
     // return the character
-    char character = checkTheRange();
+    char character = '\0';//checkTheRange();
     
     return character;
 }
@@ -191,7 +191,7 @@ int Recognizer::getOutputMatrix(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
     
@@ -221,6 +221,7 @@ int Recognizer::getOutputMatrix(){
     }
     
     
+    /*
     float tmp;
     //std::cout<<"\n\nMedian: \n";
     for (int i = 0; i < rows; i++){
@@ -233,8 +234,8 @@ int Recognizer::getOutputMatrix(){
         //std::cout<<(tmp/cols)*10e4<<"\n";
     }
     //std::cout<<"\n\n";
-    
-    //std::cout<<"\n-------------------------\n\n";
+    */
+    std::cout<<"\n-------------------------\n\n";
     
     return 0;
 }
@@ -273,5 +274,5 @@ int Recognizer::train(int noOfIteration){
         trainer.printOutputLayer();
     }
     //trainer.printdifferenceMeanList();
-    //trainer.writeWeights();
+    trainer.writeWeights();
 }

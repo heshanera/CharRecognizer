@@ -21,7 +21,7 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.5; //0.017; // learning rate of the network 
@@ -29,7 +29,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 50; //450;
+    hiddenLayer1Nodes = 60; //450;
     hiddenLayer2Nodes = 40; //300;
     
     
@@ -174,8 +174,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     for (int i = 0; i < chars; i++) {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        tmpData2 = imgPrc.resizeImage();        
-        tmpData = imgPrc.skeletonize();
+        tmpData = imgPrc.resizeImage();        
+        //tmpData = imgPrc.skeletonize();
         
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
@@ -188,7 +188,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
+            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
@@ -197,8 +197,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.001;
-    float HI = 0.005;
+    float LO = 0.01;
+    float HI = 0.09;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -249,8 +249,12 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
+            /*
             if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
+             */
+            if ( k < 6 ) targetMatrixData[k] = 1;
+            else targetMatrixData[k] = 1;
             k++;
         }
    
@@ -266,7 +270,7 @@ int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
    
@@ -374,13 +378,14 @@ int Trainer::writeWeights(){
     weightData <<"\n\n\n";
     
     // writing the character ranges
+    /*
     weightData <<"range: ";
     for(int i = 0; i < chars; i++){
         weightData <<rangeChars[i]<<" ";
         weightData <<rangeData[i*2]<<" ";
         weightData <<rangeData[(i*2)+1]<<" ";
     }
-    
+    */
     weightData.close();
     
     return 0;
