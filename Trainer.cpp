@@ -21,16 +21,16 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 318; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.0035; //0.017; // learning rate of the network 
+    learningRate = 0.01; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 50;//450;
-    hiddenLayer2Nodes = 40;//300;
+    hiddenLayer1Nodes = 450;
+    hiddenLayer2Nodes = 300;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -174,8 +174,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     for (int i = 0; i < chars; i++) {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
-        /*tmpData2*/tmpData = imgPrc.resizeImage();        
-        //tmpData = imgPrc.skeletonize();
+        tmpData2 = imgPrc.resizeImage();        
+        tmpData = imgPrc.skeletonize();
         
         //if (i == 0 ) tmpData = tmp1;       
         //else tmpData = tmp2;
@@ -184,14 +184,11 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
         for (int j = 0; j < inputLayerNodes; j++) {
             
             if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
-            else {
-                if ( tmpData[j-1] == 0 ) inputMatrixData[j + (inputLayerNodes*i)] = -1;
-                else inputMatrixData[j + (inputLayerNodes*i)] = 1;
-            }    
+            else inputMatrixData[j + (inputLayerNodes*i)] = tmpData[j-1]; 
             
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
+            if (j != 0 ) std::cout<<tmpData2[j-1]<<" ";
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
@@ -201,7 +198,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     //inputMatrix.printMatrix();
     
     float LO = 0.0001;
-    float HI = 0.0009;
+    float HI = 0.0005;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -252,8 +249,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
-            //if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
-            targetMatrixData[k] = typeOfTrainingChars[i];
+            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
+            else targetMatrixData[k] = 0;
             k++;
         }
    
@@ -269,7 +266,7 @@ int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
    
@@ -282,12 +279,13 @@ int Trainer::forwardPropagation(){
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
     outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
-    outputLayerMatrix.printMatrix();
+    //outputLayerMatrix.printMatrix();
     
     return 0;
 }
 
 int Trainer::backPropagation(){
+
     
     // updating weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
@@ -395,22 +393,21 @@ int Trainer::printOutputLayer(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
     
     // hidden layer 1 --> hidden layer 2    
     hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
-    hiddenLayer2Matrix = Activation::tanSigmoid(hiddenLayer2Matrix);
+    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
     //hiddenLayer2Matrix.printMatrix();
     
     
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
-    outputLayerMatrix = Activation::tanSigmoid(outputLayerMatrix);
+    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
     //outputLayerMatrix.printMatrix();
     
-    /*
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
@@ -421,7 +418,7 @@ int Trainer::printOutputLayer(){
         }
         std::cout<<"\n";
     }
-     
+    
     float meanlist[chars];
     float tmp;
     std::cout<<"\n\nMean Matrix: \n";
@@ -440,7 +437,7 @@ int Trainer::printOutputLayer(){
     
     std::cout<<"\n\nSorted Mean Matrix: \n";
     sortMeanList(meanlist, chars);
-    */
+    
     return 0;        
 }
 
