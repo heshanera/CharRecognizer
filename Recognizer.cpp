@@ -35,7 +35,11 @@ char Recognizer::recognize(std::string path) {
     for (int j = 0; j < (1601); j++) {
 
         if ( j == 0 ) inputMatrixData[j] = 1; // bias
-        else inputMatrixData[j] = charData[j-1]; 
+        
+        else {
+            if (charData[j-1] == 1) inputMatrixData[j]  = 1;
+            else inputMatrixData[j]  = 2;
+        }
         
         // printing the character ( before skeletonization)
         if (j%40 == 0) std::cout<<"\n";

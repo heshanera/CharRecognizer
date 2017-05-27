@@ -21,7 +21,7 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.5; //0.017; // learning rate of the network 
@@ -184,8 +184,12 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
         for (int j = 0; j < inputLayerNodes; j++) {
             
             if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
-            else inputMatrixData[j + (inputLayerNodes*i)] = tmpData[j-1]; 
-            
+            else {
+                if (tmpData[j-1] == 1) inputMatrixData[j + (inputLayerNodes*i)] = 1;
+                else inputMatrixData[j + (inputLayerNodes*i)] = 2;
+            }
+                
+                
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
             if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
@@ -197,8 +201,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.01;
-    float HI = 0.09;
+    float LO = 0.001;
+    float HI = 0.009;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -254,7 +258,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             else targetMatrixData[k] = 0;
              */
             if ( k < 6 ) targetMatrixData[k] = 1;
-            else targetMatrixData[k] = 1;
+            else targetMatrixData[k] = 0;
             k++;
         }
    
@@ -318,7 +322,6 @@ int Trainer::backPropagation(){
             w1Delta.set(i, j, ( w1Delta3.get(i,j)*w1Delta1.get(0,j)*learningRate ));
         }
     }
-    
     // updating the weights
     weightMatrix3 = weightMatrix3.subtract(w3Delta);
     weightMatrix2 = weightMatrix2.subtract(w2Delta);
