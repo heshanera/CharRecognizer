@@ -186,7 +186,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
             else {
                 if (tmpData[j-1] == 1) inputMatrixData[j + (inputLayerNodes*i)] = 1;
-                else inputMatrixData[j + (inputLayerNodes*i)] = 2;
+                else inputMatrixData[j + (inputLayerNodes*i)] = 0;
             }
                 
                 
@@ -299,7 +299,8 @@ int Trainer::backPropagation(){
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
     w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.subtractFrom(1));
     w3Delta3 = hiddenLayer2Matrix.transpose();        
-    w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);      
+    w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);   
+    w3Delta = w3Delta.scalarMul(1/12);
     
     // updating weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
     w2Delta1 = w3Delta1.hadamardMul(w3Delta2).matrixMul(weightMatrix3.transpose());
@@ -311,6 +312,7 @@ int Trainer::backPropagation(){
             w2Delta.set(i, j, ( w2Delta3.get(i,j)*w2Delta1.get(0,j)*learningRate ));
         }
     }
+    w2Delta = w2Delta.scalarMul(1/12);
     
     // updating weight matrix 1 ( input layer 1 --> hidden layer 1 )
     w1Delta1 = w2Delta1.matrixMul(weightMatrix2.transpose());
@@ -322,6 +324,8 @@ int Trainer::backPropagation(){
             w1Delta.set(i, j, ( w1Delta3.get(i,j)*w1Delta1.get(0,j)*learningRate ));
         }
     }
+    w1Delta = w1Delta.scalarMul(1/12);
+    
     // updating the weights
     weightMatrix3 = weightMatrix3.subtract(w3Delta);
     weightMatrix2 = weightMatrix2.subtract(w2Delta);
