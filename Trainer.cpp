@@ -24,13 +24,13 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.01; //0.017; // learning rate of the network 
+    learningRate = 0.5; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 450;
-    hiddenLayer2Nodes = 300;
+    hiddenLayer1Nodes = 50; //450;
+    hiddenLayer2Nodes = 40; //300;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -197,8 +197,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.0001;
-    float HI = 0.0005;
+    float LO = 0.001;
+    float HI = 0.005;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -418,7 +418,7 @@ int Trainer::printOutputLayer(){
         }
         std::cout<<"\n";
     }
-    
+    /*
     float meanlist[chars];
     float tmp;
     std::cout<<"\n\nMean Matrix: \n";
@@ -437,7 +437,7 @@ int Trainer::printOutputLayer(){
     
     std::cout<<"\n\nSorted Mean Matrix: \n";
     sortMeanList(meanlist, chars);
-    
+    */
     return 0;        
 }
 
