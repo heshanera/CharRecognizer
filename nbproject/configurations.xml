@@ -4,11 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Activation.h</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.h</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Matrix.h</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.h</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Trainer.h</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.h</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.h</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.h</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.h</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -17,11 +17,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp</itemPath>
-      <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.cpp</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.cpp</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.cpp</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.cpp</itemPath>
+      <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -35,7 +35,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>/home/heshan/NetBeansProjects/CharRecognizer/weights</itemPath>
+    <itemPath>/home/heshan/Projects/NetBeansProjects/CharRecognizer/weights</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -55,57 +55,57 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Activation.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Matrix.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Trainer.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/weights"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/weights"
             ex="false"
             tool="3"
             flavor2="0">
@@ -134,57 +134,57 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Activation.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Matrix.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Recognizer.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.cpp"
             ex="false"
             tool="1"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/Trainer.h"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="/home/heshan/NetBeansProjects/CharRecognizer/weights"
+      <item path="/home/heshan/Projects/NetBeansProjects/CharRecognizer/weights"
             ex="false"
             tool="3"
             flavor2="0">

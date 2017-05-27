@@ -21,7 +21,7 @@ Trainer::~Trainer() { }
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
     classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    chars = 318; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.0035; //0.017; // learning rate of the network 
@@ -29,8 +29,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 450;
-    hiddenLayer2Nodes = 300;
+    hiddenLayer1Nodes = 50;//450;
+    hiddenLayer2Nodes = 40;//300;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -200,8 +200,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
     
-    float LO = 0.00001;
-    float HI = 0.00009;
+    float LO = 0.0001;
+    float HI = 0.0009;
     
     // Initializing the weight Matrix1 **************************************************************/
     
@@ -253,7 +253,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
             //if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
-            targetMatrixData[k] = typeOfTrainingChars[i]*0.1 ;
+            targetMatrixData[k] = typeOfTrainingChars[i];
             k++;
         }
    
@@ -269,7 +269,7 @@ int Trainer::forwardPropagation(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
    
@@ -281,7 +281,7 @@ int Trainer::forwardPropagation(){
     
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
-    //outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
     outputLayerMatrix.printMatrix();
     
     return 0;
@@ -395,19 +395,19 @@ int Trainer::printOutputLayer(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
     
     // hidden layer 1 --> hidden layer 2    
     hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
-    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+    hiddenLayer2Matrix = Activation::tanSigmoid(hiddenLayer2Matrix);
     //hiddenLayer2Matrix.printMatrix();
     
     
     // hidden layer 2 --> output layer
     outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
-    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+    outputLayerMatrix = Activation::tanSigmoid(outputLayerMatrix);
     //outputLayerMatrix.printMatrix();
     
     /*

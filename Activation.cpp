@@ -146,5 +146,40 @@ Matrix Activation::SigmoidDerivative(Matrix m)
 	return m2;
 }
 
+/***************** Tan-Sigmoid Function ********************/
+
+float Activation::tanSigmoid(float x)
+{	
+    /*
+     *  (2 / (1 + e^(-2x)))-1
+     */
+    return ( 2 / ( 1 + ( std::pow (EulerConstant, (-2 * x) ) ) ) ) - 1;
+}
+
+Matrix Activation::tanSigmoid(Matrix m)
+{	
+	int rows = m.getrows();
+	int cols = m.getcols();
+	
+	int size = rows * cols;
+	float* tmpdata;
+	tmpdata = new float[size];
+
+	int k = 0;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			tmpdata[k] = tanSigmoid(m.get(i,j)); 
+			k++;
+		}	
+	}	
+
+	Matrix m2;
+	m2.allocateSize(rows,cols);
+	m2.fillMatrix(tmpdata);
+	return m2;
+}
+
 /***********************************************************/
 

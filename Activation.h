@@ -29,6 +29,10 @@ public:
     // Sigmoid
     static float sigmoid(float x);
     static Matrix sigmoid(Matrix m);
+    
+    // TanSigmoid
+    static float tanSigmoid(float x);
+    static Matrix tanSigmoid(Matrix m);
 
     // Piecewise Linear 
 

@@ -35,11 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/5c78531a/Activation.o \
-	${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o \
-	${OBJECTDIR}/_ext/5c78531a/Matrix.o \
-	${OBJECTDIR}/_ext/5c78531a/Recognizer.o \
-	${OBJECTDIR}/_ext/5c78531a/Trainer.o \
+	${OBJECTDIR}/_ext/102b1a23/Activation.o \
+	${OBJECTDIR}/_ext/102b1a23/ImageProcessor.o \
+	${OBJECTDIR}/_ext/102b1a23/Matrix.o \
+	${OBJECTDIR}/_ext/102b1a23/Recognizer.o \
+	${OBJECTDIR}/_ext/102b1a23/Trainer.o \
 	${OBJECTDIR}/main.o
 
 
@@ -67,30 +67,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/charrecognizer: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/charrecognizer ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/_ext/5c78531a/Activation.o: /home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+${OBJECTDIR}/_ext/102b1a23/Activation.o: /home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/102b1a23
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Activation.o /home/heshan/NetBeansProjects/CharRecognizer/Activation.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/102b1a23/Activation.o /home/heshan/Projects/NetBeansProjects/CharRecognizer/Activation.cpp
 
-${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o: /home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+${OBJECTDIR}/_ext/102b1a23/ImageProcessor.o: /home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/102b1a23
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/ImageProcessor.o /home/heshan/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/102b1a23/ImageProcessor.o /home/heshan/Projects/NetBeansProjects/CharRecognizer/ImageProcessor.cpp
 
-${OBJECTDIR}/_ext/5c78531a/Matrix.o: /home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+${OBJECTDIR}/_ext/102b1a23/Matrix.o: /home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/102b1a23
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Matrix.o /home/heshan/NetBeansProjects/CharRecognizer/Matrix.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/102b1a23/Matrix.o /home/heshan/Projects/NetBeansProjects/CharRecognizer/Matrix.cpp
 
-${OBJECTDIR}/_ext/5c78531a/Recognizer.o: /home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+${OBJECTDIR}/_ext/102b1a23/Recognizer.o: /home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/102b1a23
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Recognizer.o /home/heshan/NetBeansProjects/CharRecognizer/Recognizer.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/102b1a23/Recognizer.o /home/heshan/Projects/NetBeansProjects/CharRecognizer/Recognizer.cpp
 
-${OBJECTDIR}/_ext/5c78531a/Trainer.o: /home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp
-	${MKDIR} -p ${OBJECTDIR}/_ext/5c78531a
+${OBJECTDIR}/_ext/102b1a23/Trainer.o: /home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/102b1a23
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/5c78531a/Trainer.o /home/heshan/NetBeansProjects/CharRecognizer/Trainer.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags Magick++` -std=c++14  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/102b1a23/Trainer.o /home/heshan/Projects/NetBeansProjects/CharRecognizer/Trainer.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
