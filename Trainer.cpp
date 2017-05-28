@@ -455,6 +455,8 @@ int Trainer::printOutputLayer(){
     return 0;        
 }
 
+
+/*
 int Trainer::sortMeanList(float* list, int listSize){
     
     char typeOfTrainingChars[] = {  1, 1, 1, 1, 1, 1,  // A
@@ -603,3 +605,5 @@ int Trainer::printdifferenceMeanList(){
     }     
     std::cout<<"\n------------------------------------------\n"<<iterationNo;
 }
+
+*/
