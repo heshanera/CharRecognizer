@@ -38,7 +38,7 @@ char Recognizer::recognize(std::string path) {
         
         else {
             if (charData[j-1] == 1) inputMatrixData[j]  = 1;
-            else inputMatrixData[j]  = -k1;
+            else inputMatrixData[j]  = -1;
         }
         
         // printing the character ( before skeletonization)
@@ -246,24 +246,6 @@ int Recognizer::getOutputMatrix(){
     std::cout<<"\n-------------------------\n\n";
     
     return 0;
-}
-
-char Recognizer::checkTheRange(){
-    
-    std::cout<<"\n\n\n-----------------------------\n\n";
-    std::cout<<charValue<<"\t==>";
-    
-    for (int i = 0; i < trainSet; i++){
-        if ( charValue <= rangeData[(i*2)+1] ) {
-            
-            std::cout<<"\t"<<rangeChars[i];
-            std::cout<<"\n\n-----------------------------\n\n\n";
-            
-            return rangeChars[i];
-            break;
-        }
-    }
-    return '\0';
 }
 
 int Recognizer::train(int noOfIteration){

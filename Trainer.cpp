@@ -189,8 +189,9 @@ int Trainer::backPropagation(){
 int Trainer::train(int noOfIteration){
     
     initializeWeightMatrices(noOfIteration);
-
+    
     /*********************** opening the weight data file *********************/
+
     std::ofstream weightData;
     weightData.open ("weights");
     
