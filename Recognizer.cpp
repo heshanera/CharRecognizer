@@ -38,7 +38,7 @@ char Recognizer::recognize(std::string path) {
         
         else {
             if (charData[j-1] == 1) inputMatrixData[j]  = 1;
-            else inputMatrixData[j]  = -1;
+            else inputMatrixData[j]  = -k1;
         }
         
         // printing the character ( before skeletonization)

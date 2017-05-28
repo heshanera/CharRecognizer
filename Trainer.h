@@ -39,6 +39,7 @@ private:
     float *rangeData;
     char *rangeChars;
     std::string *trainingImages;
+    char *distinctChars;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

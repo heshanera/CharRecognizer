@@ -95,71 +95,6 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
 
                     };
     
-    int totalTrainingImages = 318;
-    trainingImages = new std::string[totalTrainingImages];
-    for(int i = 0; i < totalTrainingImages; i++){
-        trainingImages[i] = tmpTrainingImages[i];
-    }
-    
-    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1, 1,  // A
-                                    2, 2, 2, 2, 2, 2,  // B  
-                                    3, 3, 3, 3, 3, 3,  // C  
-                                    4, 4, 4, 4, 4, 4,  // D  
-                                    5, 5, 5, 5, 5, 5,  // E  
-                                    6, 6, 6, 6, 6, 6,  // F  
-                                    7, 7, 7, 7, 7, 7,  // G  
-                                    8, 8, 8, 8, 8, 8,  // H  
-                                    9, 9, 9, 9, 9, 9,  // I  
-                                    10,10,10,10,10,10, // J 
-                                    11,11,11,11,11,11, // K
-                                    12,12,12,12,12,12, // L
-                                    13,13,13,13,13,13, // M
-                                    14,14,14,14,14,14, // N
-                                    15,15,15,15,15,15, // O
-                                    16,16,16,16,16,16, // P
-                                    17,17,17,17,17,17, // Q
-                                    18,18,18,18,18,18, // R
-                                    19,19,19,19,19,19, // S
-                                    20,20,20,20,20,20, // T
-                                    21,21,21,21,21,21, // U
-                                    22,22,22,22,22,22, // V
-                                    23,23,23,23,23,23, // W
-                                    24,24,24,24,24,24, // X
-                                    25,25,25,25,25,25, // Y
-                                    26,26,26,26,26,26, // Z 
-             
-                                    27, 27, 27, 27, 27, 27, // a 
-                                    28, 28, 28, 28, 28, 28, // b  
-                                    29, 29, 29, 29, 29, 29, // d 
-                                    30, 30, 30, 30, 30, 30, // e 
-                                    31, 31, 31, 31, 31, 31, // f 
-                                    32, 32, 32, 32, 32, 32, // g 
-                                    33, 33, 33, 33, 33, 33, // h 
-                                    34, 34, 34, 34, 34, 34, // i 
-                                    35, 35, 35, 35, 35, 35, // j 
-                                    36, 36, 36, 36, 36, 36, // l 
-                                    37, 37, 37, 37, 37, 37, // m 
-                                    38, 38, 38, 38, 38, 38, // n 
-                                    39, 39, 39, 39, 39, 39, // q 
-                                    40, 40, 40, 40, 40, 40, // r
-                                    41, 41, 41, 41, 41, 41, // t
-                                    42, 42, 42, 42, 42, 42, // u
-                                    43, 43, 43, 43, 43, 43, // y 
-    
-                                    44, 44, 44, 44, 44, 44, // 0 
-                                    45, 45, 45, 45, 45, 45, // 1 
-                                    46, 46, 46, 46, 46, 46, // 2 
-                                    47, 47, 47, 47, 47, 47, // 3 
-                                    48, 48, 48, 48, 48, 48, // 4 
-                                    49, 49, 49, 49, 49, 49, // 5 
-                                    50, 50, 50, 50, 50, 50, // 6 
-                                    51, 51, 51, 51, 51, 51, // 7 
-                                    52, 52, 52, 52, 52, 52, // 8 
-                                    53, 53, 53, 53, 53, 53, // 9 
-    
-                                };
-    
-    
     char caps[] = { 'A','B','C','D','E','F','G','H','I',
                     'J','K','L','M','N','O','P','Q','R',
                     'S','T','U','V','W','X','Y','Z',
@@ -169,115 +104,19 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
                     '0','1','2','3','4','5','6','7','8','9',
     
-                    };
+                };
     
-    targetChars = new char[chars];
-    for (int i = 0; i < chars; i++){
-        targetChars[i] = caps[typeOfTrainingChars[i]-1];
+    int totalTrainingImages = 318;
+    trainingImages = new std::string[totalTrainingImages];
+    for(int i = 0; i < totalTrainingImages; i++){
+        trainingImages[i] = tmpTrainingImages[i];
     }
-    /*
-    ImageProcessor imgPrc;
-    float inputMatrixData[(w*h+1)*chars];
-    int *tmpData, *tmpData2;
     
-    for (int i = 0; i < chars; i++) {
-        imgPrc.initializeImage(trainingImages[i]);
-        imgPrc.createCropedMatrix();
-        tmpData = imgPrc.resizeImage();        
-        //tmpData = imgPrc.skeletonize();
-        
-        //if (i == 0 ) tmpData = tmp1;       
-        //else tmpData = tmp2;
-        
-        int brk = 0;
-        for (int j = 0; j < inputLayerNodes; j++) {
-            
-            if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
-            else {
-                if (tmpData[j-1] == 1) inputMatrixData[j + (inputLayerNodes*i)] = 1;
-                else inputMatrixData[j + (inputLayerNodes*i)] = -1;
-            }
-                
-                
-            if ( j != 0 ) brk++;
-            //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
-            if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
-            if (brk%40 == 0) std::cout<<"\n";
-        }
-        //std::cout<<"\n\n";
-    }    
-    inputMatrix.allocateSize(chars,inputLayerNodes);
-    inputMatrix.fillMatrix(inputMatrixData);
-    //inputMatrix.printMatrix();
-    
-    float LO = 0.001;
-    float HI = 0.009;
-    
-    // Initializing the weight Matrix1 **************************************************************/
-    /*
-    int charPixSize = inputLayerNodes;
-    float randomFloat;
-    float weightMatrix1Data[ charPixSize * hiddenLayer1Nodes];
-    int k = 0;
-    for(int i = 0; i < charPixSize; i++){
-        for(int j = 0; j < hiddenLayer1Nodes; j++){
-            randomFloat = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
-            weightMatrix1Data[k] = randomFloat; k++;
-            //std::cout<<randomFloat<<" " ;
-        }
+    int noOfDistinctChars = 53;
+    distinctChars = new char[noOfDistinctChars];
+    for(int i = 0; i < noOfDistinctChars; i++){
+        distinctChars[i] = caps[i];
     }
-    weightMatrix1.allocateSize(charPixSize, hiddenLayer1Nodes);
-    weightMatrix1.fillMatrix(weightMatrix1Data);
-    
-    // Initializing the weight Matrix2 **************************************************************//*
-    float weightMatrix2Data[ hiddenLayer1Nodes * hiddenLayer2Nodes];
-    k = 0;
-    for(int i = 0; i < hiddenLayer1Nodes; i++){
-        for(int j = 0; j < hiddenLayer2Nodes; j++){
-            randomFloat = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
-            weightMatrix2Data[k] = randomFloat; k++;
-            //std::cout<<randomFloat<<" " ;
-        }
-    }
-    weightMatrix2.allocateSize(hiddenLayer1Nodes, hiddenLayer2Nodes);
-    weightMatrix2.fillMatrix(weightMatrix2Data);
-    
-    // Initializing the weight Matrix3 **************************************************************//*
-    int outputLayerNodes = classes;
-    float weightMatrix3Data[ hiddenLayer2Nodes * outputLayerNodes ];
-    k = 0;
-    for(int i = 0; i < hiddenLayer2Nodes; i++){
-        for(int j = 0; j < outputLayerNodes; j++){
-            randomFloat = LO + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(HI-LO)));//(static_cast <float> (rand()) / (static_cast <float> (RAND_MAX) * 40));
-            weightMatrix3Data[k] = randomFloat; k++;
-            //std::cout<<randomFloat<<" " ;
-        }
-    }
-    weightMatrix3.allocateSize(hiddenLayer2Nodes,outputLayerNodes);
-    weightMatrix3.fillMatrix(weightMatrix3Data);
-    //weightMatrix3.printMatrix();
-    
-    // Initializing the target Matrix **************************************************************//*
-    float targetMatrixData[classes*chars];
-    k = 0;
-    for (int i = 0; i < chars; i++){
-        for (int j = 0; j < classes; j++){
-            /*
-            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
-            else targetMatrixData[k] = 0;
-             */
-            /*
-            if ( k < 6 ) targetMatrixData[k] = 1;
-            else targetMatrixData[k] = 0;
-          
-            k++;
-        }
-   
-    }
-    targetMatrix.allocateSize(chars,classes);
-    targetMatrix.fillMatrix(targetMatrixData);
-    targetMatrix.printMatrix();
-    */
     return 0;
 }
 
@@ -351,7 +190,7 @@ int Trainer::train(int noOfIteration){
     
     initializeWeightMatrices(noOfIteration);
 
-    /*********************** opening the weight file *********************/
+    /*********************** opening the weight data file *********************/
     std::ofstream weightData;
     weightData.open ("weights");
     
@@ -365,9 +204,9 @@ int Trainer::train(int noOfIteration){
     weightData <<"weights: ";
     weightData <<"\n\n";
     
-    /*********************************************************************/
+    /**************************************************************************/
     
-    int distictChars = 2;
+    int distictChars = 3;
     for(int j = 0; j < distictChars; j++){
         fillMatrixData(j);
         int iterNo = 0;
@@ -378,9 +217,9 @@ int Trainer::train(int noOfIteration){
             printOutputLayer();
         }
         
-        /******************** writing the current matrix *****************/
-        
-        weightData <<"\nmatrix1: ";
+        /**************** writing the current weight matrices *****************/
+
+        weightData <<"\n"<<distinctChars[j]<<"_matrix1: ";
         int rows = weightMatrix1.getrows();
         int cols = weightMatrix1.getcols();
         for (int i = 0; i < rows; i++) {	
@@ -389,7 +228,7 @@ int Trainer::train(int noOfIteration){
                 weightData <<weight<<" ";
             }    
         }	
-        weightData <<"\nmatrix2: ";
+        weightData <<"\n"<<distinctChars[j]<<"_matrix2: ";
         rows = weightMatrix2.getrows();
         cols = weightMatrix2.getcols();
         for (int i = 0; i < rows; i++)
@@ -401,7 +240,7 @@ int Trainer::train(int noOfIteration){
             }    
             //weightData <<"\n";
         }	
-        weightData <<"\nmatrix3: ";
+        weightData <<"\n"<<distinctChars[j]<<"_matrix3: ";
         rows = weightMatrix3.getrows();
         cols = weightMatrix3.getcols();
         for (int i = 0; i < rows; i++)
@@ -580,15 +419,6 @@ int Trainer::writeWeights(){
     }	
     weightData <<"\n\n\n";
     
-    // writing the character ranges
-    /*
-    weightData <<"range: ";
-    for(int i = 0; i < chars; i++){
-        weightData <<rangeChars[i]<<" ";
-        weightData <<rangeData[i*2]<<" ";
-        weightData <<rangeData[(i*2)+1]<<" ";
-    }
-    */
     weightData.close();
     
     return 0;
@@ -631,179 +461,6 @@ int Trainer::printOutputLayer(){
         std::cout<<tmpW<<" ";
         std::cout<<"\n";
     }
-    /*
-    float meanlist[chars];
-    float tmp;
-    std::cout<<"\n\nMean Matrix: \n";
-    for (int i = 0; i < rows; i++){
-        tmp = 0;
-        for (int j = 0; j < cols; j++){
-            tmp += outputLayerMatrix.get(i,j);
-            //std::cout<<outputLayerMatrix.get(i,j)<<" ";
-        }
-        tmp = (tmp/classes)*10e4;
-        std::cout<<tmp<<"\n";
-        meanlist[i] = tmp;
-        //std::cout<<"\n";
-    }
-    std::cout<<"\n\n";
-    
-    std::cout<<"\n\nSorted Mean Matrix: \n";
-    sortMeanList(meanlist, chars);
-    */
+
     return 0;        
 }
-
-
-/*
-int Trainer::sortMeanList(float* list, int listSize){
-    
-    char typeOfTrainingChars[] = {  1, 1, 1, 1, 1, 1,  // A
-                                    2, 2, 2, 2, 2, 2,  // B  
-                                    3, 3, 3, 3, 3, 3,  // C  
-                                    4, 4, 4, 4, 4, 4,  // D  
-                                    5, 5, 5, 5, 5, 5,  // E  
-                                    6, 6, 6, 6, 6, 6,  // F  
-                                    7, 7, 7, 7, 7, 7,  // G  
-                                    8, 8, 8, 8, 8, 8,  // H  
-                                    9, 9, 9, 9, 9, 9,  // I  
-                                    10,10,10,10,10,10, // J 
-                                    11,11,11,11,11,11, // K
-                                    12,12,12,12,12,12, // L
-                                    13,13,13,13,13,13, // M
-                                    14,14,14,14,14,14, // N
-                                    15,15,15,15,15,15, // O
-                                    16,16,16,16,16,16, // P
-                                    17,17,17,17,17,17, // Q
-                                    18,18,18,18,18,18, // R
-                                    19,19,19,19,19,19, // S
-                                    20,20,20,20,20,20, // T
-                                    21,21,21,21,21,21, // U
-                                    22,22,22,22,22,22, // V
-                                    23,23,23,23,23,23, // W
-                                    24,24,24,24,24,24, // X
-                                    25,25,25,25,25,25, // Y
-                                    26,26,26,26,26,26, // Z 
-            
-                                    26, 26, 26, 26, 26, 26, // a 
-                                    27, 27, 27, 27, 27, 27, // b 
-                                    28, 28, 28, 28, 28, 28, // d  
-                                    29, 29, 29, 29, 29, 29, // e 
-                                    30, 30, 30, 30, 30, 30, // f 
-                                    31, 31, 31, 31, 31, 31, // g 
-                                    32, 32, 32, 32, 32, 32, // h 
-                                    33, 33, 33, 33, 33, 33, // i 
-                                    34, 34, 34, 34, 34, 34, // j 
-                                    35, 35, 35, 35, 35, 35, // l 
-                                    36, 36, 36, 36, 36, 36, // m 
-                                    37, 37, 37, 37, 37, 37, // n 
-                                    38, 38, 38, 38, 38, 38, // q 
-                                    39, 39, 39, 39, 39, 39, // r 
-                                    40, 40, 40, 40, 40, 40, // t
-                                    41, 41, 41, 41, 41, 41, // u
-                                    42, 42, 42, 42, 42, 42, // y
-    
-                                    43, 43, 43, 43, 43, 43, // 0 
-                                    44, 44, 44, 44, 44, 44, // 1 
-                                    45, 45, 45, 45, 45, 45, // 2 
-                                    46, 46, 46, 46, 46, 46, // 3 
-                                    47, 47, 47, 47, 47, 47, // 4 
-                                    48, 48, 48, 48, 48, 48, // 5 
-                                    49, 49, 49, 49, 49, 49, // 6 
-                                    50, 50, 50, 50, 50, 50, // 7 
-                                    51, 51, 51, 51, 51, 51, // 8 
-                                    52, 52, 52, 52, 52, 52, // 9 
-    
-                                };
-    
-    
-    char caps[] = { 'A','B','C','D','E','F','G','H','I',
-                    'J','K','L','M','N','O','P','Q','R',
-                    'S','T','U','V','W','X','Y','Z',
-    
-                    'a','b','d','e','f','g','h','i','j',
-                    'l','m','n','q','r','t','u','y',
-    
-                    '0','1','2','3','4','5','6','7','8','9',
-    
-                    };
-    
-    targetChars = new char[chars];
-    for (int i = 0; i < chars; i++){
-        targetChars[i] = caps[typeOfTrainingChars[i]-1];
-    } 
-    
-    
-    //for (int i = 0; i < listSize; i++){ std::cout<<targetChars[i]<<" ";} 
-    
-    float tmp, differenceTotal = 0;
-    char tmpChar;
-    for (int i = 0; i < listSize; i++){
-        for (int j = 0; j < listSize-i-1; j++){
-            if ( list[j] > list[j+1] ){
-                tmp = list[j];
-                list[j] = list[j+1];
-                list[j+1] = tmp;
-                
-                tmpChar = targetChars[j];
-                targetChars[j] = targetChars[j+1];
-                targetChars[j+1] = tmpChar;        
-            }
-        }
-    }
-    
-    rangeData = new float[chars*2];
-    rangeChars = new char[chars];
-    
-    
-    std::cout<<"value"<<"  ===  "<<"difference"<<"  ===  "<<"character\n";
-    for (int j = 0; j < listSize; j++){
-        if (j == 0){
-            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< targetChars[j] <<"\n";
-            differenceTotal += list[j+1]-list[j];
-            
-            rangeChars[j] = targetChars[j];
-            rangeData[j*2] = std::numeric_limits<float>::min();;
-            rangeData[(j*2)+1] = list[j]+(list[j+1]-list[j])/2;
-            
-        } else if (j < listSize-1) {
-            std::cout<<list[j]<<"  ===  "<< list[j+1]-list[j]<<"  ===  "<< targetChars[j] <<"\n";
-            differenceTotal += list[j+1]-list[j];
-            
-            rangeChars[j] = targetChars[j];
-            rangeData[j*2] = list[j]-(list[j]-list[j-1])/2;
-            rangeData[(j*2)+1] = list[j]+(list[j+1]-list[j])/2;
-            
-        } else {
-            std::cout<<list[j]<<"  ===  "<< 0 <<"  ===  "<< targetChars[j]<< "\n";
-            
-            rangeChars[j] = targetChars[j];
-            rangeData[j*2] = list[j]-(list[j]-list[j-1])/2;
-            rangeData[(j*2)+1] = std::numeric_limits<float>::max();
-        }
-    }
-    std::cout<<"\n\n";
-    
-    differenceMeanList[iterationNo] = differenceTotal/chars;
-    iterationNo++;        
-    
- 
-    //for(int i = 0; i < chars; i++){
-    //    std::cout<<rangeChars[(i)]<<" ";
-    //    std::cout<<rangeData[(i*2)]<<" ";
-    //    std::cout<<rangeData[(i*2)+1]<<" \n";
-    //}
- 
-    return 0;
-}
-
-int Trainer::printdifferenceMeanList(){
-    
-    std::cout<<"Difference Mean"<<"   ==>   "<<"Iteration"<<"\n";
-    for (int j = 0; j < iterationNo; j++){
-        std::cout<<differenceMeanList[j]<<"   ==>   "<<(j+1)<<"\n";
-    }     
-    std::cout<<"\n------------------------------------------\n"<<iterationNo;
-}
-
-*/
