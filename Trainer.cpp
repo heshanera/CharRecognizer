@@ -22,6 +22,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
     classes = 3; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    distinctChars = 4;
     w = 40; h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 0.85; //0.017; // learning rate of the network 
@@ -29,7 +30,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 60; //450;
+    hiddenLayer1Nodes = 80; //450;
     hiddenLayer2Nodes = 40; //300;
     
     
@@ -113,9 +114,9 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     }
     
     int noOfDistinctChars = 53;
-    distinctChars = new char[noOfDistinctChars];
+    trainedChars = new char[noOfDistinctChars];
     for(int i = 0; i < noOfDistinctChars; i++){
-        distinctChars[i] = caps[i];
+        trainedChars[i] = caps[i];
     }
     return 0;
 }
@@ -200,15 +201,18 @@ int Trainer::train(int noOfIteration){
     weightData <<"\nhiddenLayer2Nodes: "<<hiddenLayer2Nodes;
     weightData <<"\noutputNodes: "<<classes;
     weightData <<"\ntrainSet: "<<chars;
-    
-    weightData <<"\n\n\n";
-    weightData <<"weights: ";
+    weightData <<"\ndistinctChars: "<<distinctChars;
+    weightData <<"\ndistinctCharList: ";
+    for(int i = 0; i < distinctChars; i++ ){
+        weightData <<trainedChars[i]<<" ";
+    }
     weightData <<"\n\n";
+    weightData <<"weights: ";
+    weightData <<"\n";
     
     /**************************************************************************/
     
-    int distictChars = 3;
-    for(int j = 0; j < distictChars; j++){
+    for(int j = 0; j < distinctChars; j++){
         fillMatrixData(j);
         int iterNo = 0;
         for (int i = 0; i < noOfIteration; i++) {
@@ -220,7 +224,7 @@ int Trainer::train(int noOfIteration){
         
         /**************** writing the current weight matrices *****************/
 
-        weightData <<"\n"<<distinctChars[j]<<"_matrix1: ";
+        weightData <<"\n"<<trainedChars[j]<<"_matrix1: ";
         int rows = weightMatrix1.getrows();
         int cols = weightMatrix1.getcols();
         for (int i = 0; i < rows; i++) {	
@@ -229,7 +233,7 @@ int Trainer::train(int noOfIteration){
                 weightData <<weight<<" ";
             }    
         }	
-        weightData <<"\n"<<distinctChars[j]<<"_matrix2: ";
+        weightData <<"\n"<<trainedChars[j]<<"_matrix2: ";
         rows = weightMatrix2.getrows();
         cols = weightMatrix2.getcols();
         for (int i = 0; i < rows; i++)
@@ -241,7 +245,7 @@ int Trainer::train(int noOfIteration){
             }    
             //weightData <<"\n";
         }	
-        weightData <<"\n"<<distinctChars[j]<<"_matrix3: ";
+        weightData <<"\n"<<trainedChars[j]<<"_matrix3: ";
         rows = weightMatrix3.getrows();
         cols = weightMatrix3.getcols();
         for (int i = 0; i < rows; i++)

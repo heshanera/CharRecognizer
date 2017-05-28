@@ -31,6 +31,7 @@ public:
 private:
     int w,h;
     int classes,chars;
+    int distinctChars;
     int inputLayerNodes,hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
     float *differenceMeanList;
@@ -39,7 +40,7 @@ private:
     float *rangeData;
     char *rangeChars;
     std::string *trainingImages;
-    char *distinctChars;
+    char *trainedChars;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

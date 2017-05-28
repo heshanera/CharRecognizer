@@ -30,9 +30,13 @@ private:
     int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     int trainSet;
+    int distinctChars;
+    std::string *trainedChars;
     float *rangeData;
     char *rangeChars;
     float charValue;
+    float **weightMatrix1List,**weightMatrix2List,**weightMatrix3List;
+    
     
 };
 

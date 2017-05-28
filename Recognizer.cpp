@@ -101,8 +101,22 @@ int Recognizer::loadWeights(){
 
                 in >> trainSet; metaData++;
 
+            } else if (networkData == "distinctChars:"){    
+
+                in >> distinctChars; metaData++;
+
+            } else if (networkData == "distinctCharList:"){    
+
+                trainedChars = new std::string[distinctChars];
+                std::string tmpChar;
+                for(int i = 0; i < distinctChars; i++){
+                    in >> tmpChar;
+                    trainedChars[i] = tmpChar;
+                }
+                metaData++;
+                
             }
-            if (metaData == 5) break;
+            if (metaData == 7) break;
         }    
     }    
     
@@ -110,7 +124,15 @@ int Recognizer::loadWeights(){
     weightMatrix2Data = new float[ hiddenLayer1Nodes * hiddenLayer2Nodes];
     weightMatrix3Data = new float[ hiddenLayer2Nodes * outputNodes];
     
+    weightMatrix1List = new float*[distinctChars]; for(int i = 0; i < distinctChars; i++) weightMatrix1List[i] = new float[inputNodes*hiddenLayer1Nodes];
+    weightMatrix2List = new float*[distinctChars]; for(int i = 0; i < distinctChars; i++) weightMatrix2List[i] = new float[hiddenLayer1Nodes*hiddenLayer2Nodes];
+    weightMatrix3List = new float*[distinctChars]; for(int i = 0; i < distinctChars; i++) weightMatrix3List[i] = new float[hiddenLayer2Nodes*outputNodes];
+    
     if (datafile.is_open()) {
+        
+        int readMatrices = 0;
+        int charIndex = 0;
+        //std::string chars[] = {"A","B","C","D"};
         
         while ( getline (datafile,line) ) {
             
@@ -119,130 +141,100 @@ int Recognizer::loadWeights(){
             std::string networkData;
             in >> networkData;                  
             int tmpindx;
-           
-            if(networkData == "matrix1:") {
-                
+            
+            if(networkData == (trainedChars[charIndex]+"_matrix1:")) {
+
                 tmpindx = 0;
                 int weightMatrix1Size = (inputNodes * hiddenLayer1Nodes); // size of weight matrix 1
                 while (tmpindx < weightMatrix1Size ) {
                         float weight;
                         in >> weight;
-                        weightMatrix1Data[tmpindx] = weight;
+                        weightMatrix1List[charIndex][tmpindx] = weight;
                         tmpindx++;
                 }	
+                readMatrices++;
 
-            } else if(networkData == "matrix2:") {
+            } else if(networkData == (trainedChars[charIndex]+"_matrix2:")) {
 
                 tmpindx = 0;
                 int weightMatrix2Size = (hiddenLayer1Nodes * hiddenLayer2Nodes); // size of weight matrix 2    
                 while (tmpindx < weightMatrix2Size ) {
                         float weight;
                         in >> weight;
-                        weightMatrix2Data[tmpindx] = weight;
+                        weightMatrix2List[charIndex][tmpindx] = weight;
                         tmpindx++;
                 }	
+                readMatrices++;
 
-            } else if(networkData == "matrix3:"){
-                
+            } else if(networkData == (trainedChars[charIndex]+"_matrix3:")) {
+
                 tmpindx = 0;
                 int weightMatrix3Size = (hiddenLayer2Nodes * outputNodes); // size of weight matrix 3  
                 while (tmpindx < weightMatrix3Size ) {
                         float weight;
                         in >> weight;
-                        weightMatrix3Data[tmpindx] = weight;
+                        weightMatrix3List[charIndex][tmpindx] = weight;
                         tmpindx++;
                 }
-            } else if(networkData == "range:"){
-                
-                tmpindx = 0;
-                
-                rangeData = new float[trainSet*2];
-                rangeChars = new char[trainSet];
-                
-                while (tmpindx < ( trainSet ) ) {
-                        float rangeS, rangeE;
-                        char c;
-                        in >> c; in >> rangeS; in >> rangeE;
-                        
-                        rangeChars[tmpindx] = c;
-                        rangeData[(tmpindx*2)] = rangeS;
-                        rangeData[(tmpindx*2)+1] = rangeE;
-                          
-                        //std::cout<<c<<"\t"<<rangeS<<"\t"<<rangeE<<"\n";
-                        
-                        tmpindx++;
-                }
-            }    
-        }
+                readMatrices++;
+            }
+            if ( readMatrices == 3 ) { readMatrices = 0; charIndex++; }
+        }        
         datafile.close();
     }
 
     else std::cout << "Unable to load the data file";
-
-    weightMatrix1.allocateSize(inputNodes,hiddenLayer1Nodes);	
-    weightMatrix2.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
-    weightMatrix3.allocateSize(hiddenLayer2Nodes,outputNodes);
-    
-    weightMatrix1.fillMatrix(weightMatrix1Data);
-    weightMatrix2.fillMatrix(weightMatrix2Data);
-    weightMatrix3.fillMatrix(weightMatrix3Data);
-    
+ 
 }
 
 
 int Recognizer::getOutputMatrix(){
     
-    // input layer --> hidden layer 1
-    hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
-    //hiddenLayer1Matrix.printMatrix();
+    weightMatrix1.allocateSize(inputNodes,hiddenLayer1Nodes);	
+    weightMatrix2.allocateSize(hiddenLayer1Nodes,hiddenLayer2Nodes);
+    weightMatrix3.allocateSize(hiddenLayer2Nodes,outputNodes);
     
-    
-    // hidden layer 1 --> hidden layer 2    
-    hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
-    hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
-    //hiddenLayer2Matrix.printMatrix();
-    
-    
-    // hidden layer 2 --> output layer
-    outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
-    outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
-    //outputLayerMatrix.printMatrix();
-    
-    
-    int rows = outputLayerMatrix.getrows();
-    int cols = outputLayerMatrix.getcols();
+    int rows, cols;
     
     std::cout<<"\n\n-------------------------\n";
-    
     std::cout<<"\n\nOut Vector: \n";
-    float tmpW;
-    for (int i = 0; i < rows; i++){
-        tmpW = 0;
-        for (int j = 0; j < cols; j++){
-            tmpW += outputLayerMatrix.get(i,j);
-            //std::cout<<outputLayerMatrix.get(i,j)<<" ";
-            //std::cout<<floor(outputLayerMatrix.get(i,j) + 0.5)<<" ";
-        }
-        tmpW /= outputNodes;
-        std::cout<<tmpW<<" ";
-    }
     
+    for (int i = 0; i < distinctChars; i++){
     
-    /*
-    float tmp;
-    //std::cout<<"\n\nMedian: \n";
-    for (int i = 0; i < rows; i++){
-        tmp = 0;
-        for (int j = 0; j < cols; j++){
-            tmp += outputLayerMatrix.get(i,j);
-        }
-        tmp = (tmp/cols)*10e4;
-        charValue = tmp;
-        //std::cout<<(tmp/cols)*10e4<<"\n";
+        weightMatrix1.fillMatrix(weightMatrix1List[i]);
+        weightMatrix2.fillMatrix(weightMatrix2List[i]);
+        weightMatrix3.fillMatrix(weightMatrix3List[i]);
+        
+        // input layer --> hidden layer 1
+        hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
+        hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
+        //hiddenLayer1Matrix.printMatrix();
+
+
+        // hidden layer 1 --> hidden layer 2    
+        hiddenLayer2Matrix = hiddenLayer1Matrix.matrixMul(weightMatrix2);
+        hiddenLayer2Matrix = Activation::sigmoid(hiddenLayer2Matrix);
+        //hiddenLayer2Matrix.printMatrix();
+
+
+        // hidden layer 2 --> output layer
+        outputLayerMatrix = hiddenLayer2Matrix.matrixMul(weightMatrix3);
+        outputLayerMatrix = Activation::sigmoid(outputLayerMatrix);
+        //outputLayerMatrix.printMatrix();
+
+        rows = outputLayerMatrix.getrows();
+        cols = outputLayerMatrix.getcols();
+        
+        float tmpW;
+        for (int i = 0; i < rows; i++){
+            tmpW = 0;
+            for (int j = 0; j < cols; j++){
+                tmpW += outputLayerMatrix.get(i,j);
+            }
+            tmpW /= outputNodes;
+            std::cout<<tmpW<<" ";
+        } 
     }
-    //std::cout<<"\n\n";
-    */
     std::cout<<"\n-------------------------\n\n";
     
     return 0;
