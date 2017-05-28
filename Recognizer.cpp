@@ -38,7 +38,7 @@ char Recognizer::recognize(std::string path) {
         
         else {
             if (charData[j-1] == 1) inputMatrixData[j]  = 1;
-            else inputMatrixData[j]  = 0;
+            else inputMatrixData[j]  = -1;
         }
         
         // printing the character ( before skeletonization)
@@ -69,7 +69,6 @@ char Recognizer::recognize(std::string path) {
 
 int Recognizer::loadWeights(){
     
-    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
     int metaData = 0;
     float *weightMatrix1Data, *weightMatrix2Data, *weightMatrix3Data;
     std::string line;
@@ -217,11 +216,16 @@ int Recognizer::getOutputMatrix(){
     std::cout<<"\n\n-------------------------\n";
     
     std::cout<<"\n\nOut Vector: \n";
+    float tmpW;
     for (int i = 0; i < rows; i++){
+        tmpW = 0;
         for (int j = 0; j < cols; j++){
-            std::cout<<outputLayerMatrix.get(i,j);
+            tmpW += outputLayerMatrix.get(i,j);
+            //std::cout<<outputLayerMatrix.get(i,j)<<" ";
             //std::cout<<floor(outputLayerMatrix.get(i,j) + 0.5)<<" ";
         }
+        tmpW /= outputNodes;
+        std::cout<<tmpW<<" ";
     }
     
     

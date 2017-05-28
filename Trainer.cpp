@@ -20,11 +20,11 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 1; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    classes = 3; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.5; //0.017; // learning rate of the network 
+    learningRate = 0.8; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
@@ -186,7 +186,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             if ( j == 0 ) inputMatrixData[(inputLayerNodes*i)] = 1; // bias
             else {
                 if (tmpData[j-1] == 1) inputMatrixData[j + (inputLayerNodes*i)] = 1;
-                else inputMatrixData[j + (inputLayerNodes*i)] = 0;
+                else inputMatrixData[j + (inputLayerNodes*i)] = -1;
             }
                 
                 
@@ -257,8 +257,10 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
             if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
              */
+            
             if ( k < 6 ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
+          
             k++;
         }
    
@@ -297,14 +299,10 @@ int Trainer::backPropagation(){
     
     // updating weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
-    w3Delta1.printMatrix();
     w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.subtractFrom(1));
-    w3Delta2.printMatrix();
-    
     w3Delta3 = hiddenLayer2Matrix.transpose();        
     w3Delta = w3Delta3.matrixMul(w3Delta1.hadamardMul(w3Delta2)).scalarMul(learningRate);   
     w3Delta = w3Delta.scalarDiv(chars);
-    w3Delta.printMatrix();
     
     // updating weight matrix 2 ( hidden layer 1 --> hidden layer 2 )
     w2Delta1 = w3Delta1.hadamardMul(w3Delta2).matrixMul(weightMatrix3.transpose());
@@ -409,7 +407,7 @@ int Trainer::printOutputLayer(){
     
     // input layer --> hidden layer 1
     hiddenLayer1Matrix = inputMatrix.matrixMul(weightMatrix1);
-    hiddenLayer1Matrix = Activation::sigmoid(hiddenLayer1Matrix);
+    hiddenLayer1Matrix = Activation::tanSigmoid(hiddenLayer1Matrix);
     //hiddenLayer1Matrix.printMatrix();
     
     

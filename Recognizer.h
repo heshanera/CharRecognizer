@@ -27,6 +27,7 @@ private:
     std::string imgPath;
     Magick::Image img;
     Matrix inputMatrix, hiddenLayer1Matrix, hiddenLayer2Matrix, outputLayerMatrix;
+    int inputNodes, hiddenLayer1Nodes, hiddenLayer2Nodes, outputNodes;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
     int trainSet;
     float *rangeData;
