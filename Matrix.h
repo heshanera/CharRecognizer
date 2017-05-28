@@ -29,6 +29,7 @@ public:
     Matrix subtract(int val); //matrix subtraction by a scalar (Matrix - 1)
     Matrix subtractFrom(int val); //matrix subtraction by a scalar (1 - Matrix)
     Matrix scalarMul(float val); //matrix multiplication with a scalar
+    Matrix scalarDiv(float val); //matrix division with a scalar
     Matrix matrixMul(Matrix m); //ordinary matrix multiplication
     Matrix hadamardMul(Matrix m); //Hadamard multiplication (component-wise multiplication)
     Matrix kroneckerMul(Matrix m); //Kronecker multiplication

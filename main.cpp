@@ -17,11 +17,11 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    rc.train(40);//(36);
+    rc.train(20);//(36);
     rc.recognize("imgs/testing/A.png");
     rc.recognize("imgs/testing/C2.png");
     
-    
+    /*
     rc.recognize("imgs/testing/A.png");
     rc.recognize("imgs/testing/A2.png");
     rc.recognize("imgs/testing/A3.png");
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     rc.recognize("imgs/testing/s.png");
     rc.recognize("imgs/testing/M2.png");
     rc.recognize("imgs/testing/V.png");
-    
+    */
     
     // writing the ranges to the file
     
