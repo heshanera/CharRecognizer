@@ -287,5 +287,5 @@ int Recognizer::train(int noOfIteration){
      * 
      */
     trainer.train(noOfIteration);
-    trainer.writeWeights();
+    //trainer.writeWeights();
 }

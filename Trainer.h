@@ -20,14 +20,16 @@ public:
     int forwardPropagation();
     int backPropagation();
     int sortMeanList(float *,int);
-    int writeWeights();
     int train(int);
+    int fillMatrixData(int);
+    int writeMetaData();
+    int writeWeights();
     
     int printOutputLayer();
     int printdifferenceMeanList();
     
 private:
-    
+    int w,h;
     int classes,chars;
     int inputLayerNodes,hiddenLayer1Nodes,hiddenLayer2Nodes;
     float learningRate;
@@ -36,6 +38,7 @@ private:
     char *targetChars;
     float *rangeData;
     char *rangeChars;
+    std::string *trainingImages;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;
