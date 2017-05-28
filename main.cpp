@@ -42,8 +42,6 @@ int main(int argc, char** argv) {
     rc.recognize("imgs/testing/91.png");
     
     
-    // writing the ranges to the file
-    
     
     return 0;
 }

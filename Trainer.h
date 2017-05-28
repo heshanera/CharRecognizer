@@ -21,6 +21,7 @@ public:
     int backPropagation();
     int sortMeanList(float *,int);
     int writeWeights();
+    int train(int);
     
     int printOutputLayer();
     int printdifferenceMeanList();

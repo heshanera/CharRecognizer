@@ -34,6 +34,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     
     
     // Initializing the input Matrix **************************************************************/
+    
     std::string trainingImages[] = {"imgs/training/A.png","imgs/training/A2.png","imgs/training/A3.png","imgs/training/A4.png","imgs/training/A5.png","imgs/training/A6.png",
                                     "imgs/training/B.png","imgs/training/B2.png","imgs/training/B3.png","imgs/training/B4.png","imgs/training/B5.png","imgs/training/B6.png",
                                     "imgs/training/C.png","imgs/training/C2.png","imgs/training/C3.png","imgs/training/C4.png","imgs/training/C5.png","imgs/training/C6.png",
@@ -338,6 +339,23 @@ int Trainer::backPropagation(){
     return 0;
 }
 
+int Trainer::train(int noOfIteration){
+    
+    initializeWeightMatrices(noOfIteration);
+    int distictChars = 2;
+    for(int i = 0; i < distictChars; i++){
+        
+        iterationNo++;
+        std::cout<<"Iteration: "<<iterationNo<<"\n";
+        
+        forwardPropagation();
+        backPropagation();
+        printOutputLayer();
+        
+    }
+
+}
+
 int Trainer::writeWeights(){
     
     std::ofstream weightData;
@@ -425,11 +443,16 @@ int Trainer::printOutputLayer(){
     std::cout<<"\n\noutput Matrix\n";
     int rows = outputLayerMatrix.getrows();
     int cols = outputLayerMatrix.getcols();
+    float tmpW;
     for (int i = 0; i < rows; i++){
+        tmpW = 0;
         for (int j = 0; j < cols; j++){
             //std::cout<<floor(outputLayerMatrix.get(i,j) + 0.5)<<" ";
-            std::cout<<outputLayerMatrix.get(i,j)<<" ";
+            //std::cout<<outputLayerMatrix.get(i,j)<<" ";
+            tmpW +=  outputLayerMatrix.get(i,j);
         }
+        tmpW /= classes;
+        std::cout<<tmpW<<" ";
         std::cout<<"\n";
     }
     /*
@@ -534,8 +557,8 @@ int Trainer::sortMeanList(float* list, int listSize){
         targetChars[i] = caps[typeOfTrainingChars[i]-1];
     } 
     
-    /*
-    for (int i = 0; i < listSize; i++){ std::cout<<targetChars[i]<<" ";} */
+    
+    //for (int i = 0; i < listSize; i++){ std::cout<<targetChars[i]<<" ";} 
     
     float tmp, differenceTotal = 0;
     char tmpChar;
@@ -587,13 +610,14 @@ int Trainer::sortMeanList(float* list, int listSize){
     
     differenceMeanList[iterationNo] = differenceTotal/chars;
     iterationNo++;        
-    /*
-    for(int i = 0; i < chars; i++){
-        std::cout<<rangeChars[(i)]<<" ";
-        std::cout<<rangeData[(i*2)]<<" ";
-        std::cout<<rangeData[(i*2)+1]<<" \n";
-    }
-    */
+    
+ 
+    //for(int i = 0; i < chars; i++){
+    //    std::cout<<rangeChars[(i)]<<" ";
+    //    std::cout<<rangeData[(i*2)]<<" ";
+    //    std::cout<<rangeData[(i*2)+1]<<" \n";
+    //}
+ 
     return 0;
 }
 
