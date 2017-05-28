@@ -269,6 +269,7 @@ char Recognizer::checkTheRange(){
 int Recognizer::train(int noOfIteration){
 
     Trainer trainer;
+    /*
     trainer.initializeWeightMatrices(noOfIteration);
     int iterationNo = 0;
     // training for i no of iterations
@@ -282,5 +283,9 @@ int Recognizer::train(int noOfIteration){
         trainer.printOutputLayer();
     }
     //trainer.printdifferenceMeanList();
+     * 
+     * 
+     */
+    trainer.train(noOfIteration);
     trainer.writeWeights();
 }

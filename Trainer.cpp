@@ -24,7 +24,7 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     int w = 40, h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.8; //0.017; // learning rate of the network 
+    learningRate = 0.85; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
@@ -343,17 +343,15 @@ int Trainer::train(int noOfIteration){
     
     initializeWeightMatrices(noOfIteration);
     int distictChars = 2;
-    for(int i = 0; i < distictChars; i++){
-        
-        iterationNo++;
-        std::cout<<"Iteration: "<<iterationNo<<"\n";
-        
-        forwardPropagation();
-        backPropagation();
-        printOutputLayer();
-        
+    for(int j = 0; j < distictChars; j++){
+        int iterNo = 0;
+        for (int i = 0; i < noOfIteration; i++) {
+            iterNo++; std::cout<<"Iteration: "<<iterNo<<"\n";
+            forwardPropagation();
+            backPropagation();
+            printOutputLayer();
+        }
     }
-
 }
 
 int Trainer::writeWeights(){
