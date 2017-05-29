@@ -20,12 +20,12 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 2; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    classes = 3; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
-    distinctChars = 4;
+    distinctChars = 26;
     w = 40; h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 0.85; //0.017; // learning rate of the network 
+    learningRate = 1.8; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
@@ -260,6 +260,15 @@ int Trainer::train(int noOfIteration){
         weightData <<"\n";
         
         /******************************************************************/
+        weightMatrix1.~Matrix(); weightMatrix2.~Matrix(); weightMatrix3.~Matrix();
+        hiddenLayer1Matrix.~Matrix(); hiddenLayer2Matrix.~Matrix();
+        outputLayerMatrix.~Matrix();
+        w3Delta.~Matrix(); w3Delta1.~Matrix(); w3Delta2.~Matrix(); w3Delta3.~Matrix();
+        w2Delta.~Matrix(); w2Delta1.~Matrix(); w2Delta2.~Matrix(); w2Delta3.~Matrix();
+        w1Delta.~Matrix(); w1Delta1.~Matrix(); w1Delta2.~Matrix(); w1Delta3.~Matrix();
+        
+        
+        
     }
 }
 
@@ -290,7 +299,8 @@ int Trainer::fillMatrixData(int charNo){
             if (brk%40 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
-    }    
+    } 
+    
     inputMatrix.allocateSize(chars,inputLayerNodes);
     inputMatrix.fillMatrix(inputMatrixData);
     //inputMatrix.printMatrix();
@@ -352,7 +362,7 @@ int Trainer::fillMatrixData(int charNo){
             else targetMatrixData[k] = 0;
              */
             
-            if ( k < 4 ) targetMatrixData[k] = 1;
+            if ( k < 6 ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
           
             k++;
@@ -363,6 +373,7 @@ int Trainer::fillMatrixData(int charNo){
     targetMatrix.fillMatrix(targetMatrixData);
     targetMatrix.printMatrix();
     
+    return 0;
 }
 
 int Trainer::writeMetaData(){
