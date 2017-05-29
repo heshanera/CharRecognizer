@@ -236,7 +236,7 @@ int Recognizer::getOutputMatrix(){
             tmpW /= outputNodes;
             std::cout<<tmpW<<" ";
         } 
-        if (tmpW > 0.492) tmpChars += trainedChars[i];
+        if (tmpW > 0.4965) tmpChars += trainedChars[i];
         else tmpChars += "*";
     }
     std::cout<<"\n"<<tmpChars;
