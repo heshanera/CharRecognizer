@@ -200,6 +200,7 @@ int Recognizer::getOutputMatrix(){
     std::cout<<"\n\nOut Vector: \n";
     
     std::string tmpChars = "";
+    float tmpMax = 0;
     
     for (int i = 0; i < distinctChars; i++){
     
@@ -234,10 +235,17 @@ int Recognizer::getOutputMatrix(){
                 tmpW += outputLayerMatrix.get(k,j);
             }
             tmpW /= outputNodes;
-            std::cout<<tmpW<<" ";
+            //std::cout<<tmpW<<" ";
         } 
+        /*
         if (tmpW > 0.4965) tmpChars += trainedChars[i];
         else tmpChars += "*";
+        */
+        if (tmpW > tmpMax) {
+            tmpMax = tmpW;
+            tmpChars = trainedChars[i];
+        }    
+        
     }
     std::cout<<"\n"<<tmpChars;
     std::cout<<"\n-------------------------\n\n";
