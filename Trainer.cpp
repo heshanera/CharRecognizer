@@ -20,7 +20,7 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 3; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    classes = 2; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     distinctChars = 4;
     w = 40; h = 40; // width x height of a char (in pixels)
@@ -352,7 +352,7 @@ int Trainer::fillMatrixData(int charNo){
             else targetMatrixData[k] = 0;
              */
             
-            if ( k < 6 ) targetMatrixData[k] = 1;
+            if ( k < 4 ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
           
             k++;

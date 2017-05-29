@@ -199,6 +199,8 @@ int Recognizer::getOutputMatrix(){
     std::cout<<"\n\n-------------------------\n";
     std::cout<<"\n\nOut Vector: \n";
     
+    std::string tmpChars = "";
+    
     for (int i = 0; i < distinctChars; i++){
     
         weightMatrix1.fillMatrix(weightMatrix1List[i]);
@@ -226,15 +228,18 @@ int Recognizer::getOutputMatrix(){
         cols = outputLayerMatrix.getcols();
         
         float tmpW;
-        for (int i = 0; i < rows; i++){
+        for (int k = 0; k < rows; k++){
             tmpW = 0;
             for (int j = 0; j < cols; j++){
-                tmpW += outputLayerMatrix.get(i,j);
+                tmpW += outputLayerMatrix.get(k,j);
             }
             tmpW /= outputNodes;
             std::cout<<tmpW<<" ";
         } 
+        if (tmpW > 0.49) tmpChars += trainedChars[i];
+        else tmpChars += "*";
     }
+    std::cout<<"\n"<<tmpChars;
     std::cout<<"\n-------------------------\n\n";
     
     return 0;
