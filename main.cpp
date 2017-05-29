@@ -23,14 +23,13 @@ int main(int argc, char** argv) {
     rc.recognize("imgs/testing/A2.png");
     rc.recognize("imgs/testing/A3.png");
     rc.recognize("imgs/testing/A4.png");
-    
-    
-    
-    rc.recognize("imgs/testing/C2.png");
+    rc.recognize("imgs/testing/C.png");
+    rc.recognize("imgs/testing/D.png");
     rc.recognize("imgs/testing/s.png");
     rc.recognize("imgs/testing/M2.png");
     rc.recognize("imgs/testing/V.png");
     rc.recognize("imgs/testing/H.png");
+    rc.recognize("imgs/testing/W.png");
     
     
     return 0;

@@ -197,7 +197,7 @@ int Recognizer::getOutputMatrix(){
     int rows, cols;
     
     std::cout<<"\n\n-------------------------\n";
-    std::cout<<"\n\nOut Vector: \n";
+    //std::cout<<"\n\nOut Vector: \n";
     
     std::string tmpChars = "";
     float tmpMax = 0;
@@ -247,7 +247,7 @@ int Recognizer::getOutputMatrix(){
         }    
         
     }
-    std::cout<<"\n"<<tmpChars;
+    std::cout<<"# Recognized: "<<tmpChars;
     std::cout<<"\n-------------------------\n\n";
     
     return 0;
