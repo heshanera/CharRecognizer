@@ -21,7 +21,7 @@ public:
     int backPropagation();
     int sortMeanList(float *,int);
     int train(int);
-    int fillMatrixData(int);
+    int fillMatrixData();
     int writeMetaData();
     int writeWeights();
     

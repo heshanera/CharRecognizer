@@ -17,8 +17,9 @@
 int main(int argc, char** argv) {
 
     Recognizer rc;
-    //rc.train(50);
+    rc.train(5);
     
+    /*
     rc.recognize("imgs/testing/A.png");
     rc.recognize("imgs/testing/A2.png");
     rc.recognize("imgs/testing/A3.png");
@@ -30,7 +31,7 @@ int main(int argc, char** argv) {
     rc.recognize("imgs/testing/V.png");
     rc.recognize("imgs/testing/H.png");
     rc.recognize("imgs/testing/W.png");
-    
+    */
     
     return 0;
 }
