@@ -41,6 +41,7 @@ private:
     char *rangeChars;
     std::string *trainingImages;
     char *trainedChars;
+    int trainingSamplePerChar;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

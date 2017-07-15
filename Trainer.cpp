@@ -20,9 +20,10 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 4; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    classes = 2; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     distinctChars = 26;
+    trainingSamplePerChar = 6;
     w = 40; h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
     learningRate = 1; //0.017; // learning rate of the network 
@@ -186,6 +187,7 @@ int Trainer::backPropagation(){
     */
     
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
+    w3Delta1.printMatrix();
     
     
     
@@ -220,6 +222,7 @@ int Trainer::train(int noOfIteration){
     /**************************************************************************/
     
     fillMatrixData();
+    
     int iterNo = 0;
     for (int i = 0; i < noOfIteration; i++) {
         iterNo++; std::cout<<"Iteration: "<<iterNo<<"\n";
@@ -282,7 +285,7 @@ int Trainer::fillMatrixData(){
     float inputMatrixData[(w*h+1)*chars];
     int *tmpData;
     
-    for (int i = 0; i < chars*6; i++) {
+    for (int i = 0; i < chars; i++) {
         imgPrc.initializeImage(trainingImages[i]);
         imgPrc.createCropedMatrix();
         tmpData = imgPrc.resizeImage();        
@@ -357,25 +360,20 @@ int Trainer::fillMatrixData(){
     //weightMatrix3.printMatrix();
     
     // Initializing the target Matrix **************************************************************/
-    float targetMatrixData[classes*chars];
+    float targetMatrixData[chars*classes];
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
-            /*
-            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
-            else targetMatrixData[k] = 0;
-             */
             
-            if ( k < 7 ) targetMatrixData[k] = 1;
+            if ( (int)(i/trainingSamplePerChar) == j ) targetMatrixData[k] = 1;    
             else targetMatrixData[k] = 0;
-          
             k++;
         }
    
     }
     targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
-    targetMatrix.printMatrix();
+    //targetMatrix.printMatrix();
     
     return 0;
 }
