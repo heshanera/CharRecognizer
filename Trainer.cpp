@@ -20,7 +20,7 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 6; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    classes = 10; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     distinctChars = 26;
     w = 20; h = 20; // width x height of a char (in pixels)
@@ -30,8 +30,8 @@ int Trainer::initializeWeightMatrices(int noOfIteration) {
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
-    hiddenLayer1Nodes = 80; //450;
-    hiddenLayer2Nodes = 40; //300;
+    hiddenLayer1Nodes = 100; //450;
+    hiddenLayer2Nodes = 50; //300;
     
     
     // Initializing the input Matrix **************************************************************/
@@ -362,7 +362,7 @@ int Trainer::fillMatrixData(int charNo){
             else targetMatrixData[k] = 0;
              */
             
-            if ( k < 10 ) targetMatrixData[k] = 1;
+            if ( k < 20 ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
           
             k++;
@@ -371,7 +371,7 @@ int Trainer::fillMatrixData(int charNo){
     }
     targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
-    targetMatrix.printMatrix();
+    //targetMatrix.printMatrix();
     
     return 0;
 }

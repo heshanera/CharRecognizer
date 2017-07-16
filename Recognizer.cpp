@@ -241,10 +241,17 @@ int Recognizer::getOutputMatrix(){
         if (tmpW > 0.4965) tmpChars += trainedChars[i];
         else tmpChars += "*";
         */
+        
+        /*
+        std::cout<<"\n****\n";
+        std::cout<<"# Recognized: "<<trainedChars[i]<<" "<<tmpMax;
+        std::cout<<"\n****\n";
+        */
+                
         if (tmpW > tmpMax) {
             tmpMax = tmpW;
             tmpChars = trainedChars[i];
-        }    
+        }
         
     }
     std::cout<<"# Recognized: "<<tmpChars;
