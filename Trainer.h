@@ -21,7 +21,7 @@ public:
     int backPropagation();
     int sortMeanList(float *,int);
     int train(int);
-    int fillMatrixData();
+    int fillMatrixData(int);
     int writeMetaData();
     int writeWeights();
     
@@ -41,7 +41,6 @@ private:
     char *rangeChars;
     std::string *trainingImages;
     char *trainedChars;
-    int trainingSamplePerChar;
     
     Matrix inputMatrix, targetMatrix;
     Matrix weightMatrix1, weightMatrix2, weightMatrix3;

@@ -20,14 +20,13 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 2; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
-    chars = 12; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
+    classes = 4; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     distinctChars = 26;
-    trainingSamplePerChar = 6;
     w = 40; h = 40; // width x height of a char (in pixels)
     int size = 1600; // width x height
-    learningRate = 1; //0.017; // learning rate of the network 
-    //differenceMeanList = new float[noOfIteration]; //No of training Iterations
+    learningRate = 1.8; //0.017; // learning rate of the network 
+    differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
     
     inputLayerNodes = size + 1;
@@ -146,7 +145,7 @@ int Trainer::forwardPropagation(){
 
 int Trainer::backPropagation(){
 
-    /*
+    
     // updating weight matrix 3 ( hidden layer 2 --> output layer )
     w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
     w3Delta2 = outputLayerMatrix.hadamardMul(outputLayerMatrix.subtractFrom(1));
@@ -184,12 +183,6 @@ int Trainer::backPropagation(){
     weightMatrix1 = weightMatrix1.subtract(w1Delta);
     //weightMatrix3.printMatrix();
     //weightMatrix2.printMatrix();
-    */
-    
-    w3Delta1 = outputLayerMatrix.subtract(targetMatrix);
-    w3Delta1.printMatrix();
-    
-    
     
     return 0;
 }
@@ -198,10 +191,8 @@ int Trainer::train(int noOfIteration){
     
     initializeWeightMatrices(noOfIteration);
     
-    
     /*********************** opening the weight data file *********************/
-    
-    /*
+
     std::ofstream weightData;
     weightData.open ("weights");
     
@@ -218,75 +209,77 @@ int Trainer::train(int noOfIteration){
     weightData <<"\n\n";
     weightData <<"weights: ";
     weightData <<"\n";
-    */
+    
     /**************************************************************************/
     
-    fillMatrixData();
-    
-    int iterNo = 0;
-    for (int i = 0; i < noOfIteration; i++) {
-        iterNo++; std::cout<<"Iteration: "<<iterNo<<"\n";
-        forwardPropagation();
-        backPropagation();
-        //printOutputLayer();
-    }
+    for(int j = 0; j < distinctChars; j++){
+        fillMatrixData(j);
+        int iterNo = 0;
+        for (int i = 0; i < noOfIteration; i++) {
+            iterNo++; std::cout<<"Iteration: "<<iterNo<<"\n";
+            forwardPropagation();
+            backPropagation();
+            printOutputLayer();
+        }
         
-    /**************** writing the current weight matrices *****************/
-    /*
-    weightData <<"\n"<<trainedChars[j]<<"_matrix1: ";
-    int rows = weightMatrix1.getrows();
-    int cols = weightMatrix1.getcols();
-    for (int i = 0; i < rows; i++) {	
-        for (int j = 0; j < cols; j++) {	
-            float weight = weightMatrix1.get(i,j);
-            weightData <<weight<<" ";
-        }    
-    }	
-    weightData <<"\n"<<trainedChars[j]<<"_matrix2: ";
-    rows = weightMatrix2.getrows();
-    cols = weightMatrix2.getcols();
-    for (int i = 0; i < rows; i++)
-    {	
-    for (int j = 0; j < cols; j++)
-        {	
-            float weight = weightMatrix2.get(i,j);
-            weightData <<weight<<" ";
-        }    
-        //weightData <<"\n";
-    }	
-    weightData <<"\n"<<trainedChars[j]<<"_matrix3: ";
-    rows = weightMatrix3.getrows();
-    cols = weightMatrix3.getcols();
-    for (int i = 0; i < rows; i++)
-    {	
-    for (int j = 0; j < cols; j++)
-        {	
-            float weight = weightMatrix3.get(i,j);
-            weightData <<weight<<" ";
-        }    
-        //weightData <<"\n";
-    }	
-    weightData <<"\n";
+        /**************** writing the current weight matrices *****************/
 
-    /******************************************************************/
-    /*
-    weightMatrix1.~Matrix(); weightMatrix2.~Matrix(); weightMatrix3.~Matrix();
-    hiddenLayer1Matrix.~Matrix(); hiddenLayer2Matrix.~Matrix();
-    outputLayerMatrix.~Matrix();
-    w3Delta.~Matrix(); w3Delta1.~Matrix(); w3Delta2.~Matrix(); w3Delta3.~Matrix();
-    w2Delta.~Matrix(); w2Delta1.~Matrix(); w2Delta2.~Matrix(); w2Delta3.~Matrix();
-    w1Delta.~Matrix(); w1Delta1.~Matrix(); w1Delta2.~Matrix(); w1Delta3.~Matrix();  
-    */ 
+        weightData <<"\n"<<trainedChars[j]<<"_matrix1: ";
+        int rows = weightMatrix1.getrows();
+        int cols = weightMatrix1.getcols();
+        for (int i = 0; i < rows; i++) {	
+            for (int j = 0; j < cols; j++) {	
+                float weight = weightMatrix1.get(i,j);
+                weightData <<weight<<" ";
+            }    
+        }	
+        weightData <<"\n"<<trainedChars[j]<<"_matrix2: ";
+        rows = weightMatrix2.getrows();
+        cols = weightMatrix2.getcols();
+        for (int i = 0; i < rows; i++)
+        {	
+        for (int j = 0; j < cols; j++)
+            {	
+                float weight = weightMatrix2.get(i,j);
+                weightData <<weight<<" ";
+            }    
+            //weightData <<"\n";
+        }	
+        weightData <<"\n"<<trainedChars[j]<<"_matrix3: ";
+        rows = weightMatrix3.getrows();
+        cols = weightMatrix3.getcols();
+        for (int i = 0; i < rows; i++)
+        {	
+        for (int j = 0; j < cols; j++)
+            {	
+                float weight = weightMatrix3.get(i,j);
+                weightData <<weight<<" ";
+            }    
+            //weightData <<"\n";
+        }	
+        weightData <<"\n";
+        
+        /******************************************************************/
+        weightMatrix1.~Matrix(); weightMatrix2.~Matrix(); weightMatrix3.~Matrix();
+        hiddenLayer1Matrix.~Matrix(); hiddenLayer2Matrix.~Matrix();
+        outputLayerMatrix.~Matrix();
+        w3Delta.~Matrix(); w3Delta1.~Matrix(); w3Delta2.~Matrix(); w3Delta3.~Matrix();
+        w2Delta.~Matrix(); w2Delta1.~Matrix(); w2Delta2.~Matrix(); w2Delta3.~Matrix();
+        w1Delta.~Matrix(); w1Delta1.~Matrix(); w1Delta2.~Matrix(); w1Delta3.~Matrix();
+        
+        
+        
+    }
 }
 
-int Trainer::fillMatrixData(){
+int Trainer::fillMatrixData(int charNo){
     
     ImageProcessor imgPrc;
     float inputMatrixData[(w*h+1)*chars];
     int *tmpData;
     
     for (int i = 0; i < chars; i++) {
-        imgPrc.initializeImage(trainingImages[i]);
+        imgPrc.initializeImage(trainingImages[(6*charNo) + i]);
         imgPrc.createCropedMatrix();
         tmpData = imgPrc.resizeImage();        
       
@@ -360,20 +353,25 @@ int Trainer::fillMatrixData(){
     //weightMatrix3.printMatrix();
     
     // Initializing the target Matrix **************************************************************/
-    float targetMatrixData[chars*classes];
+    float targetMatrixData[classes*chars];
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
-            
-            if ( (int)(i/trainingSamplePerChar) == j ) targetMatrixData[k] = 1;    
+            /*
+            if ( typeOfTrainingChars[i]-1 == j ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
+             */
+            
+            if ( k < 7 ) targetMatrixData[k] = 1;
+            else targetMatrixData[k] = 0;
+          
             k++;
         }
    
     }
     targetMatrix.allocateSize(chars,classes);
     targetMatrix.fillMatrix(targetMatrixData);
-    //targetMatrix.printMatrix();
+    targetMatrix.printMatrix();
     
     return 0;
 }
