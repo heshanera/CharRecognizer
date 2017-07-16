@@ -26,7 +26,7 @@ char Recognizer::recognize(std::string path) {
     float inputMatrixData[(w*h+1)];
     int *preCharData, *charData;
     ImageProcessor imgPrc;
-    int inputArraySize = w*h +1
+    int inputArraySize = w*h +1;
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
     /*preCharData*/charData = imgPrc.resizeImage();
@@ -42,19 +42,19 @@ char Recognizer::recognize(std::string path) {
         }
         
         // printing the character ( before skeletonization)
-        if (j%40 == 0) std::cout<<"\n";
-        if (j < 1600 ) std::cout<<charData[j]<<" ";
+        if (j%w == 0) std::cout<<"\n";
+        if (j < ( 400 /*(w*h)*/) ) std::cout<<charData[j]<<" ";
         
         /*
         // printing the skeletonized Image
         if ( j != 0 ) brk++;
         if (j != 0 ) std::cout<<inputMatrixData[j]<<" ";
-        if (brk%40 == 0) std::cout<<"\n";
+        if (brk%20 == 0) std::cout<<"\n";
         */ 
         
         
     }
-    inputMatrix.allocateSize(1,1601 /* = width x height + bias = 40*40+1 */);
+    inputMatrix.allocateSize(1,inputArraySize /* = width x height + bias = 20*20+1 */);
     inputMatrix.fillMatrix(inputMatrixData);
     
     // loading the data from the data file

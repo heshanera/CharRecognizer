@@ -294,7 +294,7 @@ int Trainer::fillMatrixData(int charNo){
                 
                 
             if ( j != 0 ) brk++;
-            //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
+            //if (j != 0 ) std::cout<<inputMatrixData[j + (401*i)]<<" ";
             if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
             if (brk%20 == 0) std::cout<<"\n";
         }

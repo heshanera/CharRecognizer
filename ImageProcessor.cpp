@@ -33,7 +33,7 @@ int ImageProcessor::initializeImage(std::string path)
         // creating the pixel matrix
         this->imageMatrix = new float*[h];for(int i = 0; i < h; ++i) this->imageMatrix[i] = new float[w];
         this->thresholdMatrix = new float*[h];for(int i = 0; i < h; ++i) this->thresholdMatrix[i] = new float[w];
-        this->resizedMatrix = new int*[40];for(int i = 0; i < 40; ++i) this->resizedMatrix[i] = new int[40];
+        this->resizedMatrix = new int*[20];for(int i = 0; i < 20; ++i) this->resizedMatrix[i] = new int[20];
         
         // storing meta data
         this->width = w; this->height = h;
@@ -117,7 +117,7 @@ int* ImageProcessor::resizeImage(){
         
     int w = right-left;
     int h = bottom-top;
-    int* resizedImageMatrix = new int[1600];
+    int* resizedImageMatrix = new int[400];
     int k = 0;
     
     float *pixels = new float[w*h];
@@ -132,22 +132,22 @@ int* ImageProcessor::resizeImage(){
     }
     Magick::Image image( w,h,"R", Magick::FloatPixel, pixels ); 
     
-    Magick::Geometry s1  = Magick::Geometry(40, 40);
+    Magick::Geometry s1  = Magick::Geometry(20, 20);
     s1.aspect(true);
     image.resize(s1);
     
     //image.write("imgs/out.jpg");
     
-    ssize_t columns = 40; 
+    ssize_t columns = 20; 
     float pixVal;
-    Magick::PixelPacket *pixels2 = image.getPixels(0, 0, 40, 40);
+    Magick::PixelPacket *pixels2 = image.getPixels(0, 0, 20, 20);
     int m = 0;
-    for(int i = 0; i < 40; i++)
+    for(int i = 0; i < 20; i++)
     {
-        for(int j = 0; j < 40; j++)
+        for(int j = 0; j < 20; j++)
         {
             // filling the image matrix
-            Magick::Color color = pixels2[40 * i + j];
+            Magick::Color color = pixels2[20 * i + j];
             pixVal = (color.redQuantum()/range)/256;
             if ( pixVal > 0.5 ) { this->resizedMatrix[i][j] = 1; resizedImageMatrix[m] = 1; }
             else { this->resizedMatrix[i][j] = 0; resizedImageMatrix[m] = 0; }
@@ -173,8 +173,8 @@ int* ImageProcessor::skeletonize(){
                                    { { 0, 0,-1},{ 0, 1, 1},{-1, 1,-1} }
                                 };
     
-    int w = 42;
-    int h = 42;
+    int w = 22;
+    int h = 22;
     int* skeletonizedImageArray = new int[w*h];
     
     int **tmpMatrix, **intermediateMatrix;
@@ -326,8 +326,8 @@ int ImageProcessor::printCropedMatrix(){
 
 int ImageProcessor::printResizedMatrix(){
     
-    int w = 40;
-    int h = 40;
+    int w = 20;
+    int h = 20;
     for(int rows = 0; rows < h; rows++)
     {
         for(int columns = 0; columns < w; columns++)    
