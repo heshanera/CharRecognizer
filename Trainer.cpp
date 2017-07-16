@@ -20,11 +20,11 @@ Trainer::~Trainer() { }
 
 int Trainer::initializeWeightMatrices(int noOfIteration) { 
     
-    classes = 4; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
+    classes = 6; // output node classes ( 26(uppercase) + 17(lowercase) +10(digits))
     chars = 6; //318; //156 + 102 + 60; // number of training chars (26*6 + 17*6 + 10*6)
     distinctChars = 26;
-    w = 40; h = 40; // width x height of a char (in pixels)
-    int size = 1600; // width x height
+    w = 20; h = 20; // width x height of a char (in pixels)
+    int size = w*h; // width x height
     learningRate = 1.8; //0.017; // learning rate of the network 
     differenceMeanList = new float[noOfIteration]; //No of training Iterations
     iterationNo = 0;
@@ -296,7 +296,7 @@ int Trainer::fillMatrixData(int charNo){
             if ( j != 0 ) brk++;
             //if (j != 0 ) std::cout<<inputMatrixData[j + (1601*i)]<<" ";
             if (j != 0 ) std::cout<<tmpData[j-1]<<" ";
-            if (brk%40 == 0) std::cout<<"\n";
+            if (brk%20 == 0) std::cout<<"\n";
         }
         //std::cout<<"\n\n";
     } 
@@ -353,7 +353,7 @@ int Trainer::fillMatrixData(int charNo){
     //weightMatrix3.printMatrix();
     
     // Initializing the target Matrix **************************************************************/
-    float targetMatrixData[classes*chars];
+    float targetMatrixData[chars*classes];
     k = 0;
     for (int i = 0; i < chars; i++){
         for (int j = 0; j < classes; j++){
@@ -362,7 +362,7 @@ int Trainer::fillMatrixData(int charNo){
             else targetMatrixData[k] = 0;
              */
             
-            if ( k < 7 ) targetMatrixData[k] = 1;
+            if ( k < 10 ) targetMatrixData[k] = 1;
             else targetMatrixData[k] = 0;
           
             k++;

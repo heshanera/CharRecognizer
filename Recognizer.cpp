@@ -22,17 +22,17 @@ Recognizer::~Recognizer() { }
 
 char Recognizer::recognize(std::string path) {
     
-    int w = 40, h = 40; // width x height of a char (in pixels)
+    int w = 20, h = 20; // width x height of a char (in pixels)
     float inputMatrixData[(w*h+1)];
     int *preCharData, *charData;
     ImageProcessor imgPrc;
-    
+    int inputArraySize = w*h +1
     imgPrc.initializeImage(path);
     imgPrc.createCropedMatrix();
     /*preCharData*/charData = imgPrc.resizeImage();
     //charData = imgPrc.skeletonize();
     int brk = 0;
-    for (int j = 0; j < (1601); j++) {
+    for (int j = 0; j < inputArraySize; j++) {
 
         if ( j == 0 ) inputMatrixData[j] = 1; // bias
         
