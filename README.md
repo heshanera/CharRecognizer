@@ -9,6 +9,6 @@ Network is trained for 26 English uppercase characters from A-Z using 6 training
 <hr>
 
 
-| **Input**  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/C2.png) | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/W.png)  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/s.png)  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/A3.png)  |![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/A3.png)  |
+| **Input**  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/C2.png) | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/W.png)  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/s.png)  | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/A.png)  |![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/D.png)  |
 | ---------- |:-----:| -----:| -----:| -----:| -----:|
 | **Output** | `Recognized: C` | `Recognized: W` | `Recognized: S` | `Recognized: A` | `Recognized: D` |
