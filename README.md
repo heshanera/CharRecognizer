@@ -15,3 +15,6 @@ Network is trained for 26 English uppercase characters from A-Z using 6 training
 
 - ##### Recognized: C
 
+| **Input**        | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/C2.png)|   |
+| ------------- |:-------------:| -----:|
+| **Output**      | `Recognized: C` |  |
