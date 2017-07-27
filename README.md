@@ -8,12 +8,6 @@ Network is build with 4 layers, Input layer, Output layer and 2 hidden layers wi
 Network is trained for 26 English uppercase characters from A-Z using 6 training cases for each distinct character.
 <hr>
 
-### Input
-![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/C2.png)
-
-### Output
-
-- ##### Recognized: C
 
 | **Input**        | ![architecture](https://github.com/heshanera/CharRecognizer/blob/master/imgs/testing/C2.png)|   |
 | ------------- |:-------------:| -----:|
